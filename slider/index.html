@@ -37,8 +37,10 @@
 }
 
 </style>
-<svg width="960" height="500"></svg>
+<svg width="1500" height="500"></svg>
 <script src="//d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-time.v1.min.js"></script>
+<script src="https://d3js.org/d3-time-format.v2.min.js"></script>
 <script>
 
 var svg = d3.select("svg"),
@@ -47,9 +49,8 @@ var svg = d3.select("svg"),
     height = +svg.attr("height");
 
 var x = d3.scaleLinear()
-    .domain([0, 180])
-    .range([0, width])
-    .clamp(true);
+    .domain([(2005), (2016)])
+    .range([0, 960]);
 
 var slider = svg.append("g")
     .attr("class", "slider")
@@ -71,11 +72,11 @@ slider.insert("g", ".track-overlay")
     .attr("class", "ticks")
     .attr("transform", "translate(0," + 18 + ")")
   .selectAll("text")
-  .data(x.ticks(10))
+  .data(x.ticks(9))
   .enter().append("text")
     .attr("x", x)
     .attr("text-anchor", "middle")
-    .text(function(d) { return d + "°"; });
+    .text(function(d) {return d });
 
 var handle = slider.insert("circle", ".track-overlay")
     .attr("class", "handle")

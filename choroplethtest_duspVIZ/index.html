@@ -30,7 +30,7 @@ var svg = d3.select("body").append("svg")
 
 // Queue up datasets using d3 Queue
 queue()
-    .defer(d3.json, "data/countries.json") // Load US Counties
+    .defer(d3.json, "data/counties.json") // Load US Counties
     .defer(d3.tsv, "data/us_unemployment_2008.tsv") // Load Unemployment TSV
     .await(ready); // Run 'ready' when JSONs are loaded
 
