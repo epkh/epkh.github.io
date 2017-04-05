@@ -31,12 +31,6 @@ body {
     -o-background-size: cover;
 }
 
-footer {
-    margin: 50px 0;
-}
-
-/*Danya Custom styles */
-
 .navbar-nav > li >a{
     float: none;
     line-height: 19px;
@@ -46,4 +40,12 @@ footer {
     color:  #ddd;
 }
 
-body { padding-top: 70px; }
+footer {
+    margin: 50px 0;
+}
+
+/*Danya Custom styles */
+
+.navbar-toggle {
+    background-color: #666;
+}
