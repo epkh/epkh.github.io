@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.states {
+  fill: none;
+  stroke: #fff;
+  stroke-linejoin: round;
+}
+
+</style>
+<body>
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script src="//d3js.org/queue.v1.min.js"></script>
+<script src="//d3js.org/topojson.v1.min.js"></script>
+<script>
+
+var width = 960,
+    height = 500;
+
+var color = d3.scale.threshold()
+    .domain([0.02, 0.04, 0.06, 0.08, 0.10])
+    .range(["#f2f0f7", "#dadaeb", "#bcbddc", "#9e9ac8", "#756bb1", "#54278f"]);
+
+var path = d3.geo.path();
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+// Queue up datasets using d3 Queue
+queue()
+    .defer(d3.json, "data/counties.json") // Load US Counties
+    .defer(d3.tsv, "data/us_unemployment_2008.tsv") // Load Unemployment TSV
+    .await(ready); // Run 'ready' when JSONs are loaded
+
+// Ready Function, runs when data is loaded
+function ready(error, us, unemployment) {
+  if (error) throw error;
+  var rateById = {}; // Create empty object for holding dataset
+  unemployment.forEach(function(d) {
+    rateById[d.id] = +d.rate; // Create property for each ID, give it value from rate
+  });
+
+  svg.append("g")
+      .attr("class", "counties")
+    .selectAll("path")
+      .data(topojson.feature(us, us.objects.counties).features) // Bind TopoJSON data elements
+    .enter().append("path")
+      .attr("d", path)
+      .style("fill", function(d) {
+    return color(rateById[d.id]); // get rate value for property matching data ID
+    // pass rate value to color function, return color based on domain and range
+  });
+
+  svg.append("path")
+  .datum(topojson.mesh(us, us.objects.states, function(a, b) {
+    return a.id !== b.id;
+  }))
+  .attr("class", "states")
+  .attr("d", path);
+}
+
+</script>
