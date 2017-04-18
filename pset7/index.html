@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Mapping with D3</title>
+	<script src="http://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+	<script src="election_results_2000_2016.json"></script>
+
+	<style>
+		body {
+    		position: absolute;
+    		font-family: "Proxima Nova", "Montserrat", sans-serif;
+		}
+		h1, h2 {
+    		position: absolute;
+    		left: 10px;
+    		font-size: 1.3em;
+    		font-weight: 100;
+		}
+		h2 {
+    		top: 30px;
+    		font-size: 1em;
+		}	
+			.party {
+        fill: grey;
+    	}
+		/* ADD CSS FOR #sliderContainer */
+		#sliderContainer {
+    		text-align: center;
+    		position: relative;
+    		top: 600px;
+		}
+	</style>
+
+</head>
+
+<body>
+	<!-- Page elements and content go here. -->
+	<h1>Presidential Election Results</h1>
+	<h2></h2>
+	<div id="sliderContainer">
+    	<input id="timeslide" type="range" min="0" max="4" value="0" step="1"/><br>
+    	<span id="range">2000</span>
+	</div>
+	<script>
+		// Our D3 code will go here.
+		// Width and Height of the whole visualization
+		var width = 750;
+		var height = 500;
+
+		var inputValue = null;
+		var year = ["2000","2004","2008","2012","2016"];
+		// Create SVG
+		var svg = d3.select( "body" )
+    		.append( "svg" )
+    		.attr( "width", width )
+    		.attr( "height", height );
+
+		// Append empty placeholder g element to the SVG
+		// g will contain geometry elements
+		var g = svg.append( "g" );
+
+		// Width and Height of the whole visualization
+		// Set Projection Parameters
+		// Albers
+		var albersProjection = d3.geoAlbersUsa()
+    		.scale(1000)
+    		.translate([width/2,height/2]);
+    	// Create GeoPath function that uses built-in D3 functionality to turn
+		// lat/lon coordinates into screen coordinates
+		var geoPath = d3.geoPath()
+    		.projection( albersProjection );
+
+    	// Classic D3... Select non-existent elements, bind the data, append the elements, and apply attributes
+		g.selectAll( "path" )
+    		.data( election_results_json.features )
+    		.enter()
+    		.append( "path" )
+    		.attr( "stroke", "#333")
+    		.attr( "d", geoPath )
+    		.attr( "class", "party");
+		
+		// when the input range changes update the value 
+		d3.select("#timeslide").on("input", function() {
+    		update(+this.value);
+		});
+
+		// update the fill of each SVG of class "party" with value
+		function update(value) {
+    		document.getElementById("range").innerHTML=year[value];
+    		inputValue = year[value];
+    		d3.selectAll(".party")
+        		.attr("fill", dateMatch);
+		}
+
+		function dateMatch(data, value) {
+    		var d = new Date(data.properties.OPEN_DT);
+    		var y = year[d.getYear()];
+    		if (inputValue == y) {
+        		this.parentElement.appendChild(this);
+        		return "red";
+    		} else {
+        		return "#999";
+    		};
+		}
+
+		function initialDate(d,i){
+    		var d = new Date(d.properties.OPEN_DT);
+    		var y = year[d.getYear()];
+    		if (y == "2000") {
+        		this.parentElement.appendChild(this);
+        		return "red";
+    		} else {
+        		return "#999";
+    		};
+		}
+	</script>	
+</body>
+</html>
