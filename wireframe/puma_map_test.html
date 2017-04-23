@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>PUMA Map Number One</title>
+	<meta charset="utf-8">
+
+<style>
+ body {
+  font-family: 'Open Sans', sans-serif;
+  text-align: left;
+}
+
+  .counties {
+    fill: none;
+    stroke: #fff;
+    stroke-linejoin: round;
+  }
+
+  .my-legend {
+    text-align: center;
+  }
+  .my-legend .legend-title {
+    text-align: left;
+    margin-left: 20px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 90%;
+    top: 600px;
+    }
+  .my-legend .legend-scale ul {
+    margin: 0;
+    padding: 0;
+    float: left;
+    list-style: none;
+    }
+  .my-legend .legend-scale ul li {
+    display: block;
+    float: left;
+    width: 50px;
+    margin-bottom: 6px;
+    text-align: center;
+    font-size: 80%;
+    list-style: none;
+    }
+  .my-legend ul.legend-labels li span {
+    display: block;
+    float: left;
+    height: 15px;
+    width: 50px;
+    }
+  .my-legend .legend-source {
+    font-size: 70%;
+    color: #999;
+    clear: both;
+    position: 0px;
+    text-align: left;
+    }
+    .my-legend .legend-key {
+    width: 400px;
+    margin-bottom: 6px;
+    font-size: 85%;
+    }
+  .my-legend a {
+    color: #777;
+    }
+</style>
+
+</head>
+<body>
+<div class='my-legend'>
+<div id="legend-object">
+<div class='legend-title'></div>
+<div class='legend-key'>
+      <p style="float: right"></p>
+      <p style="float: left"></p>
+    </div>
+<div class='legend-scale'>
+  <ul class='legend-labels'>
+    <li><span style='background:#2166ac;'></span>>50%</li>
+    <li><span style='background:#4393c3;'></span>25%</li>
+    <li><span style='background:#92c5de;'></span>10%</li>
+    <li><span style='background:#d1e5f0;'></span><10%</li>
+    <li><span style='background:#fddbc7;'></span><10%</li>
+    <li><span style='background:#f4a582;'></span>10%</li>
+    <li><span style='background:#d6604d;'></span>25%</li>
+    <li><span style='background:#b2182b;'></span>>50%</li>
+  </ul>
+</div>
+<div class='legend-source'>Source: <a href="https://townhall.com/">ACS PUMA</a></div>
+</div>
+<div id="info"><h1 id="name"></h1></div>
+<div id="map"></div>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-array.v1.min.js"></script>
+<script src="https://d3js.org/d3-geo.v1.min.js"></script>
+<script src="https://d3js.org/d3-queue.v3.min.js"></script>
+<script src="https://d3js.org/topojson.v2.min.js"></script>
+	<script>
+		// Our D3 code will go here.
+		var width = 800,
+    		height = 550;
+
+		var projection = d3.geoAlbers()
+    		.scale(8500)
+        .rotate( [77.8367,0] )
+        .center( [0, 40.8766] )
+    		.translate([width / 2, height / 2]);
+
+		var path = d3.geoPath()
+    		.projection(projection);
+
+		var svg = d3.select("#map").append("svg")
+    		.attr("width", width)
+    		.attr("height", height);
+
+    var color = d3.scaleThreshold()
+    .domain([30, 50, 90])
+    .range(['#fddbc7','#f4a582','#d6604d','#b2182b']);
+       
+    	// Queue up datasets using d3 Queue. prevents errors from loading
+		d3.queue()
+    		.defer(d3.json, "pumas16.json") // Load US PUMAs geography data
+        .defer(d3.json, "counties16.json")
+        .defer(d3.csv, "r_need_med.csv")
+    		.await(ready); 
+
+      // Run 'ready' when JSONs are loaded
+    	// Ready Function, runs when data is loaded
+		function ready(error, pumas16, counties16, r_need_med) {
+  			if (error) throw error;
+
+    var percentrentbur = {}; // Create empty object for holding dataset
+    r_need_med.forEach(function(d) {
+    percentrentbur[d.id] = +d.r_pct; // Create property for each ID, give it value from vistory_margin
+    // important: cast victory_margin to numeric value (+)
+  });
+  console.log(percentrentbur);
+  
+  		svg.append("g")
+      			.attr("class", "pumas")
+    		.selectAll("path")
+      			.data(topojson.feature(pumas16, pumas16.objects.pumas).features) // Bind TopoJSON data elements
+    		.enter().append("path")
+      			.attr("d", path)
+            .style("fill", function(d) { return color(percentrentbur[d.id]) 
+            });
+
+
+
+      // create state outlines
+  svg.append("path")
+      .datum(topojson.mesh(counties16, counties16.objects.counties, function(a, b) { return a.id !== b.id; }))
+      .attr("class", "counties")
+      .attr("d", path);
+}
+              
+	</script>	
+</body>
+</html>
