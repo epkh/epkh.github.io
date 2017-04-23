@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>The Need for Affordable Housing in Pennsylvania</title>
+    <title>How Housing Burden Among Low-Income Households has Changed Over Time</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -73,11 +73,21 @@
     <div class="intro-header">
         <div class="container">
 
-            <div class="row">
+            <div class="row" id="intro">
                 <div class="col-lg-12">
                     <div class="intro-message">
-                        <h1>Where are people most rent burdened in Pennsylvania?</h1>
-                        <h3>A look at where affordable housing is needed in the Keystone State</h3>
+                        <h1>How Housing Burden Among Low-Income Households has Changed Over Time</h1>
+                        <h3>A look at the Keystone State</h3>
+                        <br>
+                        <p>As an urbanizing state that sits between the east coast and the rust belt, Pennsylvania is experiencing tension between lower-density rural areas becoming more conservative and more dense metropolitan areas becoming more liberal. An aging, rural population is colliding with the influx of a new industry – hydraulic fracturing - and the workers who come with it. An examination of poverty and housing burden in Pennsylvania over time will help guide Harrisburg policymakers make decisions how to best support the most vulnerable Pennsylvanias during this time of change.<br>
+<br>
+                        Households with incomes below the poverty line have less money to spend on everything they need, and that includes their own homes. Housing cost burden is a measure of what percent of a household’s total income is spent on housing, whether that is rent or a mortgage, taxes, insurance, and utilities.<br>
+<br>
+                        Here's how much a household would need to earn to rent a fair-market apartment in PA in 2011:<br> 
+                        $ 837 to rent a fair market, 2-bedroom apartment<br>
+                        $16.09 needed to earn per hour to afford this rent<br>
+                        $ 12.49 earned per hour by the average renter<br>
+                        2.5 minimum-wage jobs needed to work to pay for rent</p>
                      
                     </div>
                 </div>
@@ -90,57 +100,100 @@
     <!-- /.intro-header -->
 
     <!-- Page Content -->
-
-	<div class="content-section-b">
+    
+<div class="content-section-b">
 
         <div class="container">
 
             <div class="row">
                 <div class="col-lg-12">
-                <h3 color="black">Percentage of the population with household incomes below the poverty line</h3>
-                <div class="index">
-    <iframe width="1000" height="650" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="puma_map_test.html" marginwidth="0" marginheight="0" frameborder="0" allowfullscreen scrolling="no"></iframe>
-                
-
+                   <div class="clearfix"></div>
+                    <div class="index">
+    <iframe width="1000" height="650" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="puma_map_test2.html" marginwidth="0" marginheight="0" frameborder="0" allowfullscreen scrolling="no"></iframe>
+                </div>
                 </div>
             
-                </div>
-            </div>
 
         </div>
         <!-- /.container -->
 
     </div>
-    <!-- /.content-section-b -->
-
+	</div>
     <div class="content-section-b">
 
         <div class="container">
 
             <div class="row">
-            <h3 color="black">Percentage of households with income below the poverty line with rent burden of over 30%</h3>
                 <div class="col-lg-12">
-                <div class="index">
-    <iframe width="1000" height="650" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="puma_map_test.html" marginwidth="0" marginheight="0" frameborder="0" allowfullscreen scrolling="no"></iframe>
-                
-
+                   <div class="clearfix"></div>
+                    <div class="index">
+    <iframe width="1000" height="650" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="puma_map_test2.html" marginwidth="0" marginheight="0" frameborder="0" allowfullscreen scrolling="no"></iframe>
+                </div>
                 </div>
             
-                </div>
-            </div>
 
         </div>
         <!-- /.container -->
 
     </div>
+    </div>
+    
+	</div>
+        
+        
+
+
     <!-- /.content-section-b -->
 
+<div class="content-section-b">
 
+        <div class="container">
 
+            <div class="row" id=intro>
+                <div class="col-lg-12">
+                    <h2>Implementation Status</h2> 
+                    <h3>Data Aquisition + Analysis</h3>
+                    <h4>Complete</h4>
+                    <p>Pulled PUMS data for PA in 2015<br>
+                    Cleaned PUMS data (and meregd with poverty guidelines) to create 4 CSVs<br>
+                        % of renter households below poverty level by PUMA 2015<br>
+                        % of homeowner households below poverty level by PUMA 2015<br>
+                        % of below poverty renting households who are burdened over 30% by PUMA 2015<br>
+                        % of below poverty homeowning households who are burdened over 30% by PUMA 2015<br>
+                        Pulled PUMA & county topojsons and edited them in MapShaper to produce a PA-level map</p>
+                    <h4>To Do</h4>
+                    <p>Pull PUMS data for PA from 2005 and 2010<br>
+                    Run PUMS 2005 and 2010 data through pandas code to create 4 more CSVs each</p>
+                    <br>
+                    <h3>Data Visualization</h3>
+                    <h4>Complete</h4>
+                    <p>D3 choropleth maps of poverty and burden with legends<br>
+                    Button to switch between homeowners and renters for burden map [CONFIRM WE ACTUALLY ARE ABLE TO DO THIS!]</p>
+                    <h4>To Do</h4>
+                    <p>Update renters/homeowners buttons and legends as data changes<br>
+                    Add in other years of PUMs data and create slider for maps<br>
+                    Add an on-click tool-tip so that a brief description linking poverty and burden data pops up for a given PUMA</p>
+                    <br>
+                    <h3>Other</h3>
+                    <p>Add mini inforgraphic at the top on breakdown of hypothetical renting household's budget<br>
+                    Update fonts, flesh out background/explanatory text<br>
+                    Flesh out mini description of legends</p>
+                </div>
+                <div class="col-lg-6">
+                   
+                </div>
+            </div>
+
+        </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
 
 
     <a  name="services"></a>
-    <div class="content-section-a">
+    <div class="content-section-b">
 
         <div class="container">
             <div class="row">
@@ -192,26 +245,7 @@
 
     
 
-    <div class="content-section-a">
-
-        <div class="container">
-
-            <div class="row">
-                <div class="col-lg-5 col-sm-6">
-                    <hr class="section-heading-spacer">
-                    <div class="clearfix"></div>
-                    <h2 class="section-heading">This section is saved for a concluding paragraph</h2>
-                    <p class="lead">Lorem Ipsum lorem ipsum etc etc.</p>
-                </div>
-                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                    <img class="img-responsive" src= alt="">
-                </div>
-            </div>
-
-        </div>
-        <!-- /.container -->
-
-    </div>
+    <div class="content-section-b">
     <!-- /.content-section-a -->
 
 	<a  name="contact"></a>
@@ -221,8 +255,9 @@
 
             <div class="row">
                 <div class="col-lg-12">
+                   <div class="clearfix"></div>
                     <h3>Contact the authors:</h3> 
-                    <h4> Emily Long at elong@mit.edu // Phoebe Holtzman at epkh@mit.edu // Danya Littlefield at danya@mit.edu</h4>
+                    <h5> Emily Long at elong@mit.edu // Phoebe Holtzman at epkh@mit.edu // Danya Littlefield at danya@mit.edu</h5>
                 </div>
                 <div class="col-lg-6">
                    
@@ -234,6 +269,7 @@
 
     </div>
     <!-- /.banner -->
+			</div>
 
     <!-- Footer -->
     <footer>
