@@ -1,0 +1,218 @@
+<html>
+<head>
+    <title>D3 Election map</title>
+    <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+    <script src="pumas16.json"></script>
+    <style>
+body {
+    position: absolute;
+    font-family: "Proxima Nova", "Montserrat", sans-serif;
+}
+h1, h2 {
+    position: absolute;
+    margin-left: 325px;
+    left: 10px;
+    font-size: 1.3em;
+    font-weight: 100;
+}
+h2 {
+    top: 30px;
+    font-size: 1em;
+}
+/* Remove .incident fill CSS */  
+
+#sliderContainer {
+    text-align: center;
+    position: relative;
+    top: 600px;
+}
+
+#legend-object {
+    margin-left: 420px;
+    margin-top: 80px;
+  }
+
+
+  .my-legend {
+    text-align: center;
+  }
+  .my-legend .legend-title {
+    text-align: left;
+    margin-left: 20px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 90%;
+    top: 600px;
+    }
+  .my-legend .legend-scale ul {
+    margin: 0;
+    padding: 0;
+    float: left;
+    list-style: none;
+    }
+  .my-legend .legend-scale ul li {
+    display: block;
+    float: left;
+    width: 80px;
+    margin-bottom: 6px;
+    text-align: center;
+    font-size: 80%;
+    list-style: none;
+    }
+  .my-legend ul.legend-labels li span {
+    display: block;
+    float: left;
+    height: 25px;
+    width: 80px;
+    }
+  .my-legend .legend-source {
+    font-size: 70%;
+    color: #999;
+    clear: both;
+    position: 0px;
+    text-align: left;
+    }
+    .my-legend .legend-key {
+    width: 400px;
+    margin-bottom: 0px;
+    font-size: 85%;
+    }
+  .my-legend a {
+    color: #777;
+    }
+
+    </style>
+</head>
+<body>
+    <h1>General Election Results 2000 - 2016</h1>
+    <h2></h2>
+    <br>
+
+<div class='my-legend'>
+<div id="legend-object">
+<div class='legend-key'>
+    </div>
+<div class='legend-scale'>
+  <ul class='legend-labels'>
+  	<li><span style='background:#1F68FF;'></span>Democrat</li>
+    <li><span style='background:#FF5D3F;'></span>Republican</li>
+  </ul>
+</div>
+<div class='legend-source'>Source: <a href="https://www.archives.gov/federal-register/electoral-college/historical.html">U.S. National Archives and Records Administration</a></div>
+</div>
+
+
+    <div id="sliderContainer">
+        <input id="timeslide" type="range" min="0" max="4" value="0" step="1"/><br>
+        <span id="range">2000</span>
+    </div>
+    <div>
+    <script>
+    var width = 1000;
+    var height = 580;
+
+    var inputValue = null;
+    var year = ["2000","2004","2008","2012","2016"];
+
+    var svg = d3.select( "body" )
+        .append( "svg" )
+        .attr( "width", width )
+        .attr( "height", height );
+
+    var g = svg.append( "g" );
+
+    var USAprojection = d3.geoAlbersUsa()
+       
+
+    var geoPath = d3.geoPath()
+        .projection( USAprojection );
+
+    var states = svg.append( "g" );
+
+    states.selectAll( "path" )
+        .data( pumas16.features )
+        .enter()
+        .append( "path" )
+        .attr("fill", initialDate)
+        .attr("stroke", "#fff")
+        .attr("d", geoPath)
+        .attr("class","incident");
+       
+
+    // when the input range changes update the value
+    d3.select("#timeslide").on("input", function() {
+        update(+this.value);
+    });
+
+    // update the fill of each SVG of class "incident"
+    function update(value) {
+        document.getElementById("range").innerHTML=year[value];
+        inputValue = year[value];
+        d3.selectAll(".incident")
+            .attr("fill", dateMatch);
+    }
+
+    function dateMatch(data, value) {
+            console.log(data);
+            console.log(inputValue);
+            if (inputValue == 2000) {
+                if (data.properties.elect2000 == "R") {
+                    return "#FF5D3F";
+                }else if (data.properties.elect2000 == "D") {
+                    return "#1F68FF";
+                 }
+
+                 } else if (inputValue == 2004) {
+		        if (data.properties.elect2004 == "R") {
+					return "#FF5D3F";
+				}else if (data.properties.elect2004 == "D") {
+					return "#1F68FF";
+		        }
+
+		        } else if (inputValue == 2004) {
+		        if (data.properties.elect2004 == "R") {
+					return "#FF5D3F";
+				}else if (data.properties.elect2004 == "D") {
+					return "#1F68FF";
+		        }
+
+		        } else if (inputValue == 2008) {
+		        if (data.properties.elect2008 == "R") {
+					return "#FF5D3F";
+				}else if (data.properties.elect2008 == "D") {
+					return "#1F68FF";
+		        }
+
+		        } else if (inputValue == 2012) {
+		        if (data.properties.elect2012 == "R") {
+					return "#FF5D3F";
+				}else if (data.properties.elect2012 == "D") {
+					return "#1F68FF";
+		        }
+
+		        } else if (inputValue == 2016) {
+		        if (data.properties.elect2016 == "R") {
+					return "#FF5D3F";
+				}else if (data.properties.elect2016 == "D") {
+					return "#1F68FF";
+		        }
+                 
+             } else {
+                return "000099";
+
+                };
+    }
+
+    function initialDate(data, value){
+                 if (data.properties.elect2000 == "R") {
+                     this.parentElement.appendChild(this);
+                  return "#FF5D3F";
+                } else if (data.properties.elect2000 == "D") {
+                  return "#1F68FF";    
+               };
+           }
+    </script>
+    </div>
+
+</body>
+</html>

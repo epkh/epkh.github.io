@@ -1,0 +1,24 @@
+
+
+.navbar-brand {
+	padding: 0px;
+}
+
+.navbar-brand>img {
+	height: 100%;
+	padding: 15px;
+	width: auto;
+}
+
+.intro-message>h1 {
+    text-shadow: none;
+    color: black;
+}
+
+.intro-message>h3 {
+    text-shadow: none;
+    color: black;
+}
+#customname{
+
+}
