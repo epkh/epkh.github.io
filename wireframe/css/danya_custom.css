@@ -11,8 +11,16 @@
 }
 
 #intro {
-    margin-right: 200px;
-    margin-left: 200px;
+    margin-right: 150px;
+    margin-left: 150px;
+}
+
+#title1 {
+    margin-left: 125px;
+}
+
+#title2 {
+    margin-left: 40px;
 }
 
 .intro-message>h1 {
@@ -49,6 +57,7 @@
     text-shadow: none;
     color: black;
     font-size: 18px;
+    text-align: left;
 }
 
 .content-section-b {
