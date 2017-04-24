@@ -127,7 +127,8 @@
             <div class="row">
                 <div class="col-lg-12">
                    <div class="clearfix"></div>
-                   <h3 id=title2>% of Households Below the Poverty Line with > 30% Housing Cost Burden</h3>
+                   <h3 id=title2>% of PA Households Below the Poverty Line <p>
+                   Who Spend More than 30% of their Income on Housing</p></h3>
                     <div class="index">
     <iframe width="1000" height="650" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="puma_map_test3.html" marginwidth="0" marginheight="0" frameborder="0" allowfullscreen scrolling="no"></iframe>
                 </div>
@@ -158,28 +159,43 @@
                     <h4>Complete</h4>
                     <p>Pulled PUMS data for PA in 2015<br>
                     Cleaned PUMS data (and merged with poverty guidelines) to create 4 CSVs<br>
-                        % of renter households below poverty level by PUMA 2015<br>
-                        % of homeowner households below poverty level by PUMA 2015<br>
-                        % of below poverty renting households who are burdened over 30% by PUMA 2015<br>
-                        % of below poverty homeowning households who are burdened over 30% by PUMA 2015<br>
-                        Pulled PUMA & county topojsons and edited them in MapShaper to produce a PA-level map</p>
+                    <ul>
+                        <li>% of renter households below poverty level by PUMA 2015</li>
+                        <li>% of homeowner households below poverty level by PUMA 2015</li>
+                        <li>% of below poverty renting households who are burdened over 30% by PUMA 2015</li>
+                        <li>% of below poverty homeowning households who are burdened over 30% by PUMA 2015</li>
+                    </ul>
+                    Pulled PUMA & county topojsons and edited them in MapShaper to produce a PA-level map</p>
                     <h4>To Do</h4>
                     <p>Pull PUMS data for PA from 2005 and 2010<br>
-                    Run PUMS 2005 and 2010 data through pandas code to create 4 more CSVs each</p>
+                    Run PUMS 2005 and 2010 data through pandas code to create 4 more CSVs each
+                    <ul>
+                        <li>% of renter households below poverty level by PUMA 2005 & 2010</li>
+                        <li>% of homeowner households below poverty level by PUMA 2005 & 2010</li>
+                        <li>% of below poverty renting households who are burdened over 30% by PUMA 2005 & 2010</li>
+                        <li>% of below poverty homeowning households who are burdened over 30% by PUMA 2005 & 2010</li>
+                    </ul>
+                    Pull pre-2011 PUMA topojsons and edit them in MapShaper to produce a PA-level map [Note: the main challenge we are facing is that our PUMAs change in 2011 so we will need to run our D3 with different topojsons depending on the year/where the slider is.]
+                    </p>
                     <br>
                     <h3>Data Visualization</h3>
                     <h4>Complete</h4>
                     <p>D3 choropleth maps of poverty and burden with legends<br>
-                    Button to switch between homeowners and renters for burden map [CONFIRM WE ACTUALLY ARE ABLE TO DO THIS!]</p>
+                    Button to switch between homeowners and renters for burden map</p>
                     <h4>To Do</h4>
-                    <p>Update renters/homeowners buttons and legends as data changes<br>
-                    Add in other years of PUMs data and create slider for maps<br>
-                    Add an on-click tool-tip so that a brief description linking poverty and burden data pops up for a given PUMA</p>
+                    <p>Update renters/homeowners buttons so they are clickable and legends update as data range changes<br>
+                    Add in other years of PUMs data and create time slider for maps<br>
+                    Update on-click tooltip so that the hover window includes PUMA name and a brief description linking poverty and burden data for a given PUMA</p>
                     <br>
                     <h3>Other</h3>
-                    <p>Add mini inforgraphic at the top on breakdown of hypothetical renting household's budget<br>
+                    <p>Place maps side-by-side so comparisons can be easily made<br>
+                    Zoom in on one PUMA below maps if we see any outliers<br>
+                    Add mini inforgraphic at the top on breakdown of hypothetical renting household's budget<br>
                     Update fonts, flesh out background/explanatory text<br>
-                    Flesh out mini description of legends</p>
+                    Update legends to have gradient color transitions<br>
+                    Flesh out mini description of legends<br>
+                    Add confluding text section with some major takeaways<br>
+                    </p>
                 </div>
                 <div class="col-lg-6">
                    
