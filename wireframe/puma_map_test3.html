@@ -91,6 +91,9 @@
   .my-legend a {
     color: #777;
     }
+  path:hover{
+    fill-opacity: .7;
+  }
 </style>
 
 </head>
@@ -203,6 +206,15 @@
                   } else {
                     return "#FFF";
                   } 
+              })
+              .on("mouseover", function(d){
+                return tooltip.style("visibility", "visible").text("PUMA ID: " + d.id + "\n"+ "Cost Burden:" + Math.round(percentrentbur[d.id]) +"%");
+              })
+              .on("mousemove", function(d){
+                return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.id + "\n" + "Cost Burden: " + Math.round(percentrentbur[d.id]) + "%");
+              })
+              .on("mouseout", function(d){
+                return tooltip.style("visibility", "hidden");
               });
 
       // create state outlines
@@ -238,6 +250,18 @@
         // });
       } //close ready function
     
+    var tooltip = d3.select("body")
+          .append("div")
+          .style("background-color", "White")
+          .style("padding", "5px")
+          .style("width", "100px")
+          .style("position", "absolute")
+          .style("border-radius", "8px")
+          .style("font-family", "'Open Sans', sans-serif")
+          .style("font-size", "12px")
+          .style("z-index", "10")
+          .style("visibility", "hidden");
+
     function updateData(pumas16, counties16) {
       d3.csv("data/h15_totalsburden30.csv", function(error, data) {
             data.forEach(function(d){
