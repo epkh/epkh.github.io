@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Housing Cost Burden in PA: 2005, 2010, 2015</title>
+	<meta charset="utf-8">
+
+<style>
+ body {
+  position: absolute;
+  font-family: 'Open Sans', sans-serif;
+  text-align: left;
+}
+
+  .counties {
+    fill: none;
+    stroke: #fff;
+    stroke-linejoin: round;
+  }
+  input[type=button] {
+    color:White;
+    font-family: 'Open Sans', sans-serif;
+    background-color:Gray;
+    font-size:90%;
+    float:center;
+    cursor:pointer;
+    align: center;
+    /*width:50%;*/
+  }
+
+  input[type=button]:hover {
+    background-color:#a63603;
+  }
+
+  #button-holder {
+    max-width: 300px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 0px;
+    position: relative;
+    text-align: center;
+  }
+  .my-legend {
+    max-width: 250px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 0px;
+    position: relative;
+    text-align: center
+  }
+  .my-legend .legend-title {
+    text-align: left;
+    margin-left: 0px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 90%;
+    top: 600px;
+  }
+  .my-legend .legend-scale ul {
+    margin: 0;
+    padding: 0;
+    float: center;
+    list-style: none;
+    }
+  .my-legend .legend-scale ul li {
+    display: block;
+    float: left;
+    width: 50px;
+    margin-bottom: 6px;
+    text-align: center;
+    font-size: 80%;
+    list-style: none;
+    }
+  .my-legend ul.legend-labels li span {
+    display: block;
+    float: center;
+    height: 15px;
+    width: 50px;
+    }
+  .my-legend .legend-source {
+    font-size: 70%;
+    color: #999;
+    clear: both;
+    position: 0px;
+    text-align: center;
+    }
+    .my-legend .legend-key {
+    width: 350px;
+    margin-bottom: 6px;
+    font-size: 85%;
+    }
+  .my-legend a {
+    color: #777;
+    }
+  path:hover{
+    fill-opacity: .7;
+  }
+</style>
+
+</head>
+<body>
+<div class='my-legend'>
+  <div id="legend-object">
+    <div class='legend-title'>
+      <p></p>
+    </div>
+    <div class='legend-key'>
+      <p style="float: right"></p>
+      <p style="float: left"></p>
+    </div>
+    <div class='legend-scale'>
+      <ul class='legend-labels'>
+        <li><span style='background:#feedde;'></span><60%</li>
+        <li><span style='background:#fdbe85;'></span><70%</li>
+        <li><span style='background:#fd8d3c;'></span><80%</li>
+        <li><span style='background:#e6550d;'></span><90% </li>
+        <li><span style='background:#a63603;'></span><100%</li>
+      </ul>
+    </div>
+
+
+    <div class='legend-source'>Source: <a href="https://www.census.gov/programs-surveys/acs/data/pums.html">ACS PUMS</a></div>
+  </div>
+</div>
+
+<div id="info"><h1 id="name"></h1></div>
+
+<div id="button-holder">
+  <div id="option">
+  <input id="owners"
+         name="ownersButton"
+         type="button"
+         value="Owners" />
+  <input id="renters"
+         name="rentersButton"
+         type="button"
+         value="Renters" />
+  </div>
+</div>
+
+
+<div id="map"></div>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-array.v1.min.js"></script>
+<script src="https://d3js.org/d3-geo.v1.min.js"></script>
+<script src="https://d3js.org/d3-queue.v3.min.js"></script>
+<script src="https://d3js.org/topojson.v2.min.js"></script>
+
+<script>
+		// Our D3 code will go here.
+		var width = 800,
+    		height = 400;
+
+		var projection = d3.geoAlbers()
+    		.scale(8500)
+        .rotate( [77.8367,0] )
+        .center( [0, 40.8766] )
+    		.translate([width / 2, height / 2]);
+
+		var path = d3.geoPath()
+    		.projection(projection);
+
+		var svg = d3.select("#map").append("svg")
+    		.attr("width", width)
+    		.attr("height", height)
+        .attr("align", "center");
+
+    var color = d3.scaleThreshold()
+    .domain([60, 70, 80, 90, 100])
+    .range(['#feedde','#fdbe85','#fd8d3c','#e6550d', '#a63603']);
+       
+    	// Queue up datasets using d3 Queue. prevents errors from loading
+		d3.queue()
+    		.defer(d3.json, "pumas16.json") // Load US PUMAs geography data
+        .defer(d3.json, "counties16.json")
+        .defer(d3.csv, "data/r15_totalsburden30.csv")
+        .defer(d3.csv, "data/h15_totalsburden30.csv")
+    		.await(ready); 
+
+      // Run 'ready' when JSONs are loaded
+    	// Ready Function, runs when data is loaded
+		function ready(error, pumas16, counties16, r15_totalsburden30, h15_totalsburden30) {
+  			if (error) throw error;
+
+        var percentrentbur = {}; // Create empty object for holding dataset
+        r15_totalsburden30.forEach(function(d) {
+        percentrentbur[d.id] = +d.PCTburden30; 
+        });
+
+        // console.log(percentrentbur);
+
+        var percenthbur = {};
+        h15_totalsburden30.forEach(function(d) {
+          percenthbur[d.id] = +d.PCTburden30;
+        });
+    
+      	svg.append("g")
+        			.attr("class", "pumas")
+      		.selectAll("path")
+        			.data(topojson.feature(pumas16, pumas16.objects.pumas).features) // Bind TopoJSON data elements
+      		.enter().append("path")
+        			.attr("d", path)
+              .style("fill", function(d) { 
+                if (percentrentbur[d.id] > 0) {
+                  return color(percentrentbur[d.id]);
+                  } else {
+                    return "#FFF";
+                  } 
+              })
+              .on("mouseover", function(d){
+                return tooltip.style("visibility", "visible").text("PUMA ID: " + d.id + "\n"+ "% Hhlds with >30% Housing Cost Burden:" + Math.round(percentrentbur[d.id]) +"%");
+              })
+              .on("mousemove", function(d){
+                return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.id + "\n" + "% Hhlds with >30% Housing Cost Burden: " + Math.round(percentrentbur[d.id]) + "%");
+              })
+              .on("mouseout", function(d){
+                return tooltip.style("visibility", "hidden");
+              });
+
+      // create state outlines
+        svg.append("path")
+            .datum(topojson.mesh(counties16, counties16.objects.counties, function(a, b) { return a.id !== b.id; }))
+            .attr("class", "counties")
+            .attr("d", path);
+
+        // d3.select("owners").on("click", function() {
+        //   d3.csv("data/h15_totalsburden30.csv", function(d) {
+        //     return {
+        //       id : d.id,
+        //       percenthbur : +d.PCTburden30
+        //     };
+        //   }, function(error, rows) {
+        //     hData = rows;
+        //     console.log(hData);
+        //     updateData();
+        //   });
+        // });
+
+        // d3.select("renters").on("click", function() {
+        //   d3.csv("data/r15_totalsburden30.csv", function(d) {
+        //     return {
+        //       id : d.id,
+        //       percenthbur : +d.PCTburden30
+        //     };
+        //   }, function(error, rows) {
+        //     hData = rows;
+        //     console.log(hData);
+        //     updateData();
+        //   });
+        // });
+      } //close ready function
+    
+    var tooltip = d3.select("body")
+          .append("div")
+          .style("background-color", "White")
+          .style("padding", "5px")
+          .style("width", "100px")
+          .style("position", "absolute")
+          .style("border-radius", "8px")
+          .style("font-family", "'Open Sans', sans-serif")
+          .style("font-size", "12px")
+          .style("z-index", "10")
+          .style("visibility", "hidden");
+
+    function updateData(pumas16, counties16) {
+      d3.csv("data/h15_totalsburden30.csv", function(error, data) {
+            data.forEach(function(d){
+              d.id = +d.PCTburden30;
+            });
+          });
+
+      svg.selectAll("path")
+        svg.append("g")
+              .attr("class", "pumas")
+          .selectAll("path")
+              .data(topojson.feature(pumas16, pumas16.objects.pumas).features) // Bind TopoJSON data elements
+          .enter().append("path")
+              .attr("d", path)
+              .style("fill", function(d) { 
+                if (percentrentbur[d.id] > 0) {
+                  return color(percentrentbur[d.id]);
+                  } else {
+                    return "#FFF";
+                  } 
+                  });
+    }          
+	</script>	
+</body>
+</html>
