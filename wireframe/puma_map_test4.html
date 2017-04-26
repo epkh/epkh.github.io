@@ -182,13 +182,12 @@
 		function updateHomeownerData(error, pumas_pa16, counties16, h15_totalsburden30) {
         console.log(pumas_pa16);
         console.log(counties16);
-        // console.log(h15_totalsburden30);
+        console.log(h15_totalsburden30);
   			if (error) throw error;
 
         var percenthbur = {};
         h15_totalsburden30.forEach(function(d) {
           percenthbur[d.id] = +d.PCTburden30;
-          console.log("percenthbur d.id "+percenthbur[d.id])
         });
     
       	svg.append("g")
@@ -198,17 +197,17 @@
       		.enter().append("path")
         			.attr("d", path)
               .style("fill", function(d) { 
-                if (percenthbur[d.id] > 0) {
-                  return color(percenthbur[d.id]);
+                if (percenthbur[d.properties.id] > 0) {
+                  return color(percenthbur[d.properties.id]);
                   } else {
                     return "Green";
                   } 
               })
               .on("mouseover", function(d){
-                return tooltip.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "Cost Burden:" + Math.round(percenthbur[d.id]) +"%");
+                return tooltip.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "Cost Burden:" + Math.round(percenthbur[d.properties.id]) +"%");
               })
               .on("mousemove", function(d){
-                return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "Cost Burden: " + Math.round(percenthbur[d.id]) + "%");
+                return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "Cost Burden: " + Math.round(percenthbur[d.properties.id]) + "%");
               })
               .on("mouseout", function(d){
                 return tooltip.style("visibility", "hidden");

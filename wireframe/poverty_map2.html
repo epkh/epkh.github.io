@@ -177,7 +177,7 @@
        
         // Queue up datasets using d3 Queue. prevents errors from loading
     d3.queue()
-        .defer(d3.json, "pumas16.json") // Load US PUMAs geography data
+        .defer(d3.json, "pumas_pa16.json") // Load US PUMAs geography data
         .defer(d3.json, "counties16.json")
         .defer(d3.csv, "data/r15_poverty.csv")
         .defer(d3.csv, "data/h15_poverty.csv")
@@ -185,7 +185,7 @@
 
       // Run 'ready' when JSONs are loaded
         // Ready Function, runs when data is loaded
-    function ready(error, pumas16, counties16, r15_poverty, h15_poverty) {
+    function ready(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
             if (error) throw error;
 
         var percentpovr = {}; // Create empty object for holding dataset
@@ -198,21 +198,21 @@
         svg.append("g")
                     .attr("class", "pumas")
             .selectAll("path")
-                    .data(topojson.feature(pumas16, pumas16.objects.pumas).features) // Bind TopoJSON data elements
+                    .data(topojson.feature(pumas_pa16, pumas_pa16.objects.pumas_pa_only).features) // Bind TopoJSON data elements
             .enter().append("path")
                     .attr("d", path)
               .style("fill", function(d) { 
-                if (percentpovr[d.id] > 0) {
-                  return color(percentpovr[d.id]);
+                if (percentpovr[d.properties.id] > 0) {
+                  return color(percentpovr[d.properties.id]);
                   } else {
                     return "#FFF";
                   } 
               })
               .on("mouseover", function(d){
-                return tooltip.style("visibility", "visible").text("PUMA ID: " + d.id + "\n"+ "% Below Poverty:" + Math.round(percentpovr[d.id]) +"%");
+                return tooltip.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Below Poverty:" + Math.round(percentpovr[d.properties.id]) +"%");
               })
               .on("mousemove", function(d){
-                return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.id + "\n" + "% Below Poverty: " + Math.round(percentpovr[d.id]) + "%");
+                return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Below Poverty: " + Math.round(percentpovr[d.properties.id]) + "%");
               })
               .on("mouseout", function(d){
                 return tooltip.style("visibility", "hidden");
