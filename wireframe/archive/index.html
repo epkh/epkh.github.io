@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>How Has Housing Burden Changed Over Time for Low-Income Households in Pennsylvania?</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/landing-page.css" rel="stylesheet">
+
+    <!-- Danya CSS -->
+    <link href="css/danya_custom.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+        <div class="container topnav">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand topnav" href="#"><img src="icon/logo_test-01.png"></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#about">About</a>
+                    </li>
+                    <li>
+                        <a href="#data">Data</a>
+                    </li>
+                    <li>
+                        <a href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+
+    <!-- Header -->
+    <a name="about"></a>
+    <div class="intro-header">
+        <div class="container">
+
+            <div class="row" id="intro">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>How Has Housing Burden Changed Over Time for Low-Income Households in Pennsylvania?</h1>
+                        <h3>A look at the Keystone State</h3>
+                        <br>
+                        <p>Pennsylvania is experiencing tension between lower-density rural areas becoming more conservative and more dense metropolitan areas becoming more liberal. An aging, rural population is colliding with the influx of a new industry – hydraulic fracturing - and the workers who come with it. Examining the distribution of poverty and housing burden in Pennsylvania over time will help guide Harrisburg policymakers as they make decisions about how to best support the most vulnerable Pennsylvanians during this time of change.<br>
+<br>
+                        Households with incomes below the poverty line have less money to spend on everything they need, and that includes their own homes. Housing cost burden is a measure of what percent of a household’s total income is spent on housing, whether that is rent or a mortgage, taxes, insurance, and utilities.<br>
+<br>
+                        Here's how much a household would need to earn to rent a fair-market apartment in PA in 2011:<br> 
+                        $ 837 to rent a fair market, 2-bedroom apartment<br>
+                        $16.09 needed to earn per hour to afford this rent<br>
+                        $ 12.49 earned per hour by the average renter<br>
+                        2.5 minimum-wage jobs needed to work to pay for rent</p>
+                     
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.intro-header -->
+
+    <!-- Page Content -->
+    
+<div class="content-section-b">
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12">
+                   <div class="clearfix"></div>
+                   <h3 id=title1>% of Households in PA with Incomes Below the Poverty Line</h3>
+                    <div class="index">
+    <iframe width="1000" height="650" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="poverty_map2.html" marginwidth="0" marginheight="0" frameborder="0" allowfullscreen scrolling="no"></iframe>
+                </div>
+                </div>
+            
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+	</div>
+    <div class="content-section-b">
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12">
+                   <div class="clearfix"></div>
+                   <h3 id=title2>% of PA Households Below the Poverty Line <p>
+                   Who Spend More than 30% of their Income on Housing</p></h3>
+                    <div class="index">
+    <iframe width="1000" height="650" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="puma_map_test3.html" marginwidth="0" marginheight="0" frameborder="0" allowfullscreen scrolling="no"></iframe>
+                </div>
+                </div>
+            
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    </div>
+    
+	</div>
+        
+        
+
+
+    <!-- /.content-section-b -->
+
+<div class="content-section-b">
+
+        <div class="container">
+
+            <div class="row" id=intro>
+                <div class="col-lg-12">
+                    <h2>Implementation Status</h2> 
+                    <h3>Data Aquisition + Analysis</h3>
+                    <h4>Complete</h4>
+                    <p>Pulled PUMS data for PA in 2015<br>
+                    Cleaned PUMS data (and merged with poverty guidelines) to create 4 CSVs<br>
+                    <ul>
+                        <li>% of renter households below poverty level by PUMA 2015</li>
+                        <li>% of homeowner households below poverty level by PUMA 2015</li>
+                        <li>% of below poverty renting households who are burdened over 30% by PUMA 2015</li>
+                        <li>% of below poverty homeowning households who are burdened over 30% by PUMA 2015</li>
+                    </ul>
+                    Pulled PUMA & county topojsons and edited them in MapShaper to produce a PA-level map</p>
+                    <h4>To Do</h4>
+                    <p>Pull PUMS data for PA from 2005 and 2010<br>
+                    Run PUMS 2005 and 2010 data through pandas code to create 4 more CSVs each
+                    <ul>
+                        <li>% of renter households below poverty level by PUMA 2005 & 2010</li>
+                        <li>% of homeowner households below poverty level by PUMA 2005 & 2010</li>
+                        <li>% of below poverty renting households who are burdened over 30% by PUMA 2005 & 2010</li>
+                        <li>% of below poverty homeowning households who are burdened over 30% by PUMA 2005 & 2010</li>
+                    </ul>
+                    Pull pre-2011 PUMA topojsons and edit them in MapShaper to produce a PA-level map [Note: the main challenge we are facing is that our PUMAs change in 2011 so we will need to run our D3 with different topojsons depending on the year/where the slider is.]
+                    </p>
+                    <br>
+                    <h3>Data Visualization</h3>
+                    <h4>Complete</h4>
+                    <p>D3 choropleth maps of poverty and burden with legends<br>
+                    Button to switch between homeowners and renters for burden map</p>
+                    <h4>To Do</h4>
+                    <p>Update renters/homeowners buttons so they are clickable and legends update as data range changes<br>
+                    Add in other years of PUMs data and create time slider for maps<br>
+                    Update on-click tooltip so that the hover window includes PUMA name and a brief description linking poverty and burden data for a given PUMA</p>
+                    <br>
+                    <h3>Other</h3>
+                    <p>Place maps side-by-side so comparisons can be easily made<br>
+                    Update colors so renter map is different color from homeowner map<br>
+                    Zoom in on one PUMA below maps if we see any outliers<br>
+                    Add mini inforgraphic at the top on breakdown of hypothetical renting household's budget<br>
+                    Update fonts, flesh out background/explanatory text<br>
+                    Update legends to have gradient color transitions<br>
+                    Flesh out mini description of legends<br>
+                    Add concluding text section with some major takeaways<br>
+                    </p>
+                </div>
+                <div class="col-lg-6">
+                   
+                </div>
+            </div>
+
+        </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+
+
+    <a  name="services"></a>
+    <div class="content-section-b">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+    <li data-target="#myCarousel" data-slide-to="3"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner" role="listbox">
+    <div class="item active">
+      <img src="slides/midterm_deck_finalv2_1.jpg" alt="Chania">
+    </div>
+
+    <div class="item">
+      <img src="slides/midterm_deck_finalv2_2.jpg" alt="Chania">
+    </div>
+
+    <div class="item">
+      <img src="slides/midterm_deck_finalv2_3.jpg" alt="Flower">
+    </div>
+
+    <div class="item">
+      <img src="slides/midterm_deck_finalv2_4.jpg" alt="Flower">
+    </div>
+  </div>
+
+  <!-- Left and right controls -->
+  <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.content-section-a -->
+
+    
+
+    <div class="content-section-b">
+    <!-- /.content-section-a -->
+
+	<a  name="contact"></a>
+    <div class="banner">
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12">
+                   <div class="clearfix"></div>
+                    <h3>Contact the authors:</h3> 
+                    <h5> Emily Long at elong@mit.edu // Phoebe Holtzman at epkh@mit.edu // Danya Littlefield at danya@mit.edu</h5>
+                </div>
+                <div class="col-lg-6">
+                   
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.banner -->
+			</div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-inline">
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#about">About</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#data">Data</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#contact">Contact</a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted small">Copyright &copy; Phoebe Holtzman, Emily Long, and Danya Littlefield. All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

@@ -147,7 +147,7 @@
 <script src="https://d3js.org/topojson.v2.min.js"></script>
 
 <script>
-		// THIS IS OUT SETUP
+		// Our D3 code will go here.
 		var width = 800,
     		height = 400;
 
@@ -169,21 +169,25 @@
     .domain([60, 70, 80, 90, 100])
     .range(['#feedde','#fdbe85','#fd8d3c','#e6550d', '#a63603']);
        
-    // INITIAL QUEUE //
-		
-    d3.queue()
+    	// Queue up datasets using d3 Queue. prevents errors from loading
+		d3.queue()
     		.defer(d3.json, "pumas16.json") // Load US PUMAs geography data
         .defer(d3.json, "counties16.json")
+        .defer(d3.csv, "data/r15_totalsburden30.csv")
         .defer(d3.csv, "data/h15_totalsburden30.csv")
-    		.await(updateHomeownerData); 
+    		.await(ready); 
 
-    // UPDATE DATA FUNCTIONS //
-
-		function updateHomeownerData(error, pumas16, counties16, h15_totalsburden30) {
-        console.log(pumas16);
-        console.log(counties16);
-        console.log(h15_totalsburden30);
+      // Run 'ready' when JSONs are loaded
+    	// Ready Function, runs when data is loaded
+		function ready(error, pumas16, counties16, r15_totalsburden30, h15_totalsburden30) {
   			if (error) throw error;
+
+        var percentrentbur = {}; // Create empty object for holding dataset
+        r15_totalsburden30.forEach(function(d) {
+        percentrentbur[d.id] = +d.PCTburden30; 
+        });
+
+        // console.log(percentrentbur);
 
         var percenthbur = {};
         h15_totalsburden30.forEach(function(d) {
@@ -197,39 +201,75 @@
       		.enter().append("path")
         			.attr("d", path)
               .style("fill", function(d) { 
-                if (percenthbur[d.id] > 0) {
-                  return color(percenthbur[d.id]);
+                if (percentrentbur[d.id] > 0) {
+                  return color(percentrentbur[d.id]);
                   } else {
                     return "#FFF";
                   } 
               })
               .on("mouseover", function(d){
-                return tooltip.style("visibility", "visible").text("PUMA ID: " + d.id + "\n"+ "Cost Burden:" + Math.round(percenthbur[d.id]) +"%");
+                return tooltip.style("visibility", "visible").text("PUMA ID: " + d.id + "\n"+ "% Hhlds with >30% Housing Cost Burden:" + Math.round(percentrentbur[d.id]) +"%");
               })
               .on("mousemove", function(d){
-                return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.id + "\n" + "Cost Burden: " + Math.round(percenthbur[d.id]) + "%");
+                return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.id + "\n" + "% Hhlds with >30% Housing Cost Burden: " + Math.round(percentrentbur[d.id]) + "%");
               })
               .on("mouseout", function(d){
                 return tooltip.style("visibility", "hidden");
               });
 
-      // create county outlines
+      // create state outlines
         svg.append("path")
             .datum(topojson.mesh(counties16, counties16.objects.counties, function(a, b) { return a.id !== b.id; }))
             .attr("class", "counties")
             .attr("d", path);
 
-      } //close updateHomeownerData function
+        // d3.select("owners").on("click", function() {
+        //   d3.csv("data/h15_totalsburden30.csv", function(d) {
+        //     return {
+        //       id : d.id,
+        //       percenthbur : +d.PCTburden30
+        //     };
+        //   }, function(error, rows) {
+        //     hData = rows;
+        //     console.log(hData);
+        //     updateData();
+        //   });
+        // });
+
+        // d3.select("renters").on("click", function() {
+        //   d3.csv("data/r15_totalsburden30.csv", function(d) {
+        //     return {
+        //       id : d.id,
+        //       percenthbur : +d.PCTburden30
+        //     };
+        //   }, function(error, rows) {
+        //     hData = rows;
+        //     console.log(hData);
+        //     updateData();
+        //   });
+        // });
+      } //close ready function
     
-    function updateRenterData(error, pumas16, counties16, r15_totalsburden30) {
-      console.log(pumas16);
-      console.log(counties16);
+    var tooltip = d3.select("body")
+          .append("div")
+          .style("background-color", "White")
+          .style("padding", "5px")
+          .style("width", "100px")
+          .style("position", "absolute")
+          .style("border-radius", "8px")
+          .style("font-family", "'Open Sans', sans-serif")
+          .style("font-size", "12px")
+          .style("z-index", "10")
+          .style("visibility", "hidden");
 
-        var percentrentbur = {}; // Create empty object for holding dataset
-        r15_totalsburden30.forEach(function(d) {
-        percentrentbur[d.id] = +d.PCTburden30; 
-        });
+    function updateData(pumas16, counties16) {
+      d3.csv("data/h15_totalsburden30.csv", function(error, data) {
+            data.forEach(function(d){
+              d.id = +d.PCTburden30;
+            });
+          });
 
+      svg.selectAll("path")
         svg.append("g")
               .attr("class", "pumas")
           .selectAll("path")
@@ -242,57 +282,8 @@
                   } else {
                     return "#FFF";
                   } 
-              })
-              .on("mouseover", function(d){
-                return tooltip.style("visibility", "visible").text("PUMA ID: " + d.id + "\n"+ "Cost Burden:" + Math.round(percentrentbur[d.id]) +"%");
-              })
-              .on("mousemove", function(d){
-                return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.id + "\n" + "Cost Burden: " + Math.round(percentrentbur[d.id]) + "%");
-              })
-              .on("mouseout", function(d){
-                return tooltip.style("visibility", "hidden");
-              });
-
-        // create county outlines
-        svg.append("path")
-            .datum(topojson.mesh(counties16, counties16.objects.counties, function(a, b) { return a.id !== b.id; }))
-            .attr("class", "counties")
-            .attr("d", path);
-    }
-
-    // EVENT HANDLERS //
-
-    d3.select("#owners").on("click", function() {
-      d3.queue()
-        .defer(d3.json, "pumas16.json") // Load US PUMAs geography data
-        .defer(d3.json, "counties16.json")
-        .defer(d3.csv, "data/h15_totalsburden30.csv")
-        .await(updateHomeownerData); 
-      console.log("homeowners clicked");
-    });
-
-    d3.select("#renters").on("click", function() {
-      d3.queue()
-        .defer(d3.json, "pumas16.json") // Load US PUMAs geography data
-        .defer(d3.json, "counties16.json")
-        .defer(d3.csv, "data/r15_totalsburden30.csv")
-        .await(updateRenterData); 
-      console.log("renters clicked");
-    });
-
-    // TOOLTIP CREATION //
-
-    var tooltip = d3.select("body")
-          .append("div")
-          .style("background-color", "White")
-          .style("padding", "5px")
-          .style("width", "100px")
-          .style("position", "absolute")
-          .style("border-radius", "8px")
-          .style("font-family", "'Open Sans', sans-serif")
-          .style("font-size", "12px")
-          .style("z-index", "10")
-          .style("visibility", "hidden");       
+                  });
+    }          
 	</script>	
 </body>
 </html>
