@@ -57,8 +57,7 @@ function update2015(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
     percentpovh[d.id] = +d.PCTpov; 
     });
 
-    var povmaprenters = d3.select("#mapRpov")
-        .append("svg")
+    var povmaprenters = d3.select("#mapRpov").append("svg")
         .attr("class", "pumas")
         .selectAll("path")
             .data(topojson.feature(pumas_pa16, pumas_pa16.objects.pumas_pa_only).features) // Bind TopoJSON data elements
@@ -72,13 +71,13 @@ function update2015(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
           }  
         })
       .on("mouseover", function(d){
-        return tooltip.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Below Poverty:" + Math.round(percentpovr[d.properties.id]) +"%");
+        return tooltipR.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Below Poverty:" + Math.round(percentpovr[d.properties.id]) +"%");
       })
       .on("mousemove", function(d){
-        return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Below Poverty: " + Math.round(percentpovr[d.properties.id]) + "%");
+        return tooltipR.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Below Poverty: " + Math.round(percentpovr[d.properties.id]) + "%");
       })
       .on("mouseout", function(d){
-        return tooltip.style("visibility", "hidden");
+        return tooltipR.style("visibility", "hidden");
       });
 
     var povmapowners = d3.select("#mapHpov")
@@ -96,13 +95,13 @@ function update2015(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
             } 
         })
       .on("mouseover", function(d){
-        return tooltip.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Below Poverty:" + Math.round(percentpovh[d.properties.id]) +"%");
+        return tooltipH.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Below Poverty:" + Math.round(percentpovh[d.properties.id]) +"%");
       })
       .on("mousemove", function(d){
-        return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Below Poverty: " + Math.round(percentpovh[d.properties.id]) + "%");
+        return tooltipH.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Below Poverty: " + Math.round(percentpovh[d.properties.id]) + "%");
       })
       .on("mouseout", function(d){
-        return tooltip.style("visibility", "hidden");
+        return tooltipH.style("visibility", "hidden");
       });
 
 
@@ -119,28 +118,29 @@ function update2015(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
             .attr("d", path);
 
 } 
-    //end of update function
 
-    // TOOLTIP CREATION //
+//end of update function
 
-    var tooltip = d3.select("#mapRpov").append("div")
-          .style("background-color", "White")
-          .style("padding", "5px")
-          .style("width", "100px")
-          .style("position", "absolute")
-          .style("border-radius", "8px")
-          .style("font-family", "'Open Sans', sans-serif")
-          .style("font-size", "12px")
-          .style("z-index", "10")
-          .style("visibility", "hidden");  
+// TOOLTIP CREATION //
 
-    var tooltip = d3.select("#mapHpov").append("div")
-      .style("background-color", "White")
-      .style("padding", "5px")
-      .style("width", "100px")
-      .style("position", "absolute")
-      .style("border-radius", "8px")
-      .style("font-family", "'Open Sans', sans-serif")
-      .style("font-size", "12px")
-      .style("z-index", "10")
-      .style("visibility", "hidden");  
+var tooltipR = d3.select("#mapRpov")
+  .style("background-color", "White")
+  .style("padding", "5px")
+  .style("width", "100px")
+  .style("position", "absolute")
+  .style("border-radius", "8px")
+  .style("font-family", "'Open Sans', sans-serif")
+  .style("font-size", "12px")
+  .style("z-index", "10")
+  .style("visibility", "hidden");  
+
+var tooltipH = d3.select("#mapHpov")
+  .style("background-color", "White")
+  .style("padding", "5px")
+  .style("width", "100px")
+  .style("position", "absolute")
+  .style("border-radius", "8px")
+  .style("font-family", "'Open Sans', sans-serif")
+  .style("font-size", "12px")
+  .style("z-index", "10")
+  .style("visibility", "hidden");  
