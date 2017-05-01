@@ -17,12 +17,12 @@ var path = d3.geoPath()
 var svg = d3.select("#map1").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
-    .attr("align", "center");
+    .attr("float", "center");
 
 var svg2 = d3.select("#map2").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
-    .attr("align", "center");
+    .attr("float", "center");
 
 var color = d3.scaleThreshold()
     .domain([10, 20, 30, 40, 50])
@@ -103,7 +103,7 @@ function ready(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
             return tooltip.style("visibility", "hidden");
     });
 
-      // create state outlines
+      // create county outlines
     povmaprenters.selectAll("path")
         .append("path")
         .datum(topojson.mesh(counties16, counties16.objects.counties, function(a, b) { return a.id !== b.id; }))

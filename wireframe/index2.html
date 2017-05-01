@@ -11,15 +11,10 @@
 
     <!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<style>
-#map1 {
-    max-width:100%;
 
-}
-path:hover{
-    fill-opacity: .7;
-}
-</style>
+    <!-- our custom css -->
+    <link rel="stylesheet" href="css/maps.css">
+
     <!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
@@ -32,6 +27,7 @@ path:hover{
 
     <!--our custom javascript!!-->
     <script src="js/main.js"></script> 
+    <script src="js/jquery.js"></script>
 
 </head>
 <body>
@@ -65,13 +61,43 @@ path:hover{
 	<div class="container">
          <div class="row">
             <div class="col-md-6 col-md-offset-3">
-                <div class="col-md-6 col-md-offset-3">
-                    <h3>% of Households in PA with Incomes Below the Poverty Line</h3>
+                <h3>% of Households in PA with Incomes Below the Poverty Line</h3>
+            </div>
+            <div class="col-md-3 col-md-offset-2">
+                <div class='my-legend'>
+                    <div class="legend-title">
+                        <p>Renters</p>
+                    </div>
+                    <div class='legend-scale'>
+                        <ul class='legend-labels'>
+                            <li><span style='background:#feedde;'></span><10%</li>
+                            <li><span style='background:#fdbe85;'></span><20%</li>
+                            <li><span style='background:#fd8d3c;'></span><30%</li>
+                            <li><span style='background:#e6550d;'></span><40% </li>
+                            <li><span style='background:#a63603;'></span><50%</li>
+                          </ul>
+                    </div>
+                </div>
+                <div id="map1" style="float: center">
                 </div>
             </div>
-            <div id="map1" style="float: left">
-            </div>
-            <div id="map2" style="float: right">
+            <div class="col-md-3 col-md-offset-1">
+                <div class='my-legend'>
+                    <div class="legend-title">
+                        <p>Homeowners</p>
+                    </div>
+                    <div class='legend-scale'>
+                        <ul class='legend-labels'>
+                            <li><span style='background:#eff3ff;'></span>0%</li>
+                            <li><span style='background:#bdd7e7;'></span><5%</li>
+                            <li><span style='background:#6baed6;'></span><10%</li>
+                            <li><span style='background:#3182bd;'></span><15% </li>
+                            <li><span style='background:#08519c;'></span><20%</li>
+                          </ul>
+                    </div>
+                </div>
+                <div id="map2" style="float: center">
+                </div>
             </div>
         </div>
 	</div>
