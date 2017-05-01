@@ -14,12 +14,12 @@ var projection = d3.geoAlbers()
 var path = d3.geoPath()
     .projection(projection);
 
-var svg = d3.select("#map1").append("svg")
+var svg = d3.select("#mapRpov").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .attr("float", "center");
 
-var svg2 = d3.select("#map2").append("svg")
+var svg2 = d3.select("#mapHpov").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .attr("float", "center");
@@ -55,7 +55,7 @@ function ready(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
     percentpovh[d.id] = +d.PCTpov; 
     });
 
-    var povmaprenters = d3.select("#map1")
+    var povmaprenters = d3.select("#mapRpov")
         .append("svg")
         .attr("class", "pumas")
         .selectAll("path")
@@ -79,7 +79,7 @@ function ready(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
             return tooltip.style("visibility", "hidden");
     });
 
-    var povmapowners = d3.select("#map2")
+    var povmapowners = d3.select("#mapHpov")
         .append("svg")
         .attr("class", "pumas")
         .selectAll("path")
@@ -111,7 +111,7 @@ function ready(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
     
     } //end of ready function
 
-var tooltip = d3.select("#map1").append("div")
+var tooltip = d3.select("#mapRpov").append("div")
     .style("background-color", "White")
     .style("padding", "5px")
     .style("width", "100px")
