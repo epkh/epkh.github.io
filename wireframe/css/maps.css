@@ -1,0 +1,89 @@
+body {
+  position: absolute;
+  font-family: 'Open Sans', sans-serif;
+  text-align: left;
+}
+
+  .counties {
+    fill: none;
+    stroke: #fff;
+    stroke-linejoin: round;
+  }
+  input[type=button] {
+    color:White;
+    font-family: 'Open Sans', sans-serif;
+    background-color:Gray;
+    font-size:90%;
+    float:center;
+    cursor:pointer;
+    align: center;
+    /*width:50%;*/
+  }
+
+  input[type=button]:hover {
+    background-color:#a63603;
+  }
+
+  #button-holder {
+    max-width: 300px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 0px;
+    position: relative;
+    text-align: center;
+  }
+  .my-legend {
+/*    max-width: 250px;*/
+/*    position: relative;
+    margin-bottom: 10px;
+    margin-left: auto !important;
+    margin-right: auto !important;*/
+    text-align: center;
+  }
+  .my-legend .legend-title {
+    text-align: left;
+    margin-left: 0px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 90%;
+    top: 600px;
+  }
+  .my-legend .legend-scale ul {
+    margin: 0;
+    padding: 0;
+    float: center;
+    list-style: none;
+    }
+  .my-legend .legend-scale ul li {
+    display: block;
+    float: left;
+    width: 50px;
+    margin-bottom: 6px;
+    text-align: center;
+    font-size: 80%;
+    list-style: none;
+    }
+  .my-legend ul.legend-labels li span {
+    display: block;
+    float: center;
+    height: 15px;
+    width: 50px;
+    }
+  .my-legend .legend-source {
+    font-size: 70%;
+    color: #999;
+    clear: both;
+    position: 0px;
+    text-align: center;
+    }
+    .my-legend .legend-key {
+    width: 350px;
+    margin-bottom: 6px;
+    font-size: 85%;
+    }
+  .my-legend a {
+    color: #777;
+    }
+  path:hover{
+    fill-opacity: .7;
+  }
