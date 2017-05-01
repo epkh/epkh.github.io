@@ -104,7 +104,8 @@ function ready(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
     });
 
       // create county outlines
-     svg.append("path")
+     var countylines = d3.select("#map2")
+     	svg.append("path")
             .datum(topojson.mesh(counties16, counties16.objects.counties, function(a, b) { return a.id !== b.id; }))
             .attr("class", "counties")
             .attr("d", path);
