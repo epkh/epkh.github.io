@@ -10,7 +10,7 @@ body {
     stroke-linejoin: round;
   }
   
-  input[type=button] {
+/*  input[type=button] {
     color:White;
     font-family: 'Open Sans', sans-serif;
     background-color:Gray;
@@ -18,21 +18,22 @@ body {
     float:center;
     cursor:pointer;
     align: center;
-    /*width:50%;*/
-  }
+/*    /*width:50%;*/
+ /* }
 
   input[type=button]:hover {
     background-color:#a63603;
-  }
+  }*/
 
-  #button-holder {
+ /* #button-holder {
     max-width: 300px;
     margin-left: auto !important;
     margin-right: auto !important;
     margin-top: 0px;
     position: relative;
     text-align: center;
-  }
+  }*//***//*/
+  
   .my-legend {
 /*    max-width: 250px;*/
 /*    position: relative;

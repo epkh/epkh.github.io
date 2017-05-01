@@ -16,13 +16,11 @@ var path = d3.geoPath()
 
 var svg = d3.select("#mapRpov").append("svg")
     .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .attr("float", "center");
+    .attr("height", height + margin.top + margin.bottom);
 
 var svg2 = d3.select("#mapHpov").append("svg")
     .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .attr("float", "center");
+    .attr("height", height + margin.top + margin.bottom);
 
 var color = d3.scaleThreshold()
     .domain([10, 20, 30, 40, 50])
@@ -57,7 +55,8 @@ function update2015(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
     percentpovh[d.id] = +d.PCTpov; 
     });
 
-    var povmaprenters = d3.select("#mapRpov").append("svg")
+    d3.select("#mapRpov")
+      .append("svg")
         .attr("class", "pumas")
         .selectAll("path")
             .data(topojson.feature(pumas_pa16, pumas_pa16.objects.pumas_pa_only).features) // Bind TopoJSON data elements
@@ -67,7 +66,7 @@ function update2015(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
             if (percentpovr[d.properties.id] > 0) {
             return color(percentpovr[d.properties.id]);
             } else {
-            return "FFF";
+            return "Green";
           }  
         })
       .on("mouseover", function(d){
@@ -80,7 +79,7 @@ function update2015(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
         return tooltipR.style("visibility", "hidden");
       });
 
-    var povmapowners = d3.select("#mapHpov")
+    d3.select("#mapHpov")
         .append("svg")
         .attr("class", "pumas")
         .selectAll("path")
@@ -105,16 +104,18 @@ function update2015(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
       });
 
 
-    // create county outlines
-    povmaprenters.selectAll("path").append("path")
-            .datum(topojson.mesh(counties16, counties16.objects.counties, function(a, b) { return a.id !== b.id; }))
-            .attr("class", "counties")
-            .attr("d", path);
+    // // create county outlines
+    //     svg2.append("path")
+    //         .attr("class", "counties")
+    //         .datum(topojson.mesh(counties16, counties16.objects.counties, function(a, b) { return a.id !== b.id; }))
+    //         .attr("d", path);
 
     // create county outlines
-    povmapowners.selectAll("path").append("path")
-            .datum(topojson.mesh(counties16, counties16.objects.counties, function(a, b) { return a.id !== b.id; }))
+    d3.select("#mapRpov").append("svg")
             .attr("class", "counties")
+            .selectAll("path")
+              .data(topojson.feature(counties16, counties16.objects.counties).features)
+            .enter().append("path")
             .attr("d", path);
 
 } 
