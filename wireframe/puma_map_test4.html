@@ -237,8 +237,8 @@
           .enter().append("path")
               .attr("d", path)
               .style("fill", function(d) { 
-                if (percentrentbur[d.id] > 0) {
-                  return color(percentrentbur[d.id]);
+                if (percentrentbur[d.properties.id] > 0) {
+                  return color(percentrentbur[d.properties.id]);
                   } else {
                     return "#FFF";
                   } 
