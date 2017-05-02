@@ -10,6 +10,13 @@ body {
     stroke-linejoin: round;
   }
   
+  .d3-tip text {
+    fill: #fff;
+    font-size: 12px;
+    stroke: none;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
 /*  input[type=button] {
     color:White;
     font-family: 'Open Sans', sans-serif;

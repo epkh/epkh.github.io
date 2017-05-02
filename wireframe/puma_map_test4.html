@@ -145,7 +145,7 @@
 <script src="https://d3js.org/d3-geo.v1.min.js"></script>
 <script src="https://d3js.org/d3-queue.v3.min.js"></script>
 <script src="https://d3js.org/topojson.v2.min.js"></script>
-
+<script src="js/tip.js"></script>
 <script>
 		// THIS IS OUT SETUP
 		var width = 800,
@@ -164,7 +164,7 @@
     		.attr("width", width)
     		.attr("height", height)
         .attr("align", "center");
-
+    
     var color = d3.scaleThreshold()
     .domain([60, 70, 80, 90, 100])
     .range(['#feedde','#fdbe85','#fd8d3c','#e6550d', '#a63603']);
