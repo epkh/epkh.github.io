@@ -14,9 +14,14 @@ var projection = d3.geoAlbers()
 var path = d3.geoPath()
     .projection(projection);
 
+// Slider 
+
+var inputValue = null;
+var year = ["2005","2010","2015"];    
+
 // Let's try to make a tooltip using d3.tip
 
-var vis = d3.select("#mapRpov").append("svg")
+var svg = d3.select("#mapRpov").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
 
@@ -140,9 +145,10 @@ function update2015(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
 
 //end of update function
 
+
+
 // TOOLTIP CREATION //
 
- // TOOLTIP CREATION //
 
     var tooltipR = d3.select("body")
           .append("div")

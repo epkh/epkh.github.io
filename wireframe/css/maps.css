@@ -17,6 +17,13 @@ body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 
+  /* ADD CSS FOR #sliderContainer */
+    /*#sliderContainer {
+        text-align: center;
+        position: relative;
+        top: 600px;*/
+    }
+
 /*  input[type=button] {
     color:White;
     font-family: 'Open Sans', sans-serif;
