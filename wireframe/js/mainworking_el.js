@@ -57,9 +57,9 @@ d3.queue()
     .await(update2015); 
 
 // UPDATE DATA FUNCTIONS //
-      // Run 'ready' when JSONs are loaded
-        // Update Function, runs when data is loaded
-function update2015(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
+// Run 'ready' when JSONs are loaded
+// Update Function, runs when data is loaded
+function update2015(error, pumas_pa16, counties16, r15_poverty, h15_poverty) { // initial creation
     if (error) throw error;
 
     var percentpovr = {}; // Create empty object for holding dataset
@@ -141,10 +141,46 @@ function update2015(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
     //         .enter().append("path")
     //         .attr("d", path);
 
-} 
 
 //end of update function
+d3.select("#timeslide").on("input", function() {
+  update(this.value);
+});
 
+function update(value) {
+  document.getElementById("range").innerHTML=year[value];
+  inputValue = year[value];
+  updateYear(inputValue);
+}
+
+}
+
+function updateYear(value) {
+  console.log("Updated to year:");
+  if (value == "2015") {
+    //update2015();
+    console.log(value);
+  } else if (value == "2010") {
+    update2010();
+    console.log(value);
+  } else {
+    update2005();
+    console.log(value);
+  }
+}
+
+// function update2015() {
+//   console.log("update 2015 running")
+// }
+
+function update2010() {
+  console.log("update 2010 running") // ready to go!
+  // things here
+}
+
+function update2005() {
+  console.log("update 2005 running")
+}
 
 
 // TOOLTIP CREATION //
