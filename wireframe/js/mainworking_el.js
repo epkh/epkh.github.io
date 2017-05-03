@@ -142,25 +142,52 @@ function update2015(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
 
 // TOOLTIP CREATION //
 
-var tooltipR = d3.selectAll(".pumas")
-  .call( d3.tooltip().placement("right"))
-  .style("background-color", "White")
-  .style("padding", "5px")
-  .style("width", "100px")
-  .style("position", "absolute")
-  .style("border-radius", "8px")
-  .style("font-family", "'Open Sans', sans-serif")
-  .style("font-size", "12px")
-  .style("z-index", "10")
-  .style("visibility", "hidden");  
+ // TOOLTIP CREATION //
 
-var tooltipH = d3.select("#mapHpov")
-  .style("background-color", "White")
-  .style("padding", "5px")
-  .style("width", "100px")
-  .style("position", "absolute")
-  .style("border-radius", "8px")
-  .style("font-family", "'Open Sans', sans-serif")
-  .style("font-size", "12px")
-  .style("z-index", "10")
-  .style("visibility", "hidden"); 
+    var tooltipR = d3.select("body")
+          .append("div")
+          .style("background-color", "White")
+          .style("padding", "5px")
+          .style("width", "100px")
+          .style("position", "absolute")
+          .style("border-radius", "8px")
+          .style("font-family", "'Open Sans', sans-serif")
+          .style("font-size", "12px")
+          .style("z-index", "10")
+          .style("visibility", "hidden");  
+
+
+    var tooltipH = d3.select("body")
+          .append("div")
+          .style("background-color", "White")
+          .style("padding", "5px")
+          .style("width", "100px")
+          .style("position", "absolute")
+          .style("border-radius", "8px")
+          .style("font-family", "'Open Sans', sans-serif")
+          .style("font-size", "12px")
+          .style("z-index", "10")
+          .style("visibility", "hidden");      
+
+// var tooltipR = d3.selectAll(".pumas")
+//   .call( d3.tooltip().placement("right"))
+//   .style("background-color", "White")
+//   .style("padding", "5px")
+//   .style("width", "100px")
+//   .style("position", "absolute")
+//   .style("border-radius", "8px")
+//   .style("font-family", "'Open Sans', sans-serif")
+//   .style("font-size", "12px")
+//   .style("z-index", "10")
+//   .style("visibility", "hidden");  
+
+// var tooltipH = d3.select("#mapHpov")
+//   .style("background-color", "White")
+//   .style("padding", "5px")
+//   .style("width", "100px")
+//   .style("position", "absolute")
+//   .style("border-radius", "8px")
+//   .style("font-family", "'Open Sans', sans-serif")
+//   .style("font-size", "12px")
+//   .style("z-index", "10")
+//   .style("visibility", "hidden"); 

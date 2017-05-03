@@ -24,11 +24,11 @@ var svg2 = d3.select("#mapHpov").append("svg")
 
 var color = d3.scaleThreshold()
     .domain([10, 20, 30, 40, 50])
-    .range(['#feedde','#fdbe85','#fd8d3c','#e6550d', '#a63603']);
+    .range(['#feedde','#fdbe85','#fd8d3c','#e6550d','#a63603']);
 
 var colorh = d3.scaleThreshold()
     .domain([0, 5, 10, 15, 20])
-    .range(['#eff3ff','#bdd7e7','#6baed6','#3182bd', '#08519c']);
+    .range(['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c']);
 
 // INITIAL QUEUE //
 // Queue up datasets using d3 Queue. Prevents errors from loading
