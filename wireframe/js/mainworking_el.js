@@ -33,14 +33,14 @@ var colorh = d3.scaleThreshold()
     .range(['#eff3ff','#bdd7e7','#6baed6','#3182bd', '#08519c']);
 
 //
-var tip = d3.tip()
-      .attr('class', 'd3-tip')
-      .offset([-10,0])
-      .html(function(d) {
-        return d.id;
-      });
+// var tip = d3.tip()
+//       .attr('class', 'd3-tip')
+//       .offset([-10,0])
+//       .html(function(d) {
+//         return d.id;
+//       });
     
-vis.call(tip);
+// vis.call(tip);
 
 // INITIAL QUEUE //
 // Queue up datasets using d3 Queue. Prevents errors from loading
@@ -81,17 +81,17 @@ function update2015(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
             return "Green";
           }  
         })
-        .on("mouseover", tip.show)
-        .on("mouseout", tip.hide);
-      // .on("mouseover", function(d){
-      //   return tooltipR.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Below Poverty:" + Math.round(percentpovr[d.properties.id]) +"%");
-      // })
-      // .on("mousemove", function(d){
-      //   return tooltipR.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Below Poverty: " + Math.round(percentpovr[d.properties.id]) + "%");
-      // })
-      // .on("mouseout", function(d){
-      //   return tooltipR.style("visibility", "hidden");
-      // });
+        // .on("mouseover", tip.show)
+        // .on("mouseout", tip.hide);
+      .on("mouseover", function(d){
+        return tooltipR.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Below Poverty:" + Math.round(percentpovr[d.properties.id]) +"%");
+      })
+      .on("mousemove", function(d){
+        return tooltipR.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Below Poverty: " + Math.round(percentpovr[d.properties.id]) + "%");
+      })
+      .on("mouseout", function(d){
+        return tooltipR.style("visibility", "hidden");
+      });
     
     d3.select("#mapHpov")
       .append("svg")
@@ -106,16 +106,16 @@ function update2015(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
           } else {
           return "#FFF";
           } 
+      })
+      .on("mouseover", function(d){
+        return tooltipH.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Below Poverty:" + Math.round(percentpovh[d.properties.id]) +"%");
+      })
+      .on("mousemove", function(d){
+        return tooltipH.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Below Poverty: " + Math.round(percentpovh[d.properties.id]) + "%");
+      })
+      .on("mouseout", function(d){
+        return tooltipH.style("visibility", "hidden");
       });
-      // .on("mouseover", function(d){
-      //   return tooltipH.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Below Poverty:" + Math.round(percentpovh[d.properties.id]) +"%");
-      // })
-      // .on("mousemove", function(d){
-      //   return tooltipH.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Below Poverty: " + Math.round(percentpovh[d.properties.id]) + "%");
-      // })
-      // .on("mouseout", function(d){
-      //   return tooltipH.style("visibility", "hidden");
-      // });
 
     // create county outlines
     d3.selectAll("svg")
@@ -142,25 +142,25 @@ function update2015(error, pumas_pa16, counties16, r15_poverty, h15_poverty) {
 
 // TOOLTIP CREATION //
 
-// var tooltipR = d3.selectAll(".pumas")
-//   .call( d3.tooltip().placement("right"))
-//   .style("background-color", "White")
-//   .style("padding", "5px")
-//   .style("width", "100px")
-//   .style("position", "absolute")
-//   .style("border-radius", "8px")
-//   .style("font-family", "'Open Sans', sans-serif")
-//   .style("font-size", "12px")
-//   .style("z-index", "10")
-//   .style("visibility", "hidden");  
+var tooltipR = d3.selectAll(".pumas")
+  .call( d3.tooltip().placement("right"))
+  .style("background-color", "White")
+  .style("padding", "5px")
+  .style("width", "100px")
+  .style("position", "absolute")
+  .style("border-radius", "8px")
+  .style("font-family", "'Open Sans', sans-serif")
+  .style("font-size", "12px")
+  .style("z-index", "10")
+  .style("visibility", "hidden");  
 
-// var tooltipH = d3.select("#mapHpov")
-//   .style("background-color", "White")
-//   .style("padding", "5px")
-//   .style("width", "100px")
-//   .style("position", "absolute")
-//   .style("border-radius", "8px")
-//   .style("font-family", "'Open Sans', sans-serif")
-//   .style("font-size", "12px")
-//   .style("z-index", "10")
-//   .style("visibility", "hidden"); 
+var tooltipH = d3.select("#mapHpov")
+  .style("background-color", "White")
+  .style("padding", "5px")
+  .style("width", "100px")
+  .style("position", "absolute")
+  .style("border-radius", "8px")
+  .style("font-family", "'Open Sans', sans-serif")
+  .style("font-size", "12px")
+  .style("z-index", "10")
+  .style("visibility", "hidden"); 
