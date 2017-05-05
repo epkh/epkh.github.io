@@ -50,49 +50,49 @@ var colorh = d3.scaleThreshold()
 // INITIAL QUEUE //
 // Queue up datasets using d3 Queue. Prevents errors from loading
 d3.queue()
-    .defer(d3.json, "pumas_pa16.json") // Load US PUMAs geography data
+    .defer(d3.json, "pumas_pa05.json") // Load US PUMAs geography data
     .defer(d3.json, "counties16.json")
-    .defer(d3.csv, "data/r15_poverty.csv")
-    .defer(d3.csv, "data/h15_poverty.csv")
-    .await(update2015); 
+    .defer(d3.csv, "data/r05_burden.csv")
+    .defer(d3.csv, "data/h05_burden.csv")
+    .await(update2005); 
 
 // UPDATE DATA FUNCTIONS //
 // Run 'ready' when JSONs are loaded
 // Update Function, runs when data is loaded
-function update2015(error, pumas_pa16, counties16, r15_poverty, h15_poverty) { // initial creation
+function update2005(error, pumas_pa05, counties16, r05_burden, h05_burden) { // initial creation
     if (error) throw error;
 
-    var percentpovr = {}; // Create empty object for holding dataset
-    r15_poverty.forEach(function(d) {
-    percentpovr[d.id] = +d.PCTpov; 
+    var percentburdr = {}; // Create empty object for holding dataset
+    r05_burden.forEach(function(d) {
+    percentburdr[d.id] = +d.PCTburden50; 
     });
 
-    var percentpovh = {};
-    h15_poverty.forEach(function(d) {
-    percentpovh[d.id] = +d.PCTpov; 
+    var percentburdh = {};
+    h05_burden.forEach(function(d) {
+    percentburdh[d.id] = +d.PCTburden50; 
     });
 
     d3.select("#mapRpov")
       .append("svg")
         .attr("class", "pumas")
         .selectAll("path")
-            .data(topojson.feature(pumas_pa16, pumas_pa16.objects.pumas_pa_only).features) // Bind TopoJSON data elements
+            .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pums_pa_only_05).features) // Bind TopoJSON data elements
         .enter().append("path")
             .attr("d", path)
         .style("fill", function(d) { 
-            if (percentpovr[d.properties.id] > 0) {
-            return color(percentpovr[d.properties.id]);
+            if (percentburdr[d.properties.id] > 0) {
+            return color(percentburdr[d.properties.id]);
             } else {
-            return "Green";
+            return "#FFF";
           }  
         })
         // .on("mouseover", tip.show)
         // .on("mouseout", tip.hide);
       .on("mouseover", function(d){
-        return tooltipR.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Below Poverty:" + Math.round(percentpovr[d.properties.id]) +"%");
+        return tooltipR.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Burdened at 50%:" + Math.round(percentburdr[d.properties.id]) +"%");
       })
       .on("mousemove", function(d){
-        return tooltipR.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Below Poverty: " + Math.round(percentpovr[d.properties.id]) + "%");
+        return tooltipR.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Burdened at 50%: " + Math.round(percentburdr[d.properties.id]) + "%");
       })
       .on("mouseout", function(d){
         return tooltipR.style("visibility", "hidden");
@@ -102,21 +102,21 @@ function update2015(error, pumas_pa16, counties16, r15_poverty, h15_poverty) { /
       .append("svg")
       .attr("class", "pumas")
       .selectAll("path")
-          .data(topojson.feature(pumas_pa16, pumas_pa16.objects.pumas_pa_only).features) // Bind TopoJSON data elements
+          .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pums_pa_only_05).features) // Bind TopoJSON data elements
       .enter().append("path")
           .attr("d", path)
       .style("fill", function(d) { 
-          if (percentpovh[d.properties.id] > 0) {
-          return colorh(percentpovh[d.properties.id]);
+          if (percentburdh[d.properties.id] > 0) {
+          return colorh(percentburdh[d.properties.id]);
           } else {
           return "#FFF";
           } 
       })
       .on("mouseover", function(d){
-        return tooltipH.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Below Poverty:" + Math.round(percentpovh[d.properties.id]) +"%");
+        return tooltipH.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Burdened at 50%:" + Math.round(percentburdh[d.properties.id]) +"%");
       })
       .on("mousemove", function(d){
-        return tooltipH.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Below Poverty: " + Math.round(percentpovh[d.properties.id]) + "%");
+        return tooltipH.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Burdened at 50%: " + Math.round(percentburdh[d.properties.id]) + "%");
       })
       .on("mouseout", function(d){
         return tooltipH.style("visibility", "hidden");
