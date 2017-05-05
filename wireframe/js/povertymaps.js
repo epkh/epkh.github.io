@@ -19,7 +19,7 @@ var path = d3.geoPath()
 var inputValue = null;
 var year = ["2005","2010","2015"];    
 
-// Let's try to make a tooltip using d3.tip
+// Let's try to make a tooltip using d3.ti
 
 var svg = d3.select("#mapRpov").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -31,11 +31,11 @@ var svg2 = d3.select("#mapHpov").append("svg")
 
 var color = d3.scaleThreshold()
     .domain([10, 20, 30, 40, 50])
-    .range(['#feedde','#fdbe85','#fd8d3c','#e6550d', '#a63603']);
+    .range(['#ffeee6','#ffb999','#ff854d','#ff621a','#cc4100']);
 
 var colorh = d3.scaleThreshold()
-    .domain([0, 5, 10, 15, 20])
-    .range(['#eff3ff','#bdd7e7','#6baed6','#3182bd', '#08519c']);
+    .domain([5, 10, 15, 20, 25])
+    .range(['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c']);
 
 //
 // var tip = d3.tip()
@@ -64,12 +64,12 @@ function update2005(error, pumas_pa05, counties16, r05_poverty, h05_poverty) { /
     console.log("update 2005 running")
 
     var percentpovr = {}; // Create empty object for holding dataset
-    r15_poverty.forEach(function(d) {
+    r05_poverty.forEach(function(d) {
     percentpovr[d.id] = +d.PCTpov; 
     });
 
     var percentpovh = {};
-    h15_poverty.forEach(function(d) {
+    h05_poverty.forEach(function(d) {
     percentpovh[d.id] = +d.PCTpov; 
     });
 
@@ -77,14 +77,14 @@ function update2005(error, pumas_pa05, counties16, r05_poverty, h05_poverty) { /
       .append("svg")
         .attr("class", "pumas")
         .selectAll("path")
-            .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pumas_pa_only).features) // Bind TopoJSON data elements
+            .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pums_pa_only_05).features) // Bind TopoJSON data elements
         .enter().append("path")
             .attr("d", path)
         .style("fill", function(d) { 
             if (percentpovr[d.properties.id] > 0) {
             return color(percentpovr[d.properties.id]);
             } else {
-            return "Green";
+            return "FFF";
           }  
         })
         // .on("mouseover", tip.show)
@@ -103,7 +103,7 @@ function update2005(error, pumas_pa05, counties16, r05_poverty, h05_poverty) { /
       .append("svg")
       .attr("class", "pumas")
       .selectAll("path")
-          .data(topojson.feature(pumas_pa16, pumas_pa16.objects.pumas_pa_only).features) // Bind TopoJSON data elements
+          .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pums_pa_only_05).features) // Bind TopoJSON data elements
       .enter().append("path")
           .attr("d", path)
       .style("fill", function(d) { 
@@ -157,7 +157,6 @@ function updateYear(value) {
     update2015();
     console.log(value);
   } else if (value == "2010") {
-      //does the queue go here????
     d3.queue()
     .defer(d3.json, "pumas_pa05.json") // Load US PUMAs geography data
     .defer(d3.json, "counties16.json")
@@ -196,14 +195,14 @@ function update2010(error, pumas_pa05, counties16, r10_poverty, h10_poverty) { /
       .append("svg")
         .attr("class", "pumas")
         .selectAll("path")
-            .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pumas_pa_only).features) // Bind TopoJSON data elements
+            .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pums_pa_only_05).features) // Bind TopoJSON data elements
         .enter().append("path")
             .attr("d", path)
         .style("fill", function(d) { 
             if (percentpovr[d.properties.id] > 0) {
             return color(percentpovr[d.properties.id]);
             } else {
-            return "Green";
+            return "FFF";
           }  
         })
         // .on("mouseover", tip.show)
@@ -222,7 +221,7 @@ function update2010(error, pumas_pa05, counties16, r10_poverty, h10_poverty) { /
       .append("svg")
       .attr("class", "pumas")
       .selectAll("path")
-          .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pumas_pa_only).features) // Bind TopoJSON data elements
+          .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pums_pa_only_05).features) // Bind TopoJSON data elements
       .enter().append("path")
           .attr("d", path)
       .style("fill", function(d) { 
@@ -276,7 +275,7 @@ function update2015(error, pumas_pa16, counties16, r15_poverty, h15_poverty) { /
             if (percentpovr[d.properties.id] > 0) {
             return color(percentpovr[d.properties.id]);
             } else {
-            return "Green";
+            return "FFF";
           }  
         })
         // .on("mouseover", tip.show)
