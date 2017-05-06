@@ -50,7 +50,7 @@ var colorh = d3.scaleThreshold()
 // INITIAL QUEUE //
 // Queue up datasets using d3 Queue. Prevents errors from loading
 d3.queue()
-    .defer(d3.json, "pumas_pa05v2.json") // Load US PUMAs geography data
+    .defer(d3.json, "pumas_pa05v6.json") // Load US PUMAs geography data
     .defer(d3.json, "counties16.json")
     .defer(d3.csv, "data/r05_poverty.csv")
     .defer(d3.csv, "data/h05_poverty.csv")
@@ -59,7 +59,7 @@ d3.queue()
 // UPDATE DATA FUNCTIONS //
 // Run 'ready' when JSONs are loaded
 // Update Function, runs when data is loaded
-function update2005(error, pumas_pa05v2, counties16, r05_poverty, h05_poverty) { // initial creation
+function update2005(error, pumas_pa05v6, counties16, r05_poverty, h05_poverty) { // initial creation
     if (error) throw error;
     console.log("update 2005 running")
 
@@ -77,14 +77,14 @@ function update2005(error, pumas_pa05v2, counties16, r05_poverty, h05_poverty) {
       .append("svg")
         .attr("class", "pumas")
         .selectAll("path")
-            .data(topojson.feature(pumas_pa05v2, pumas_pa05v2.objects.pa_pumas_05v2).features) // Bind TopoJSON data elements
+            .data(topojson.feature(pumas_pa05v6, pumas_pa05v6.objects.tl_PennsylvaniaPublicUseMicrodataArea2000).features) // Bind TopoJSON data elements
         .enter().append("path")
             .attr("d", path)
         .style("fill", function(d) { 
             if (percentpovr[d.properties.id] > 0) {
             return color(percentpovr[d.properties.id]);
             } else {
-            return "FFF";
+            return "Green";
           }  
         })
         // .on("mouseover", tip.show)
@@ -98,19 +98,19 @@ function update2005(error, pumas_pa05v2, counties16, r05_poverty, h05_poverty) {
       .on("mouseout", function(d){
         return tooltipR.style("visibility", "hidden");
       });
-    
+
     d3.select("#mapHpov")
       .append("svg")
       .attr("class", "pumas")
       .selectAll("path")
-          .data(topojson.feature(pumas_pa05v2, pumas_pa05v2.objects.pa_pumas_05v2).features) // Bind TopoJSON data elements
+          .data(topojson.feature(pumas_pa05v6, pumas_pa05v6.objects.tl_PennsylvaniaPublicUseMicrodataArea2000).features) // Bind TopoJSON data elements
       .enter().append("path")
           .attr("d", path)
       .style("fill", function(d) { 
           if (percentpovh[d.properties.id] > 0) {
           return colorh(percentpovh[d.properties.id]);
           } else {
-          return "#FFF";
+          return "#Green";
           } 
       })
       .on("mouseover", function(d){
@@ -158,7 +158,7 @@ function updateYear(value) {
     console.log(value);
   } else if (value == "2010") {
     d3.queue()
-    .defer(d3.json, "pumas_pa05v2.json") // Load US PUMAs geography data
+    .defer(d3.json, "pumas_pa05v6.json") // Load US PUMAs geography data
     .defer(d3.json, "counties16.json")
     .defer(d3.csv, "data/r10_poverty.csv")
     .defer(d3.csv, "data/h10_poverty.csv")
@@ -167,7 +167,7 @@ function updateYear(value) {
     console.log(value);
   } else {
     d3.queue()
-    .defer(d3.json, "pumas_pa05v2.json") // Load US PUMAs geography data
+    .defer(d3.json, "pumas_pa05v6.json") // Load US PUMAs geography data
     .defer(d3.json, "counties16.json")
     .defer(d3.csv, "data/r05_poverty.csv")
     .defer(d3.csv, "data/h05_poverty.csv")
@@ -177,7 +177,7 @@ function updateYear(value) {
   }
 }
 
-function update2010(error, pumas_pa05v2, counties16, r10_poverty, h10_poverty) { // initial creation
+function update2010(error, pumas_pa05v6, counties16, r10_poverty, h10_poverty) { // initial creation
     if (error) throw error;
     console.log("update 2010 running") // ready to go!
     // things here
@@ -195,7 +195,7 @@ function update2010(error, pumas_pa05v2, counties16, r10_poverty, h10_poverty) {
       .append("svg")
         .attr("class", "pumas")
         .selectAll("path")
-            .data(topojson.feature(pumas_pa05v2, pumas_pa05v2.objects.pa_pumas_05v2).features) // Bind TopoJSON data elements
+            .data(topojson.feature(pumas_pa05v6, pumas_pa05v6.objects.tl_PennsylvaniaPublicUseMicrodataArea2000) // Bind TopoJSON data elements
         .enter().append("path")
             .attr("d", path)
         .style("fill", function(d) { 
@@ -221,7 +221,7 @@ function update2010(error, pumas_pa05v2, counties16, r10_poverty, h10_poverty) {
       .append("svg")
       .attr("class", "pumas")
       .selectAll("path")
-          .data(topojson.feature(pumas_pa05v2, pumas_pa05v2.objects.pa_pumas_05v2).features) // Bind TopoJSON data elements
+          .data(topojson.feature(pumas_pa05v6, pumas_pa05v6.objects.tl_PennsylvaniaPublicUseMicrodataArea2000) // Bind TopoJSON data elements
       .enter().append("path")
           .attr("d", path)
       .style("fill", function(d) { 
