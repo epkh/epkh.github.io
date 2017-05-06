@@ -183,55 +183,70 @@ function update2010(error, pumas_pa05v2, counties16, r10_poverty, h10_poverty) {
     percentpovh[d.id] = +d.PCTpov; 
     });
 
-    d3.select("#mapRpov")
-      .append("svg")
-        .attr("class", "pumas")
-        .selectAll("path")
-            .data(topojson.feature(pumas_pa05v2, pumas_pa05v2.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
-        .enter().append("path")
-            .attr("d", path)
-        .style("fill", function(d) { 
-            if (percentpovr[d.properties.id] > 0) {
-            return color(percentpovr[d.properties.id]);
-            } else {
-            return "FFF";
+    var thingsr = d3.select("#mapRpov").selectAll("path");
+    thingsr.style("fill", function(d) { 
+              if (percentpovr[d.properties.id] > 0) {
+              return color(percentpovr[d.properties.id]);
+              } else {
+              return "#FFF";
           }  
-        })
-        // .on("mouseover", tip.show)
-        // .on("mouseout", tip.hide);
-      .on("mouseover", function(d){
-        return tooltipR.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Below Poverty:" + Math.round(percentpovr[d.properties.id]) +"%");
-      })
-      .on("mousemove", function(d){
-        return tooltipR.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Below Poverty: " + Math.round(percentpovr[d.properties.id]) + "%");
-      })
-      .on("mouseout", function(d){
-        return tooltipR.style("visibility", "hidden");
-      });
+        });
+
+    // d3.select("#mapRpov")
+    //   .append("svg")
+    //     .attr("class", "pumas")
+    //     .selectAll("path")
+    //         .data(topojson.feature(pumas_pa05v2, pumas_pa05v2.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
+    //     .enter().append("path")
+    //         .attr("d", path)
+    //     .style("fill", function(d) { 
+    //         if (percentpovr[d.properties.id] > 0) {
+    //         return color(percentpovr[d.properties.id]);
+    //         } else {
+    //         return "FFF";
+    //       }  
+    //     })
+      // .on("mouseover", function(d){
+      //   return tooltipR.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Below Poverty:" + Math.round(percentpovr[d.properties.id]) +"%");
+      // })
+      // .on("mousemove", function(d){
+      //   return tooltipR.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Below Poverty: " + Math.round(percentpovr[d.properties.id]) + "%");
+      // })
+      // .on("mouseout", function(d){
+      //   return tooltipR.style("visibility", "hidden");
+      // });
     
-    d3.select("#mapHpov")
-      .append("svg")
-      .attr("class", "pumas")
-      .selectAll("path")
-          .data(topojson.feature(pumas_pa05v2, pumas_pa05v2.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
-      .enter().append("path")
-          .attr("d", path)
-      .style("fill", function(d) { 
-          if (percentpovh[d.properties.id] > 0) {
-          return colorh(percentpovh[d.properties.id]);
-          } else {
-          return "#FFF";
-          } 
-      })
-      .on("mouseover", function(d){
-        return tooltipH.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Below Poverty:" + Math.round(percentpovh[d.properties.id]) +"%");
-      })
-      .on("mousemove", function(d){
-        return tooltipH.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Below Poverty: " + Math.round(percentpovh[d.properties.id]) + "%");
-      })
-      .on("mouseout", function(d){
-        return tooltipH.style("visibility", "hidden");
-      });
+    var thingsh = d3.select("#mapHpov").selectAll("path");
+    thingsh.style("fill", function(d) { 
+              if (percentpovh[d.properties.id] > 0) {
+              return color(percentpovh[d.properties.id]);
+              } else {
+              return "#FFF";
+          }  
+        });
+    // d3.select("#mapHpov")
+    //   .append("svg")
+    //   .attr("class", "pumas")
+    //   .selectAll("path")
+    //       .data(topojson.feature(pumas_pa05v2, pumas_pa05v2.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
+    //   .enter().append("path")
+    //       .attr("d", path)
+    //   .style("fill", function(d) { 
+    //       if (percentpovh[d.properties.id] > 0) {
+    //       return colorh(percentpovh[d.properties.id]);
+    //       } else {
+    //       return "#FFF";
+    //       } 
+    //   })
+    //   .on("mouseover", function(d){
+    //     return tooltipH.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Below Poverty:" + Math.round(percentpovh[d.properties.id]) +"%");
+    //   })
+    //   .on("mousemove", function(d){
+    //     return tooltipH.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Below Poverty: " + Math.round(percentpovh[d.properties.id]) + "%");
+    //   })
+    //   .on("mouseout", function(d){
+    //     return tooltipH.style("visibility", "hidden");
+    //   });
 
     // create county outlines
     d3.selectAll("svg")
