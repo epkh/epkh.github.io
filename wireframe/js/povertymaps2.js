@@ -98,7 +98,7 @@ function update2005(error, pumas_pa05v2, counties16, r05_poverty, h05_poverty) {
       .on("mouseout", function(d){
         return tooltipR.style("visibility", "hidden");
       });
-
+    
     d3.select("#mapHpov")
       .append("svg")
       .attr("class", "pumas")
