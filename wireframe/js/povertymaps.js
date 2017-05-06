@@ -40,7 +40,7 @@ var colorh = d3.scaleThreshold()
 // INITIAL QUEUE //
 // Queue up datasets using d3 Queue. Prevents errors from loading
 d3.queue()
-    .defer(d3.json, "pumas_pa05v2.json") // Load US PUMAs geography data
+    .defer(d3.json, "pumas_pa05.json") // Load US PUMAs geography data
     .defer(d3.json, "counties16.json")
     .defer(d3.csv, "data/r05_poverty.csv")
     .defer(d3.csv, "data/h05_poverty.csv")
@@ -49,11 +49,11 @@ d3.queue()
 // UPDATE DATA FUNCTIONS //
 // Run 'ready' when JSONs are loaded
 // Update Function, runs when data is loaded
-function update2005(error, pumas_pa05v2, counties16, r05_poverty, h05_poverty) { // initial creation
+function update2005(error, pumas_pa05, counties16, r05_poverty, h05_poverty) { // initial creation
     if (error) throw error;
     console.log("update 2005 running")
     console.log(r05_poverty)
-    console.log(pumas_pa05v2)
+    console.log(pumas_pa05)
 
     var percentpovr = {}; // Create empty object for holding dataset
     r05_poverty.forEach(function(d) {
@@ -69,7 +69,7 @@ function update2005(error, pumas_pa05v2, counties16, r05_poverty, h05_poverty) {
       .append("svg")
         .attr("class", "pumas")
         .selectAll("path")
-            .data(topojson.feature(pumas_pa05v2, pumas_pa05v2.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
+            .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
         .enter().append("path")
             .attr("d", path)
         .style("fill", function(d) { 
@@ -95,7 +95,7 @@ function update2005(error, pumas_pa05v2, counties16, r05_poverty, h05_poverty) {
       .append("svg")
       .attr("class", "pumas")
       .selectAll("path")
-          .data(topojson.feature(pumas_pa05v2, pumas_pa05v2.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
+          .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
       .enter().append("path")
           .attr("d", path)
       .style("fill", function(d) { 
@@ -150,7 +150,7 @@ function updateYear(value) {
     console.log(value);
   } else if (value == "2010") {
     d3.queue()
-    .defer(d3.json, "pumas_pa05v2.json") // Load US PUMAs geography data
+    .defer(d3.json, "pumas_pa05.json") // Load US PUMAs geography data
     .defer(d3.json, "counties16.json")
     .defer(d3.csv, "data/r10_poverty.csv")
     .defer(d3.csv, "data/h10_poverty.csv")
@@ -159,7 +159,7 @@ function updateYear(value) {
     console.log(value);
   } else {
     d3.queue()
-    .defer(d3.json, "pumas_pa05v2.json") // Load US PUMAs geography data
+    .defer(d3.json, "pumas_pa05.json") // Load US PUMAs geography data
     .defer(d3.json, "counties16.json")
     .defer(d3.csv, "data/r05_poverty.csv")
     .defer(d3.csv, "data/h05_poverty.csv")
@@ -169,7 +169,7 @@ function updateYear(value) {
   }
 }
 
-function update2010(error, pumas_pa05v2, counties16, r10_poverty, h10_poverty) { // initial creation
+function update2010(error, pumas_pa05, counties16, r10_poverty, h10_poverty) { // initial creation
     if (error) throw error;
     console.log("update 2010 running") // ready to go!
     // things here
@@ -196,7 +196,7 @@ function update2010(error, pumas_pa05v2, counties16, r10_poverty, h10_poverty) {
     //   .append("svg")
     //     .attr("class", "pumas")
     //     .selectAll("path")
-    //         .data(topojson.feature(pumas_pa05v2, pumas_pa05v2.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
+    //         .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
     //     .enter().append("path")
     //         .attr("d", path)
     //     .style("fill", function(d) { 
@@ -228,7 +228,7 @@ function update2010(error, pumas_pa05v2, counties16, r10_poverty, h10_poverty) {
     //   .append("svg")
     //   .attr("class", "pumas")
     //   .selectAll("path")
-    //       .data(topojson.feature(pumas_pa05v2, pumas_pa05v2.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
+    //       .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
     //   .enter().append("path")
     //       .attr("d", path)
     //   .style("fill", function(d) { 

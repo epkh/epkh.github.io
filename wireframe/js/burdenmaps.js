@@ -68,7 +68,7 @@ function update2005(error, pumas_pa05, counties16, r05_burden, h05_burden) { // 
       .append("svg")
         .attr("class", "pumas")
         .selectAll("path")
-            .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pums_pa_only_05).features) // Bind TopoJSON data elements
+            .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
         .enter().append("path")
             .attr("d", path)
         .style("fill", function(d) { 
@@ -92,7 +92,7 @@ function update2005(error, pumas_pa05, counties16, r05_burden, h05_burden) { // 
       .append("svg")
       .attr("class", "pumas")
       .selectAll("path")
-          .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pums_pa_only_05).features) // Bind TopoJSON data elements
+          .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
       .enter().append("path")
           .attr("d", path)
       .style("fill", function(d) { 
