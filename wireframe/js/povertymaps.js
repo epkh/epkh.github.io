@@ -61,7 +61,7 @@ d3.queue()
 // Update Function, runs when data is loaded
 function update2005(error, pumas_pa05v2, counties16, r05_poverty, h05_poverty) { // initial creation
     if (error) throw error;
-    console.log("update 2005 running")
+    console.log("update 2005 running");
 
     var percentpovr = {}; // Create empty object for holding dataset
     r05_poverty.forEach(function(d) {
@@ -141,7 +141,7 @@ function update(value) {
   document.getElementById("range").innerHTML=year[value];
   inputValue = year[value];
   updateYear(inputValue);
-}
+};
 
 }
 
