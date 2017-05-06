@@ -21,11 +21,11 @@ var year = ["2005","2010","2015"];
 
 // Let's try to make a tooltip using d3.tip
 
-var svg = d3.select("#mapRpov").append("svg")
+var svg = d3.select("#mapRbur").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
 
-var svg2 = d3.select("#mapHpov").append("svg")
+var svg2 = d3.select("#mapHbur").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom);
 
@@ -72,7 +72,7 @@ function update2005(error, pumas_pa05, counties16, r05_burden, h05_burden) { // 
     percentburdh[d.id] = +d.PCTburden50; 
     });
 
-    d3.select("#mapRpov")
+    d3.select("#mapRbur")
       .append("svg")
         .attr("class", "pumas")
         .selectAll("path")
@@ -98,7 +98,7 @@ function update2005(error, pumas_pa05, counties16, r05_burden, h05_burden) { // 
         return tooltipR.style("visibility", "hidden");
       });
     
-    d3.select("#mapHpov")
+    d3.select("#mapHbur")
       .append("svg")
       .attr("class", "pumas")
       .selectAll("path")
