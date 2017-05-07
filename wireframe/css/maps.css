@@ -4,17 +4,11 @@ body {
   text-align: left;
 }
 
+
   .counties {
     fill: none;
     stroke: #fff;
     stroke-linejoin: round;
-  }
-  
-  .d3-tip text {
-    fill: #fff;
-    font-size: 12px;
-    stroke: none;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 
   /* ADD CSS FOR #sliderContainer */
@@ -23,31 +17,17 @@ body {
         position: relative;
         top: 600px;*/
     }
-
-/*  input[type=button] {
-    color:White;
-    font-family: 'Open Sans', sans-serif;
-    background-color:Gray;
-    font-size:90%;
-    float:center;
-    cursor:pointer;
-    align: center;
-/*    /*width:50%;*/
- /* }
-
-  input[type=button]:hover {
-    background-color:#a63603;
+/*  .twomapdiv {
+    width: 800px;
+  } 
+  .renter-map {
+    width: 350px;
+    float: left;
+  }
+  .homeowner-map{
+    width: 350px
+    float: right;
   }*/
-
- /* #button-holder {
-    max-width: 300px;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    margin-top: 0px;
-    position: relative;
-    text-align: center;
-  }*/
-  
   .my-legend {
 /*    max-width: 250px;*/
 /*    position: relative;
