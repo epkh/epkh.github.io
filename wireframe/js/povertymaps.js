@@ -41,6 +41,7 @@ var colorh = d3.scaleThreshold()
 d3.queue()
     .defer(d3.json, "pumas_pa05.json") // Load US PUMAs geography data
     .defer(d3.json, "counties16.json")
+    .defer(d3.json, "pa_cities.json")
     .defer(d3.csv, "data/r05_poverty.csv")
     .defer(d3.csv, "data/h05_poverty.csv")
     .await(update2005); 
@@ -48,7 +49,7 @@ d3.queue()
 // UPDATE DATA FUNCTIONS //
 // Run 'ready' when JSONs are loaded
 // Update Function, runs when data is loaded
-function update2005(error, pumas_pa05, counties16, r05_poverty, h05_poverty) { // initial creation
+function update2005(error, pumas_pa05, counties16, pa_cities, r05_poverty, h05_poverty) { // initial creation
     if (error) throw error;
     console.log("update 2005 running")
 
@@ -118,6 +119,19 @@ function update2005(error, pumas_pa05, counties16, r05_poverty, h05_poverty) { /
       .datum(topojson.mesh(counties16, counties16.objects.counties))
       .attr("d", path)
       .attr("class", "counties");
+
+      //add pa cities...
+    d3.selectAll("svg")
+      .datum(topojson.mesh(pa_cities, pa_cities.objects.pa_cities))
+      .attr("d", "circle")
+      .attr("cx", function (d) {
+        console.log(projection(d.coordinates)); return projection(d.coordinates)[0];
+      })
+      .attr("cy", function(d){
+        return projection(d.coordinates)[1];
+      })
+      .attr("r", "8px")
+      .attr("fill", "#FFF")
 
     d3.select("#timeslide").on("input", function() {
       update(this.value);

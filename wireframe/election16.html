@@ -58,13 +58,12 @@
 
 	// set color
 	var color = d3.scaleThreshold()
-		.domain([-0.25, -0.1, -0.001, .1, 0.25, 1])
-		.range(["#b2182b", "#ef8a62", "#fddbc7", "#d1e5f0", "#67a9cf", "#2166ac"]);
-
+		.domain([-.67, -.1, -.001, .1, .25, 0.71])
+		.range(["#2166ac", "#67a9cf", "#d1e5f0", "#fddbc7", "#ef8a62", "#b2182b"]);
 	// queue up the datasets, run 'ready' when loaded
 	d3.queue()
 		.defer(d3.json, "PAcounties.json")
-		.defer(d3.csv, "data/electionresults16_PAcounties2.csv")
+		.defer(d3.csv, "data/margin.csv")
 		.await(ready);
 
 	// create the graphic with this function
@@ -74,9 +73,10 @@
 
 	  var marginById = {}; // Create empty object for holding dataset
 	  var countyById = {};
+	  
 	  margin.forEach(function(d) {
-		marginById[d.id] = +d.victory_margin;
-		countyById[d.id] = d.county;		
+		marginById[d.GEOID] = +d.victory_margin;
+		countyById[d.GEOID] = d.county;		
 	  });
 	
 	  
@@ -87,22 +87,22 @@
 		.data(topojson.feature(PAcounties, PAcounties.objects.cb_2015_pennsylvania_county_20m).features)
 		.enter().append("path")
 			.attr("d", path)
-			.style("fill", function(d) { return color(marginById[d.id])})
+			.style("fill", function(d) { return color(marginById[d.properties.GEOID])})
 			
 			//The next line assigns each county a class based on its name: AK, AR, etc.
-			.attr("class", function(d) { return countyById[d.id]; })
+			.attr("class", function(d) { return countyById[d.properties.GEOID]; })
 			
 			//This part adds the class "hover" to the state and its matching rectangle in the chart
 			.on("mouseover", function(d) {
 				
-				d3.selectAll("." + countyById[d.id]).classed("hover",true);
-				console.log(countyById[d.id]);
+				d3.selectAll("." + countyById[d.properties.GEOID]).classed("hover",true);
+				console.log(countyById[d.properties.GEOID]);
 			})
 			.on("mouseout", function(d) {
-				d3.select(this).style("fill",function(d) { return color(marginById[d.id])});
-				d3.selectAll("." + countyById[d.id]).classed("hover", false);
+				d3.select(this).style("fill",function(d) { return color(marginById[d.properties.GEOID])});
+				d3.selectAll("." + countyById[d.properties.GEOID]).classed("hover", false);
 			});
-
+}
 /// TRYING SOMETHING ELSE BUT DIDN'T WORK...
 	// function ready(error, PAcounties, electionresults16_PAcounties2) {
 	//   if (error) throw error;
@@ -246,7 +246,7 @@
 		.attr("font-size", "12px")
 		.attr("font-weight", "bold");
 		
-	}
+	
 //CONNECTING THEM
 
 
