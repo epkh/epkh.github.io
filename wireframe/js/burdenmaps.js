@@ -86,7 +86,7 @@ function loadpage(error, pa05_burden, counties16) {
           if (d.properties.h05_50 > 0) {
           return colorh(d.properties.h05_50);
           } else {
-          return "SteelBlue";
+          return "#FFF";
           } 
       })
       .on("mouseover", function(d){
@@ -100,11 +100,7 @@ function loadpage(error, pa05_burden, counties16) {
       });
 
     // create county outlines
-    d3.selectAll("svg")
-      .append("path")
-      .datum(topojson.mesh(counties16, counties16.objects.counties))
-      .attr("d", path)
-      .attr("class", "counties");
+    drawCounties(counties16)
 
     d3.select("#timeslide").on("input", function() {
       update(this.value);
