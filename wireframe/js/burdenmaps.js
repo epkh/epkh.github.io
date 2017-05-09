@@ -39,48 +39,38 @@ var colorh = d3.scaleThreshold()
 // INITIAL QUEUE //
 // Queue up datasets using d3 Queue. Prevents errors from loading
 d3.queue()
-    .defer(d3.json, "pumas_pa05.json") // Load US PUMAs geography data
+    .defer(d3.json, "pa05_burden.json") // Load US PUMAs geography data
     .defer(d3.json, "counties16.json")
-    .defer(d3.csv, "data/r05_burden.csv")
-    .defer(d3.csv, "data/h05_burden.csv")
-    .await(update2005); 
+    .await(loadpage); 
+
 
 // UPDATE DATA FUNCTIONS //
 // Run 'ready' when JSONs are loaded
-// Update Function, runs when data is loaded
-function update2005(error, pumas_pa05, counties16, r05_burden, h05_burden) { // initial creation
+// Update Function, runs when data is loaded 
+function loadpage(error, pa05_burden, counties16) {
     if (error) throw error;
 
-    var percentburdr = {}; // Create empty object for holding dataset
-        r05_burden.forEach(function(d) {
-    percentburdr[d.id] = +d.PCTburden50; 
-    });
-
-    var percentburdh = {};
-    h05_burden.forEach(function(d) {
-    percentburdh[d.id] = +d.PCTburden50; 
-    });
-
-    d3.selectAll("svg").remove();
+    d3.selectAll("path").remove();
 
     d3.select("#mapRbur").append("svg")
         .selectAll("path")
-            .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
+            .data(topojson.feature(pa05_burden, pa05_burden.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
         .enter().append("path")
             .attr("d", path)
         .attr("class", "renters2005")
         .style("fill", function(d) { 
-            if (percentburdr[d.properties.id] > 0) {
-            return color(percentburdr[d.properties.id]);
+            if (d.properties.r05_50 > 0) {
+            return color(d.properties.r05_50);
             } else {
-            return "#FFF";
-          }  
+            return "Green";
+          }
+            console.log(d.properties.r05_50);  
         })
       .on("mouseover", function(d){
-        return tooltipR.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Burdened at 50%:" + Math.round(percentburdr[d.properties.id]) +"%");
+        return tooltipR.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Burdened at 50%:" + Math.round(d.properties.r05_50) +"%");
       })
       .on("mousemove", function(d){
-        return tooltipR.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Burdened at 50%: " + Math.round(percentburdr[d.properties.id]) + "%");
+        return tooltipR.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Burdened at 50%: " + Math.round(d.properties.r05_50) + "%");
       })
       .on("mouseout", function(d){
         return tooltipR.style("visibility", "hidden");
@@ -88,22 +78,22 @@ function update2005(error, pumas_pa05, counties16, r05_burden, h05_burden) { // 
     
     d3.select("#mapHbur").append("svg")
       .selectAll("path")
-          .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
+          .data(topojson.feature(pa05_burden, pa05_burden.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
       .enter().append("path")
           .attr("d", path)
       .attr("class", "owners2005")
       .style("fill", function(d) { 
-          if (percentburdh[d.properties.id] > 0) {
-          return colorh(percentburdh[d.properties.id]);
+          if (d.properties.h05_50 > 0) {
+          return colorh(d.properties.h05_50);
           } else {
-          return "#FFF";
+          return "SteelBlue";
           } 
       })
       .on("mouseover", function(d){
-        return tooltipH.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Burdened at 50%:" + Math.round(percentburdh[d.properties.id]) +"%");
+        return tooltipH.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Burdened at 50%:" + Math.round(d.properties.h05_50) +"%");
       })
       .on("mousemove", function(d){
-        return tooltipH.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Burdened at 50%: " + Math.round(percentburdh[d.properties.id]) + "%");
+        return tooltipH.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Burdened at 50%: " + Math.round(d.properties.h05_50) + "%");
       })
       .on("mouseout", function(d){
         return tooltipH.style("visibility", "hidden");
@@ -132,111 +122,90 @@ function updateYear(value) {
   console.log("Updated to year:");
   if (value == "2015") {
     d3.queue()
-    .defer(d3.json, "pumas_pa16.json") // Load US PUMAs geography data
+    .defer(d3.json, "pa16_burden.json") // Load US PUMAs geography data
     .defer(d3.json, "counties16.json")
-    .defer(d3.csv, "data/r15_burden.csv")
-    .defer(d3.csv, "data/h15_burden.csv")
     .await(update2015); 
-    update2015();
+    //update2015();
     console.log(value);
   } else if (value == "2010") {
     d3.queue()
-    .defer(d3.json, "pumas_pa05.json") // Load US PUMAs geography data
+    .defer(d3.json, "pa05_burden.json")  // Load US PUMAs geography data
     .defer(d3.json, "counties16.json")
-    .defer(d3.csv, "data/r10_burden.csv")
-    .defer(d3.csv, "data/h10_burden.csv")
     .await(update2010); 
-    update2010();
+    //update2010();
     console.log(value);
   } else {
     d3.queue()
-    .defer(d3.json, "pumas_pa05.json") // Load US PUMAs geography data
+    .defer(d3.json, "pa05_burden.json") // Load US PUMAs geography data
     .defer(d3.json, "counties16.json")
-    .defer(d3.csv, "data/r05_burden.csv")
-    .defer(d3.csv, "data/h05_burden.csv")
     .await(update2005); 
-    update2005();
+    //loadpage();
     console.log(value);
   }
 }
 
-function update2010(error, pumas_pa05, counties16, r10_burden, h10_burden) { // initial creation
+function drawCounties(counties16) {
+  d3.selectAll("svg")
+  .append("path")
+  .datum(topojson.mesh(counties16, counties16.objects.counties))
+  .attr("d", path)
+  .attr("class", "counties");
+}
+
+function update2010(error, pa05_burden, counties16) { // initial creation
     if (error) throw error;
     //clear paths
     d3.selectAll("path").remove();
 
-    var percentburdr = {}; // Create empty object for holding dataset
-    r10_burden.forEach(function(d) {
-    percentburdr[d.id] = +d.PCTburden50; 
-    });
-
-    var percentburdh = {};
-    h10_burden.forEach(function(d) {
-    percentburdh[d.id] = +d.PCTburden50; 
-    });
-
     d3.select("#mapRbur").select("svg")
         .selectAll("path")
-            .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
+            .data(topojson.feature(pa05_burden, pa05_burden.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
         .enter().append("path")
             .attr("d", path)
         .attr("class", "renters2010")
         .style("fill", function(d) { 
-            if (percentburdr[d.properties.id] > 0) {
-            return color(percentburdr[d.properties.id]);
+            if (d.properties.r10_50 > 0) {
+            return color(d.properties.r10_50);
             } else {
             return "#FFF";
-          }  
+          }; 
     })
 
     d3.select("#mapHbur").select("svg")
       .selectAll("path")
-          .data(topojson.feature(pumas_pa05, pumas_pa05.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
+          .data(topojson.feature(pa05_burden, pa05_burden.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
       .enter().append("path")
           .attr("d", path)
       .attr("class", "owners2010")
       .style("fill", function(d) { 
-          if (percentburdh[d.properties.id] > 0) {
-          return colorh(percentburdh[d.properties.id]);
+          if (d.properties.h10_50 > 0) {
+          return colorh(d.properties.h10_50);
           } else {
           return "#FFF";
-          } 
+          };
     })
 
     // create county outlines
-    d3.selectAll("svg")
-      .append("path")
-      .datum(topojson.mesh(counties16, counties16.objects.counties))
-      .attr("d", path)
-      .attr("class", "counties");
+    drawCounties(counties16);
+
 };
 
-function update2015(error, pumas_pa16, counties16, r15_burden, h15_burden) { // initial creation
+function update2005(error, pa05_burden, counties16) { // initial creation
     if (error) throw error;
     
     d3.selectAll("path").remove();
 
-    console.log("update 2015 running");
-
-    var percentburdr = {}; // Create empty object for holding dataset
-    r15_burden.forEach(function(d) {
-    percentburdr[d.id] = +d.PCTburden50; 
-    });
-
-    var percentburdh = {};
-    h15_burden.forEach(function(d) {
-    percentburdh[d.id] = +d.PCTburden50; 
-    });
+    console.log("update 2005 running");
 
     d3.select("#mapRbur").select("svg")
         .selectAll("path")
-            .data(topojson.feature(pumas_pa16, pumas_pa16.objects.pumas_pa_only).features) // Bind TopoJSON data elements
+            .data(topojson.feature(pa05_burden, pa05_burden.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
         .enter().append("path")
             .attr("d", path)
-        .attr("class", "renters2015")
+        .attr("class", "renters2005")
         .style("fill", function(d) { 
-            if (percentburdr[d.properties.id] > 0) {
-            return color(percentburdr[d.properties.id]);
+            if (d.properties.r05_50 > 0) {
+            return color(d.properties.r05_50);
             } else {
             return "#FFF";
           }  
@@ -244,27 +213,67 @@ function update2015(error, pumas_pa16, counties16, r15_burden, h15_burden) { // 
     
     d3.select("#mapHbur").select("svg")
       .selectAll("path")
-          .data(topojson.feature(pumas_pa16, pumas_pa16.objects.pumas_pa_only).features) // Bind TopoJSON data elements
+          .data(topojson.feature(pa05_burden, pa05_burden.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
       .enter().append("path")
           .attr("d", path)
       .attr("class","owners2015")
       .style("fill", function(d) { 
-          if (percentburdh[d.properties.id] > 0) {
-          return colorh(percentburdh[d.properties.id]);
+          if (d.properties.h05_50 > 0) {
+          return colorh(d.properties.h05_50);
           } else {
           return "#FFF";
           } 
       });
 
     // create county outlines
-    d3.selectAll("svg")
-      .append("path")
-      .datum(topojson.mesh(counties16, counties16.objects.counties))
-      .attr("d", path)
-      .attr("class", "counties");
+    drawCounties(counties16);
 };
 
+function update2015(error, pa16_burden, counties16) { // initial creation
+    if (error) throw error;
+    
+    d3.selectAll("path").remove();
 
+    console.log("update 2015 running");
+
+    d3.select("#mapRbur").select("svg")
+        .selectAll("path")
+            .data(topojson.feature(pa16_burden, pa16_burden.objects.pumas_pa_only).features) // Bind TopoJSON data elements
+        .enter().append("path")
+            .attr("d", path)
+        .attr("class", "renters2015")
+        .style("fill", function(d) { 
+            if (d.properties.r15_50 > 0) {
+            return color(d.properties.r15_50);
+            } else {
+            return "#FFF";
+          }  
+        });
+    
+    d3.select("#mapHbur").select("svg")
+      .selectAll("path")
+          .data(topojson.feature(pa16_burden, pa16_burden.objects.pumas_pa_only).features) // Bind TopoJSON data elements
+      .enter().append("path")
+          .attr("d", path)
+      .attr("class","owners2015")
+      .style("fill", function(d) { 
+          if (d.properties.h15_50 > 0) {
+          return colorh(d.properties.h15_50);
+          } else {
+          return "#FFF";
+          } 
+      });
+
+    // create county outlines
+    drawCounties(counties16);
+};
+
+// d3.json("counties16.json", function(error, data) {
+//   d3.selectAll("svg").append("path")
+//     .data(topojson.mesh(data, data.objects.counties))
+//     .attr("d", path)
+//     .attr("class", "counties");
+//   });
 // TOOLTIP CREATION //
 
 var tooltipR = d3.select("#mapRbur").select("svg")
@@ -290,4 +299,4 @@ var tooltipH = d3.select("#mapHbur").select("svg")
       .style("font-family", "'Open Sans', sans-serif")
       .style("font-size", "12px")
       .style("z-index", "10")
-      .style("visibility", "hidden");      
+      .style("visibility", "hidden");  
