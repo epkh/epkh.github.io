@@ -31,10 +31,10 @@
 
 // Setup svg using Bostock's margin convention
 
-var margin = {top: 20, right: 160, bottom: 35, left: 100};
+var margin = {top: 20, right: 150, bottom: 35, left: 100};
 
-var width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+var width = 550 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
 
 var svg = d3.select("body")
   .append("svg")
@@ -72,7 +72,7 @@ var y = d3.scale.linear()
   .domain([0, d3.max(dataset, function(d) {  return d3.max(d, function(d) { return d.y0 + d.y; });  })])
   .range([height, 0]);
 
-var colors = ["b33040", "#d25c4d"];
+var colors = ["FFA25C", "5697BC"];
 
 
 // Define and draw axes
@@ -143,8 +143,8 @@ legend.append("text")
   .style("text-anchor", "start")
   .text(function(d, i) { 
     switch (i) {
-      case 0: return "ownerhhds";
-      case 1: return "renterhhds";
+      case 0: return "homeowning households";
+      case 1: return "renting households";
     }
   });
 
