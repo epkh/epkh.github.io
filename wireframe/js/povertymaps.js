@@ -11,11 +11,6 @@ var projection = d3.geoAlbers()
     .center( [0, 40.8766] )
     .translate([width / 2, height / 2]);
 
-var projection2 = d3.geoAlbers()
-  .scale(3500)
-  .center( [0, 40.8766] )
-  .rotate( [77.8367,0] )
-
 var path = d3.geoPath()
     .projection(projection);
 
@@ -106,23 +101,15 @@ function loadpage(error, pa05_poverty, counties16, pa_cities) { // initial creat
         return tooltipH.style("visibility", "hidden");
       })
       ;
-
+    console.log(pa05_poverty);
     // create county outlines
     drawCounties(counties16);
+    
+    drawCities(pa_cities);
 
-      //add pa cities...
-    // d3.selectAll("svg")
-    //   .data(topojson.feature(pa_cities, pa_cities.objects.pa_cities).features)
-    //   .enter().append("circle")
-    //   .attr("d", "circle")
-    //   .attr("r", "8px")
-    //   .attr("fill", "#FFF")
-    //   .attr("transform", function(d){ console.log(projection2(d.coordinates))
-    //     return "translate(" + projection2(
-    //       d.coordinates
-    //       )+ ")";
-    //   });
 
+
+    // console.log(pa_cities);
     d3.select("#timeslide").on("input", function() {
       update(this.value);
     });
@@ -166,12 +153,50 @@ function drawCounties(counties16) {
   .attr("class", "counties");
 };
 
+function drawCities(pa_cities){
+  d3.selectAll("svg").selectAll("circle")
+      .data(topojson.feature(pa_cities, pa_cities.objects.pa_cities).features)
+      .enter().append("circle")
+      // .attr("d", "circle")
+        .attr("cx", function(d){ console.log((d.geometry.coordinates)[0]);
+          return projection(d.geometry.coordinates)[0];
+        })
+        .attr("cy", function(d){ 
+          return projection(d.geometry.coordinates)[1]; })
+        .attr("r", "3px")
+        .attr("fill", "white")
+        .style("stroke", "gray")
+
+  // d3.selectAll("svg").selectAll(".city-label")
+  //   .data(topojson.feature(pa_cities, pa_cities.objects.pa_cities).features)
+  //   .enter().append("text")
+  //     .attr("class","city-label")
+  //     .attr("transform", function(d) { return "translate("+ projection(d.geometry.coordinates) + ")";})
+  //     .attr("dy", ".15em")
+  //     .text(function(d){ return d.properties.MUNICIPAL1;})
+  //     .style("font-size", "10px")
+  //     .style("fill", "gray")
+  };
+
 function update2010(error, pa05_poverty, counties16) { // initial creation
     if (error) throw error;
     console.log("update 2010 running") // ready to go!
 
-    d3.selectAll("path").remove();
+    // d3.selectAll("path").remove();
     
+    // var svg = d3.select("#mapRpov").select("svg").transition();
+    
+    // svg.selectAll("path")
+    //   .duration(750)
+    //   .attr("class", "renters2010")
+    //     .style("fill", function(d) { 
+    //         if (d.properties.r10_pov > 0) {
+    //         return color(d.properties.r10_pov);
+    //         } else {
+    //         return "#FFF";
+    //       }  
+    // })
+
     d3.select("#mapRpov").select("svg")
         .selectAll("path")
             .data(topojson.feature(pa05_poverty, pa05_poverty.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
@@ -201,6 +226,7 @@ function update2010(error, pa05_poverty, counties16) { // initial creation
       })
     // create county outlines
     drawCounties(counties16);
+    drawCities(pa_cities);
 };
 
 function update2015(error, pa16_poverty, counties16) { // initial creation
@@ -240,6 +266,7 @@ function update2015(error, pa16_poverty, counties16) { // initial creation
 
     // create county outlines
     drawCounties(counties16);
+    drawCities(pa_cities);
 };
 
 function update2005(error, pa05_poverty, counties16) { // initial creation
@@ -277,6 +304,7 @@ function update2005(error, pa05_poverty, counties16) { // initial creation
       })
     // create county outlines
     drawCounties(counties16);
+    drawCities(pa_cities);
 };
 
 // TOOLTIP CREATION //
