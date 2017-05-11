@@ -21,26 +21,24 @@ body {
     z-index: 10;
     visibility:hidden;
   }
-<<<<<<< Updated upstream
-=======
+
   .homeowner-map{
     width: 350px
     float: right;
-  }*/
+  }
 
   div.tooltip { 
     position: absolute;     
     text-align: center;     
-    width: 60px;          
+    width: 50px;          
     height: 28px;         
     padding: 2px;       
-    font: 12px sans-serif;    
+    font: 16px sans-serif;    
     background: gray; 
     border: 0px;    
     border-radius: 8px;     
     pointer-events: none;     
 }
->>>>>>> Stashed changes
 
   .my-legend {
     text-align: center;
