@@ -73,39 +73,20 @@
 	<div class="container">
          <div class="row">
             <div class="col-md-6 col-md-offset-3">
-                <h3>% of Households in PA with Incomes Below the Poverty Line</h3>
+                <h3>% of Middle-Income Households in PA with Housing Cost Burden >30%</h3>
             </div>
             <div class="col-md-3 col-md-offset-2">
-                <div class='my-legend'>
-                    <div class="legend-title">
-                        <p>Renters</p>
-                    </div>
-                    <div class='legend-scale'>
-                        <ul class='legend-labels'>
-                            <li><span style='background:#feedde;'></span><10%</li>
-                            <li><span style='background:#fdbe85;'></span><20%</li>
-                            <li><span style='background:#fd8d3c;'></span><30%</li>
-                            <li><span style='background:#e6550d;'></span><40% </li>
-                            <li><span style='background:#a63603;'></span><50%</li>
-                          </ul>
-                    </div>
+                <div class=MidBurdenMap>
+                     <iframe width="1000" height="300" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="burden_mid.html" marginwidth="0" marginheight="0" frameborder="0" allowfullscreen scrolling="no"></iframe>
                 </div>
                 <div id="mapRpov">
                 </div>
             </div>
+            
             <div class="col-md-3 col-md-offset-1">
                 <div class='my-legend'>
-                    <div class="legend-title">
-                        <p>Homeowners</p>
-                    </div>
-                    <div class='legend-scale'>
-                        <ul class='legend-labels'>
-                            <li><span style='background:#eff3ff;'></span>0%</li>
-                            <li><span style='background:#bdd7e7;'></span><5%</li>
-                            <li><span style='background:#6baed6;'></span><10%</li>
-                            <li><span style='background:#3182bd;'></span><15% </li>
-                            <li><span style='background:#08519c;'></span><20%</li>
-                          </ul>
+                    
+                    
                     </div>
                 </div>
                 <div id="mapHpov">
@@ -126,17 +107,23 @@
     </div>
 
 
-	<!-- Map 2: Burden -->
+	<!-- Map 2: Burden Charts-->
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
-                <h3>% of PA Households Below the Poverty Line <p>
-                Who Spend More than 30% of their Income on Housing</p></h3>
-                </div>
+                <h3># of PA Households With Cost Burden <p>
+                </p></h3>
             </div>
-
+        </div>
+    <div class="row">
+        <div class="col-xs-6" class=MidBurdenBar>
+            <iframe width="1000" height="650" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="burdenstackedbar.html" marginwidth="0" marginheight="0" frameborder="0" allowfullscreen scrolling="no"></iframe>
+        </div>
+        <div class="col-xs-6" class=MidBurdenBar>
+            <iframe width="1000" height="650" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="burden30stackedbar.html" marginwidth="0" marginheight="0" frameborder="0" allowfullscreen scrolling="no"></iframe>
         </div>
     </div>
+   </div>
 
 
 	<!-- Text explaining story... -->
