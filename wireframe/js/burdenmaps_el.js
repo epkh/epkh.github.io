@@ -43,7 +43,7 @@ d3.queue()
     .defer(d3.json, "counties16.json")
     .await(loadpage); 
 
-
+    
 // UPDATE DATA FUNCTIONS //
 // Run 'ready' when JSONs are loaded
 // Update Function, runs when data is loaded 
@@ -52,41 +52,37 @@ function loadpage(error, pa05_burden, counties16) {
 
     d3.selectAll("path").remove();
 
-    d3.select("#mapRbur").append("svg")
-        .selectAll("path")
+    var mapcontainer = d3.select("#mapRbur")
+
+    var mamap = mapcontainer.append("svg")
+          .selectAll("path")
             .data(topojson.feature(pa05_burden, pa05_burden.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
-        .enter().append("path")
+        .enter().append("svg:path")
             .attr("d", path)
         .attr("class", "renters2005")
         .style("fill", function(d) { 
             if (d.properties.r05_50 > 0) {
             return color(d.properties.r05_50);
             } else {
-            return "Green";
+            return "white";
           };
-            console.log(d.properties.r05_50);  
         })
         .on("mouseover", function(d){
           console.log("mouseover");
-            div.text("PUMAID" + d.properties.id)
-                .style("left", (d3.event.pageX) + "px")   
-                .style("top", (d3.event.pageY - 28) + "px");  
-          // return tooltipR.style("visibility", "visible").text("PUMA ID: " + d.properties.id); 
-            // + "\n"+ "% Burdened at 50%:" + Math.round(d.properties.r05_50) +"%");
+        return tooltip.style("visibility", "visible").text(d.properties.id + "\n"+ "% Burdened at 50%:" + Math.round(d.properties.h05_50) +"%");
         })
         .on("mousemove", function(d){
           console.log("mousemove");
-          // div.style("opacity", 0)
-          // return tooltipR.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id); 
-            // + "\n" + "% Burdened at 50%: " + Math.round(d.properties.r05_50) + "%");
+        return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text(d.properties.id);
+          // + "\n"+ "% Burdened at 50%:" + Math.round(d.properties.h05_50) +"%");
         })
         .on("mouseout", function(d){
           console.log("mouseout");
           div.style("opacity", 0);
-          // return tooltipR.style("visibility", "hidden");
+          return tooltip.style("visibility", "hidden");
         });
     
-    d3.select("#renter-map").select("body").append("div")
+    d3.select("#mapHbur").append("svg")
       .selectAll("path")
           .data(topojson.feature(pa05_burden, pa05_burden.objects.pumas_pa_only05).features) // Bind TopoJSON data elements
       .enter().append("path")
@@ -118,6 +114,9 @@ function loadpage(error, pa05_burden, counties16) {
       // .on("mouseout", function(d){
       //   return tooltipH.style("visibility", "hidden");
       });
+
+var tooltip = mapcontainer.append("div")
+    .attr('class', 'tooltip')
 
     // create county outlines
     drawCounties(counties16)
@@ -284,8 +283,8 @@ function update2015(error, pa16_burden, counties16) { // initial creation
     drawCounties(counties16);
 };
 
-var div = d3.select("body").select("#mapRbur").append("div") 
-    .attr("class", "tooltip")       
+var div = d3.select("body").append("div") 
+    .attr("class", "tooltip")
     .style("opacity", 0);
 
 // d3.json("counties16.json", function(error, data) {
@@ -296,8 +295,7 @@ var div = d3.select("body").select("#mapRbur").append("div")
 //   });
 // TOOLTIP CREATION //
 
-// var tooltipR = d3.select("body")
-//       .append("div")
+// var tooltip = mapcontainer.append("div")
 //       .style("background-color", "White")
 //       .style("padding", "5px")
 //       .style("width", "100px")

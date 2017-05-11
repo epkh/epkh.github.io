@@ -163,19 +163,19 @@ function drawCities(pa_cities){
         })
         .attr("cy", function(d){ 
           return projection(d.geometry.coordinates)[1]; })
-        .attr("r", "3px")
+        .attr("r", "2px")
         .attr("fill", "white")
         .style("stroke", "gray")
 
-  // d3.selectAll("svg").selectAll(".city-label")
-  //   .data(topojson.feature(pa_cities, pa_cities.objects.pa_cities).features)
-  //   .enter().append("text")
-  //     .attr("class","city-label")
-  //     .attr("transform", function(d) { return "translate("+ projection(d.geometry.coordinates) + ")";})
-  //     .attr("dy", ".15em")
-  //     .text(function(d){ return d.properties.MUNICIPAL1;})
-  //     .style("font-size", "10px")
-  //     .style("fill", "gray")
+  d3.selectAll("svg").selectAll(".city-label")
+    .data(topojson.feature(pa_cities, pa_cities.objects.pa_cities).features)
+    .enter().append("text")
+      .attr("class","city-label")
+      .attr("transform", function(d) { return "translate("+ projection(d.geometry.coordinates) + ")";})
+      .attr("dy", ".15em")
+      .text(function(d){ return d.properties.MUNICIPAL1;})
+      .style("font-size", "10px")
+      .style("fill", "gray")
   };
 
 function update2010(error, pa05_poverty, counties16) { // initial creation

@@ -10,30 +10,39 @@ body {
     stroke: #fff;
     stroke-linejoin: round;
   }
-
-  /* ADD CSS FOR #sliderContainer */
-    /*#sliderContainer {
-        text-align: center;
-        position: relative;
-        top: 600px;*/
-    }
-/*  .twomapdiv {
-    width: 800px;
-  } 
-  .renter-map {
-    width: 350px;
-    float: left;
+  .tooltip {
+    background-color:White; 
+    padding: 5px;
+    width: 100px;
+    position: absolute;
+    border-radius: 8px;
+    font-family: sans-serif;
+    font-size: 8px;
+    z-index: 10;
+    visibility:hidden;
   }
+<<<<<<< Updated upstream
+=======
   .homeowner-map{
     width: 350px
     float: right;
   }*/
+
+  div.tooltip { 
+    position: absolute;     
+    text-align: center;     
+    width: 60px;          
+    height: 28px;         
+    padding: 2px;       
+    font: 12px sans-serif;    
+    background: gray; 
+    border: 0px;    
+    border-radius: 8px;     
+    pointer-events: none;     
+}
+>>>>>>> Stashed changes
+
   .my-legend {
-/*    max-width: 250px;*/
-/*    position: relative;
-    margin-bottom: 10px;
-    margin-left: auto !important;
-    margin-right: auto !important;*/
     text-align: center;
   }
   .my-legend .legend-title {
