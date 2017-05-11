@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>burden stacked bar chart</title>
-  <!-- our custom css -->
+  <title>poverty stacked bar chart</title>
+    <!-- our custom css -->
   <link rel="stylesheet" href="css/maps.css">
   <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <style type="text/css">
@@ -30,13 +30,11 @@
 </head>
 
 <div class='chart-title'>
-  <p>Severely Burdened Middle Class Households in Pennsylvania</p>
+  <p>Middle Class Households in Pennsylvania</p>
 </div>
 
 <body>
 <script type="text/javascript">
-
-
 
 // Setup svg using Bostock's margin convention
 
@@ -56,18 +54,18 @@ var svg = d3.select("body")
 /* Data in strings like it would be if imported from a csv */
 
 var data = [
-  { year: "2005", burdenr: "302561", burdenh: "317672"},
-  { year: "2010", burdenr: "351200", burdenh: "340471"},
-  { year: "2015", burdenr: "349576", burdenh: "300399"},
+  { year: "2005", renterhhds: "1198988", ownerhhds: "3046725"},
+  { year: "2010", renterhhds: "1239632", ownerhhds: "2868194"},
+  { year: "2015", renterhhds: "1296951", ownerhhds: "2695998"},
 ];
 
 var parse = d3.time.format("%Y").parse;
 
 
 // Transpose the data into layers
-var dataset = d3.layout.stack()(["burdenr", "burdenh"].map(function(burden) {
+var dataset = d3.layout.stack()(["renterhhds", "ownerhhds"].map(function(poverty) {
   return data.map(function(d) {
-    return {x: parse(d.year), y: +d[burden]};
+    return {x: parse(d.year), y: +d[poverty]};
   });
 }));
 
