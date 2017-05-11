@@ -52,15 +52,16 @@ function loadpage(error, pa_pumas_05_mid, counties16) {
 
     d3.selectAll("path").remove();
 
-    var mapcontainer = d3.select("#mapRbur")
+    var Rmapcontainer = d3.select("#mapRbur")
 
-    var mymap = mapcontainer.append("svg")
+    var Rmymap = Rmapcontainer.append("svg")
           .selectAll("path")
             .data(topojson.feature(pa_pumas_05_mid, pa_pumas_05_mid.objects.pa_pumas_05_mid).features) // Bind TopoJSON data elements
         .enter().append("path")
             .attr("d", path)
         .attr("class", "renters2005")
         .style("fill", function(d) { 
+            console.log("fill" + d.properties.r05_30);
             if (d.properties.r05_30 > 0) {
             return color(d.properties.r05_30);
             } else {
@@ -68,22 +69,21 @@ function loadpage(error, pa_pumas_05_mid, counties16) {
           };
         })
         .on("mouseover", function(d){
-          console.log("mouseover");
-        return tooltip.style("visibility", "visible").text("% Burdened at 50%:" + Math.round(d.properties.h05_30) +"%");
+          console.log("mouseover"+ d.properties.r05_30);
+        return Rtooltip.style("visibility", "visible").text("% Burdened at 50%:" + Math.round(d.properties.r05_30) +"%");
         })
         .on("mousemove", function(d){
           console.log("mousemove");
-        return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text(Math.round(d.properties.h05_30) +"%");
-          // + "\n"+ "% Burdened at 50%:" + Math.round(d.properties.h05_50) +"%");
+        return Rtooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text(Math.round(d.properties.r05_30) +"%");
         })
         .on("mouseout", function(d){
-          console.log("mouseout");
-          div.style("opacity", 0);
-          return tooltip.style("visibility", "hidden");
+          return Rtooltip.style("visibility", "hidden");
         });
     
-    d3.select("#mapHbur").append("svg")
-      .selectAll("path")
+    var Hmapcontainer = d3.select("#mapHbur")
+
+    var Hmymap = Hmapcontainer.append("svg")
+        .selectAll("path")
           .data(topojson.feature(pa_pumas_05_mid, pa_pumas_05_mid.objects.pa_pumas_05_mid).features) // Bind TopoJSON data elements
       .enter().append("path")
           .attr("d", path)
@@ -92,31 +92,24 @@ function loadpage(error, pa_pumas_05_mid, counties16) {
           if (d.properties.h05_30 > 0) {
           return colorh(d.properties.h05_30);
           } else {
-          return "#FFF";
-          } 
-      // })
-      // .on("mouseover", function(d){
-      //   console.log(d.properties.id);
-      // return tooltip.style("visibility", "visible").text(d.properties.id);
-      // })
-      // .on("mousemove", function(d){
-      //   console.log(d.properties.id);
-      //   return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text(d.properties.id);
-      // })
-      // .on("mouseout", function(d){
-      //   return tooltip.style("visibility", "hidden");
-      // .on("mouseover", function(d){
-      //   return tooltipH.style("visibility", "visible").text("PUMA ID: " + d.properties.id + "\n"+ "% Burdened at 50%:" + Math.round(d.properties.h05_50) +"%");
-      // })
-      // .on("mousemove", function(d){
-      //   return tooltipH.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text("PUMA ID: " + d.properties.id + "\n" + "% Burdened at 50%: " + Math.round(d.properties.h05_50) + "%");
-      // })
-      // .on("mouseout", function(d){
-      //   return tooltipH.style("visibility", "hidden");
+          return "white";
+          };
+      }) 
+        .on("mouseover", function(d){
+        return Htooltip.style("visibility", "visible").text("% Burdened at 50%:" + Math.round(d.properties.h05_30) +"%");
+        })
+        .on("mousemove", function(d){
+        return Htooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text(Math.round(d.properties.h05_30) +"%");
+        })
+        .on("mouseout", function(d){
+          return Htooltip.style("visibility", "hidden");
       });
 
-var tooltip = mapcontainer.append("div")
-    .attr('class', 'tooltip')
+    var Rtooltip = Rmapcontainer.append("div")
+        .attr('class', 'tooltip')
+
+    var Htooltip = Hmapcontainer.append("div")
+        .attr('class', 'tooltip')
 
     // create county outlines
     drawCounties(counties16)
@@ -172,7 +165,9 @@ function update2010(error, pa_pumas_05_mid, counties16) { // initial creation
     //clear paths
     d3.selectAll("path").remove();
 
-    d3.select("#mapRbur").select("svg")
+    var Rmapcontainer = d3.select("#mapRbur")
+
+    var Rmymap = Rmapcontainer.select("svg")
         .selectAll("path")
             .data(topojson.feature(pa_pumas_05_mid, pa_pumas_05_mid.objects.pa_pumas_05_mid).features) // Bind TopoJSON data elements
         .enter().append("path")
@@ -183,10 +178,23 @@ function update2010(error, pa_pumas_05_mid, counties16) { // initial creation
             return color(d.properties.r10_30);
             } else {
             return "#FFF";
-          }; 
-    })
+            }; 
+        })
+        .on("mouseover", function(d){
+          console.log("mouseover"+ d.properties.r10_30);
+        return Rtooltip.style("visibility", "visible").text("% Burdened at 50%:" + Math.round(d.properties.r10_30) +"%");
+        })
+        .on("mousemove", function(d){
+          console.log("mousemove");
+        return Rtooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text(Math.round(d.properties.r10_30) +"%");
+        })
+        .on("mouseout", function(d){
+          return Rtooltip.style("visibility", "hidden");
+        });
 
-    d3.select("#mapHbur").select("svg")
+    var Hmapcontainer = d3.select("#mapHbur")
+
+    var Hmymap = Hmapcontainer.select("svg")
       .selectAll("path")
           .data(topojson.feature(pa_pumas_05_mid, pa_pumas_05_mid.objects.pa_pumas_05_mid).features) // Bind TopoJSON data elements
       .enter().append("path")
@@ -198,10 +206,27 @@ function update2010(error, pa_pumas_05_mid, counties16) { // initial creation
           } else {
           return "#FFF";
           };
-    })
-
+      })
+      .on("mouseover", function(d){
+        console.log("mouseover"+ d.properties.h10_30);
+        return Rtooltip.style("visibility", "visible").text("% Burdened at 50%:" + Math.round(d.properties.h10_30) +"%");
+        })
+      .on("mousemove", function(d){
+        console.log("mousemove");
+        return Rtooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text(Math.round(d.properties.h10_30) +"%");
+        })
+      .on("mouseout", function(d){
+        return Rtooltip.style("visibility", "hidden");
+        });
     // create county outlines
     drawCounties(counties16);
+
+    // create tooltip
+    var Rtooltip = Rmapcontainer.append("div")
+        .attr('class', 'tooltip')
+
+    var Htooltip = Hmapcontainer.append("div")
+        .attr('class', 'tooltip')
 
 };
 
