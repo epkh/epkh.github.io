@@ -27,15 +27,6 @@ var year = ["2005","2010","2015"];
 //     .attr("width", width + margin.left + margin.right)
 //     .attr("height", height + margin.top + margin.bottom);
 
-var color = d3.scaleThreshold()
-    .domain([20, 30, 40, 60, 80])
-    .range(['#feedde','#fdbe85','#fd8d3c','#e6550d', '#a63603']);
-
-var colorh = d3.scaleThreshold()
-    .domain([20, 30, 40, 60, 80])
-    .range(['#eff3ff','#bdd7e7','#6baed6','#3182bd', '#08519c']);
-
-
 // INITIAL QUEUE //
 // Queue up datasets using d3 Queue. Prevents errors from loading
 d3.queue()
@@ -63,7 +54,8 @@ function loadpage(error, pa_pumas_05_mid, counties16) {
         .style("fill", function(d) { 
             console.log("fill" + d.properties.r05_30);
             if (d.properties.r05_30 > 0) {
-            return color(d.properties.r05_30);
+              return d3.interpolateOrRd(d.properties.r05_30/100);
+            //return color(d.properties.r05_30);
             } else {
             return "white";
           };
@@ -90,7 +82,7 @@ function loadpage(error, pa_pumas_05_mid, counties16) {
       .attr("class", "owners2005")
       .style("fill", function(d) { 
           if (d.properties.h05_30 > 0) {
-          return colorh(d.properties.h05_30);
+          return d3.interpolateGnBu((d.properties.h05_30/100)*2);
           } else {
           return "white";
           };
@@ -175,7 +167,7 @@ function update2010(error, pa_pumas_05_mid, counties16) { // initial creation
         .attr("class", "renters2010")
         .style("fill", function(d) { 
             if (d.properties.r10_30 > 0) {
-            return color(d.properties.r10_30);
+            return d3.interpolateOrRd(d.properties.r10_30/100);
             } else {
             return "#FFF";
             }; 
@@ -202,7 +194,7 @@ function update2010(error, pa_pumas_05_mid, counties16) { // initial creation
       .attr("class", "owners2010")
       .style("fill", function(d) { 
           if (d.properties.h10_30 > 0) {
-          return colorh(d.properties.h10_30);
+          return d3.interpolateGnBu((d.properties.h10_30/100)*2);
           } else {
           return "#FFF";
           };
@@ -245,7 +237,7 @@ function update2005(error, pa_pumas_05_mid, counties16) { // initial creation
         .attr("class", "renters2005")
         .style("fill", function(d) { 
             if (d.properties.r05_30 > 0) {
-            return color(d.properties.r05_30);
+            return d3.interpolateOrRd(d.properties.r05_30/100);
             } else {
             return "#FFF";
           }  
@@ -259,7 +251,7 @@ function update2005(error, pa_pumas_05_mid, counties16) { // initial creation
       .attr("class","owners2015")
       .style("fill", function(d) { 
           if (d.properties.h05_30 > 0) {
-          return colorh(d.properties.h05_30);
+          return d3.interpolateGnBu((d.properties.h05_30/100)*2);
           } else {
           return "#FFF";
           } 
@@ -284,7 +276,7 @@ function update2015(error, pa_pumas_16_mid, counties16) { // initial creation
         .attr("class", "renters2015")
         .style("fill", function(d) { 
             if (d.properties.r15_30 > 0) {
-            return color(d.properties.r15_30);
+            return d3.interpolateOrRd(d.properties.r15_30/100);
             } else {
             return "#FFF";
           }  
@@ -298,7 +290,7 @@ function update2015(error, pa_pumas_16_mid, counties16) { // initial creation
       .attr("class","owners2015")
       .style("fill", function(d) { 
           if (d.properties.h15_30 > 0) {
-          return colorh(d.properties.h15_30);
+          return d3.interpolateGnBu((d.properties.h15_30/100)*2);
           } else {
           return "#FFF";
           } 
