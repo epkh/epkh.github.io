@@ -62,7 +62,7 @@ function loadpage(error, pa_pumas_05_mid, counties16) {
         })
         .on("mouseover", function(d){
           console.log("mouseover"+ d.properties.r05_30);
-        return Rtooltip.style("visibility", "visible").text("% Burdened at 50%:" + Math.round(d.properties.r05_30) +"%");
+        return Rtooltip.style("visibility", "visible").text("% Burdened at 30%:" + Math.round(d.properties.r05_30) +"%");
         })
         .on("mousemove", function(d){
           console.log("mousemove");
@@ -88,7 +88,7 @@ function loadpage(error, pa_pumas_05_mid, counties16) {
           };
       }) 
         .on("mouseover", function(d){
-        return Htooltip.style("visibility", "visible").text("% Burdened at 50%:" + Math.round(d.properties.h05_30) +"%");
+        return Htooltip.style("visibility", "visible").text("% Burdened at 30%:" + Math.round(d.properties.h05_30) +"%");
         })
         .on("mousemove", function(d){
         return Htooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text(Math.round(d.properties.h05_30) +"%");
@@ -174,7 +174,7 @@ function update2010(error, pa_pumas_05_mid, counties16) { // initial creation
         })
         .on("mouseover", function(d){
           console.log("mouseover"+ d.properties.r10_30);
-        return Rtooltip.style("visibility", "visible").text("% Burdened at 50%:" + Math.round(d.properties.r10_30) +"%");
+        return Rtooltip.style("visibility", "visible").text("% Burdened at 30%:" + Math.round(d.properties.r10_30) +"%");
         })
         .on("mousemove", function(d){
           console.log("mousemove");
@@ -201,7 +201,7 @@ function update2010(error, pa_pumas_05_mid, counties16) { // initial creation
       })
       .on("mouseover", function(d){
         console.log("mouseover"+ d.properties.h10_30);
-        return Rtooltip.style("visibility", "visible").text("% Burdened at 50%:" + Math.round(d.properties.h10_30) +"%");
+        return Rtooltip.style("visibility", "visible").text("% Burdened at 30%:" + Math.round(d.properties.h10_30) +"%");
         })
       .on("mousemove", function(d){
         console.log("mousemove");
@@ -303,35 +303,3 @@ function update2015(error, pa_pumas_16_mid, counties16) { // initial creation
 var div = d3.select("body").append("div") 
     .attr("class", "tooltip")
     .style("opacity", 0);
-
-// d3.json("counties16.json", function(error, data) {
-//   d3.selectAll("svg").append("path")
-//     .data(topojson.mesh(data, data.objects.counties))
-//     .attr("d", path)
-//     .attr("class", "counties");
-//   });
-// TOOLTIP CREATION //
-
-// var tooltip = mapcontainer.append("div")
-//       .style("background-color", "White")
-//       .style("padding", "5px")
-//       .style("width", "100px")
-//       .style("position", "absolute")
-//       .style("border-radius", "8px")
-//       .style("font-family", "sans-serif")
-//       .style("font-size", "12px")
-//       .style("z-index", "10")
-//       .style("visibility", "hidden");  
-
-
-// var tooltipH = d3.select("body")
-//       .append("div")
-//       .style("background-color", "White")
-//       .style("padding", "5px")
-//       .style("width", "100px")
-//       .style("position", "absolute")
-//       .style("border-radius", "8px")
-//       .style("font-family", "sans-serif")
-//       .style("font-size", "12px")
-//       .style("z-index", "10")
-//       .style("visibility", "hidden");  
