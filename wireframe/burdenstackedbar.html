@@ -4,12 +4,16 @@
   <meta charset="UTF-8" />
   <title>burden stacked bar chart</title>
   <!-- our custom css -->
-  <link rel="stylesheet" href="css/maps.css">
+ <!--  <link rel="stylesheet" href="css/maps.css"> -->
   <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <style type="text/css">
   svg {
     font: 10px sans-serif;
     shape-rendering: crispEdges;
+  }
+
+  .chart-title {
+   font: 15px sans-serif; 
   }
 
   .axis path,
@@ -30,7 +34,7 @@
 </head>
 
 <div class='chart-title'>
-  <p>Severely Burdened Middle Class Households in Pennsylvania</p>
+  <p>Severely Burdened Middle Class Households in Pennsylvania by Tenure</p>
 </div>
 
 <body>
@@ -88,7 +92,7 @@ var colors = ["FFA25C", "5697BC"];
 var yAxis = d3.svg.axis()
   .scale(y)
   .orient("left")
-  .ticks(5)
+  .ticks(6)
   .tickSize(-width, 0, 0)
   .tickFormat( function(d) { return d } );
 
