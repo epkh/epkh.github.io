@@ -27,6 +27,10 @@ var year = ["2005","2010","2015"];
 //     .attr("width", width + margin.left + margin.right)
 //     .attr("height", height + margin.top + margin.bottom);
 
+// var color = d3.scaleLinear()
+//     .range(["#ffd27f", "#FFA500"])
+//     .interpolate(d3.interpolateLab);
+
 // INITIAL QUEUE //
 // Queue up datasets using d3 Queue. Prevents errors from loading
 d3.queue()
@@ -210,8 +214,6 @@ function update2010(error, pa_pumas_05_mid, counties16) { // initial creation
       .on("mouseout", function(d){
         return Rtooltip.style("visibility", "hidden");
         });
-    // create county outlines
-    drawCounties(counties16);
 
     // create tooltip
     var Rtooltip = Rmapcontainer.append("div")
@@ -219,6 +221,9 @@ function update2010(error, pa_pumas_05_mid, counties16) { // initial creation
 
     var Htooltip = Hmapcontainer.append("div")
         .attr('class', 'tooltip')
+
+    // create county outlines
+    drawCounties(counties16);
 
 };
 
@@ -228,6 +233,8 @@ function update2005(error, pa_pumas_05_mid, counties16) { // initial creation
     d3.selectAll("path").remove();
 
     console.log("update 2005 running");
+
+    var Rmapcontainer = d3.select("#mapRbur")
 
     d3.select("#mapRbur").select("svg")
         .selectAll("path")
@@ -240,8 +247,21 @@ function update2005(error, pa_pumas_05_mid, counties16) { // initial creation
             return d3.interpolateOrRd(d.properties.r05_30/100);
             } else {
             return "#FFF";
-          }  
+          };  
+        })
+        .on("mouseover", function(d){
+          console.log("mouseover"+ d.properties.r05_30);
+        return Rtooltip.style("visibility", "visible").text("% Burdened at 30%:" + Math.round(d.properties.r05_30) +"%");
+        })
+        .on("mousemove", function(d){
+          console.log("mousemove");
+        return Rtooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text(Math.round(d.properties.r05_30) +"%");
+        })
+        .on("mouseout", function(d){
+          return Rtooltip.style("visibility", "hidden");
         });
+
+    var Hmapcontainer = d3.select("#mapHbur")
     
     d3.select("#mapHbur").select("svg")
       .selectAll("path")
@@ -254,11 +274,28 @@ function update2005(error, pa_pumas_05_mid, counties16) { // initial creation
           return d3.interpolateGnBu((d.properties.h05_30/100)*2);
           } else {
           return "#FFF";
-          } 
+          }; 
+      })
+      .on("mouseover", function(d){
+        console.log("mouseover"+ d.properties.h05_30);
+        return Rtooltip.style("visibility", "visible").text("% Burdened at 30%:" + Math.round(d.properties.h05_30) +"%");
+        })
+      .on("mousemove", function(d){
+        console.log("mousemove");
+        return Rtooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text(Math.round(d.properties.h05_30) +"%");
+        })
+      .on("mouseout", function(d){
+        return Rtooltip.style("visibility", "hidden");
       });
 
     // create county outlines
-    drawCounties(counties16);
+    drawCounties(counties16)
+    // create tooltip
+    var Rtooltip = Rmapcontainer.append("div")
+        .attr('class', 'tooltip')
+
+    var Htooltip = Hmapcontainer.append("div")
+        .attr('class', 'tooltip')
 };
 
 function update2015(error, pa_pumas_16_mid, counties16) { // initial creation
@@ -267,6 +304,8 @@ function update2015(error, pa_pumas_16_mid, counties16) { // initial creation
     d3.selectAll("path").remove();
 
     console.log("update 2015 running");
+
+    var Rmapcontainer = d3.select("#mapRbur")
 
     d3.select("#mapRbur").select("svg")
         .selectAll("path")
@@ -279,8 +318,21 @@ function update2015(error, pa_pumas_16_mid, counties16) { // initial creation
             return d3.interpolateOrRd(d.properties.r15_30/100);
             } else {
             return "#FFF";
-          }  
+          };  
+        })
+        .on("mouseover", function(d){
+          console.log("mouseover"+ d.properties.r15_30);
+        return Rtooltip.style("visibility", "visible").text("% Burdened at 30%:" + Math.round(d.properties.r15_30) +"%");
+        })
+        .on("mousemove", function(d){
+          console.log("mousemove");
+        return Rtooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text(Math.round(d.properties.r15_30) +"%");
+        })
+        .on("mouseout", function(d){
+        return Rtooltip.style("visibility", "hidden");
         });
+
+    var Hmapcontainer = d3.select("#mapHbur")
     
     d3.select("#mapHbur").select("svg")
       .selectAll("path")
@@ -293,11 +345,28 @@ function update2015(error, pa_pumas_16_mid, counties16) { // initial creation
           return d3.interpolateGnBu((d.properties.h15_30/100)*2);
           } else {
           return "#FFF";
-          } 
-      });
-
+          }; 
+      })
+      .on("mouseover", function(d){
+        console.log("mouseover"+ d.properties.h15_30);
+        return Rtooltip.style("visibility", "visible").text("% Burdened at 30%:" + Math.round(d.properties.h15_30) +"%");
+        })
+      .on("mousemove", function(d){
+        console.log("mousemove");
+        return Rtooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text(Math.round(d.properties.h15_30) +"%");
+        })
+      .on("mouseout", function(d){
+        return Rtooltip.style("visibility", "hidden");
+        });
     // create county outlines
-    drawCounties(counties16);
+    drawCounties(counties16)
+
+        // create tooltip
+    var Rtooltip = Rmapcontainer.append("div")
+        .attr('class', 'tooltip')
+
+    var Htooltip = Hmapcontainer.append("div")
+        .attr('class', 'tooltip')
 };
 
 var div = d3.select("body").append("div") 
