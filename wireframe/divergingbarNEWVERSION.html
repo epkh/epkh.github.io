@@ -3,7 +3,7 @@
 <style>
 
 body {
-  font: 12px sans-serif;
+  font: 13px sans-serif;
 }
 
 .axis path,
@@ -15,30 +15,27 @@ body {
 
 </style>
 <body>
-<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
 
 var margin = {top: 80, right: 20, bottom: 20, left: 50},
     width = 1000 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom;
 
-var y = d3.scale.ordinal()
-    .rangeRoundBands([0, height], .3);
+var y = d3.scaleBand()
+    .rangeRound([0, height])
+    .padding (0.3);
 
-var x = d3.scale.linear()
+var x = d3.scaleLinear()
     .rangeRound([0, width]);
 
-var xAxis = d3.svg.axis()
-    .scale(x)
-    .tickFormat(d3.format(",%"))
-    .orient("top");
+var xAxis = d3.axisBottom(x)
+    .tickFormat(d3.format(",%"));
 
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .tickSize(0)
-    .orient("left");
+var yAxis = d3.axisLeft(y)
+    .tickSize(0);
 
-var color = d3.scale.ordinal()
+var color = d3.scaleOrdinal()
     .range(["#f8d8bd","#f4c49d","#f1b17c","#ee9e5c","#5cacee","#7cbcf1","#9dcdf4","#bdddf8"]);
 
 var svg = d3.select('body').append("svg")
@@ -93,7 +90,7 @@ d3.csv("data/raw_data.csv", function(error, data) {
       })
       .on("mouseout", function(d) {
         svg.selectAll('.y').selectAll('text').filter(function(text) { return text===d.rows; })
-            .transition().duration(100).style('font','12px sans-serif');
+            .transition().duration(100).style('font','13px sans-serif');
       });
 
   var bars = rows.selectAll("rect")
@@ -101,14 +98,14 @@ d3.csv("data/raw_data.csv", function(error, data) {
       .enter().append("g");
 
   bars.append("rect")
-      .attr("height", y.rangeBand())
+      .attr("height", y.rangeRound())
       .attr("x", function(d) { return x(d.x0); })
       .attr("width", function(d) { return x(d.x1) - x(d.x0); })
       .style("fill", function(d) { return color(d.name); });
 
   bars.append("text")
     .attr("x", function(d) { return x(d.x0); })
-    .attr("y", y.rangeBand()/2)
+    .attr("y", y.rangeRound()/2)
     .attr("dy", "0.5em")
     .attr("dx", "0.5em")
     .style("text-anchor", "begin")
