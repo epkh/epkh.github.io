@@ -2,10 +2,10 @@
 <div id="chartContainer">
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <script src="/lib/d3.v4.3.0.js"></script>
-  <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
+  <script src="https://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
   <script type="text/javascript">
     var svg = dimple.newSvg("#chartContainer", 590, 400);
-      d3.tsv("/data/example_data.tsv", function (data) {
+      d3.tsv("data/example_data.tsv", function (data) {
         data = dimple.filterData(data, "Date", [
           "01/07/2012", "01/08/2012", "01/09/2012",
           "01/10/2012", "01/11/2012", "01/12/2012"]);
