@@ -36,11 +36,6 @@
 
     <style>
 
-/*        .counties {
-            fill: none;
-            stroke: #000;
-            stroke-linejoin: round;
-        }*/
     </style>
 
 
@@ -52,11 +47,11 @@
     		This is going to be much easier!!
     		</div> -->
 
-    		<div class="col-md-6" style="background:steelblue; color:white">
+    		<div class="col-md-12" style="background:steelblue; color:white">
     		Big Data Visualization, Spring 2017
     		</div>
 		
-            <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-4 col-md-offset-4">
                 <h1>Is the Middle Class Left Out in Pennsylvania?</h1>
 	            <h3>A Look at Middle Class Housing Burden in the Keystone State</h3><br>
 	            <p>Starting with the Great Recession and increasing with the 2016 Presidential Election, people across the United States started to realize that large parts of the US were being left out of the political and social narratives. 
@@ -81,14 +76,14 @@
         </div>
     </div>
 
-	<!-- Map 1: Poverty -->
+	<!-- Map 1: Burdened Middle Class Hhds -->
 	<div class="container">
          
          <div class="row">
             <div class="col-md-6 col-md-offset-3">
-                <h3>% of Middle-Income Households in PA with Housing Cost Burden >30%</h3>
+                <h3>% of Burdened Middle-Income Households in PA</h3>
             </div>
-            <div class="col-md-3 col-md-offset-2">
+            <div class="col-md-8 col-md-offset-2">
                 <div class=MidBurdenMap>
                      <iframe width="1000" height="300" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="burden_mid.html" marginwidth="0" marginheight="0" frameborder="0" allowfullscreen scrolling="no"></iframe>
                 </div>
@@ -98,19 +93,20 @@
         <!-- Text explaining story... -->
     <div class="container">
         <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-4 col-md-offset-4">
                 <h5> <p>Examining the spatial distribution of 30% housing burden in the middle class </p></h5>
             </div>
         </div>
     </div>
 
+    <!-- Map 2: Burden Charts-->
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
-                <h3>% of Middle-Income Households in PA with Housing Cost Burden >50%</h3>
+                <h3>% of Severely Burdened Middle-Income Households in PA</h3>
             </div>
-            <div class="col-md-3 col-md-offset-2">
+            <div class="col-md-8 col-md-offset-2">
                 <div class=MidBurdenMap>
-                     <iframe width="1000" height="300" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="burden_mid.html" marginwidth="0" marginheight="0" frameborder="0" allowfullscreen scrolling="no"></iframe>
+                     <iframe width="1000" height="300" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="burden_mid50.html" marginwidth="0" marginheight="0" frameborder="0" allowfullscreen scrolling="no"></iframe>
                 </div>
             </div>    
          </div>
@@ -123,14 +119,14 @@
 	<!-- Text explaining story... -->
 	<div class="container">
         <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-4 col-md-offset-4">
                 <h5> <p>50% cost burden interpretation here.</p></h5>
             </div>
         </div>
     </div>
 
 
-	<!-- Map 2: Burden Charts-->
+	<!-- Diverging Bar Chart: Population Numbers Over Time-->
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
@@ -142,16 +138,8 @@
 
     <div class="row">
         
-        <div class="col-xs-4" class=MidBurdenBar>
-            <iframe width="700" height="500" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="middlestackedbar.html" marginwidth="0" marginheight="0" frameborder="0" allowfullscreen scrolling="no"></iframe>
-        </div>
-
-        <div class="col-xs-4" class=MidBurdenBar>
-            <iframe width="700" height="500" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="burden30stackedbar.html" marginwidth="0" marginheight="0" frameborder="0" allowfullscreen scrolling="no"></iframe>
-        </div>
-
-        <div class="col-xs-4" class=MidBurdenBar>
-            <iframe width="700" height="500" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="burdenstackedbar.html" marginwidth="0" marginheight="0" frameborder="0" allowfullscreen scrolling="no"></iframe>
+        <div class="col-md-10 col-md-offset-1" class=DivergingBar>
+            <iframe width="900" height="200" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="divergingbar.html" marginwidth="0" marginheight="0" frameborder="0" allowfullscreen scrolling="no"></iframe>
         </div>
         
     </div>
@@ -161,7 +149,7 @@
 	<!-- Text explaining story... -->
 	<div class="container">
         <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-4 col-md-offset-4">
             	<h3></h3>
                 <h5> <p>Takeaways: the middle class is shrinking, and more are renting than owning their homes. <br> Examining the distributional effects of housing burden in Pennsylvania over time will help guide Harrisburg policymakers as they make decisions about how to best support the most vulnerable Pennsylvanians during this time of change. <br></p></h5>
             </div>
@@ -169,14 +157,25 @@
     </div>
 	
 
+    <!-- Notes and Disclaimers! -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+            <hr style="height:2px;border-width:0;background-color:gray">
+                <h6> notes: blah blah blah, will put stuff here on stuff that 
+                we probably would want to include but don't want to be in the main narrative... like notes on data cleaning? or other disclaimers?</h6>
+            </div>
+        </div>
+    </div>
 
-    <!-- Footer Text -->
+
+    <!-- Contact Info -->
 
  	<div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-            	<h4> contact the authors</h4>
-                <h5> Emily Long at elong@mit.edu | Phoebe Holtzman at epkh@mit.edu | Danya Littlefield at danya@mit.edu</h5>
+            	<h5> contact the authors</h5>
+                <h6> Emily Long at elong@mit.edu | Phoebe Holtzman at epkh@mit.edu | Danya Littlefield at danya@mit.edu</h6>
             </div>
         </div>
     </div>
