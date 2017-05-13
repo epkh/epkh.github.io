@@ -21,7 +21,6 @@
 		stroke: #111;
 		stroke-dasharray: 2;
 		stroke-width: 3px;
-
 		opacity: .5;}
 	</style>
 </head>
@@ -148,7 +147,7 @@
 		.range(["#2166ac","#b2182b","#aaa"]);
 
 	// load the csv and create the chart
-	d3.csv("data/rh_burdenM_pop.csv", function(d, i, columns) {
+	d3.csv("data/rh_burden_pop_el.csv", function(d, i, columns) {
 	  for (i = 1, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
 	  d.total = t;
 	  return d;
@@ -159,7 +158,7 @@
 
 	  //data.sort(function(a, b) { return b.total - a.total; });
 	  x.domain(data.map(function(d) { console.log (d.id); return d.id; }));
-	  y.domain([0, d3.max(data, function(d) { return d.total30; })]).nice();
+	  y.domain([0, d3.max(data, function(d) { return (d.tot_r30 + d.tot_h30); })]).nice();
 	  z.domain(keys);
 
 	  g.append("g")
