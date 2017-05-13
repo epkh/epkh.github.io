@@ -369,6 +369,128 @@ function update2015(error, pa_pumas_16_mid, counties16) { // initial creation
         .attr('class', 'tooltip')
 };
 
-var div = d3.select("body").append("div") 
-    .attr("class", "tooltip")
-    .style("opacity", 0);
+    var div = d3.select("body").append("div") 
+      .attr("class", "tooltip")
+      .style("opacity", 0);
+
+// creating the legend!! 
+      var w = 350, h = 50;
+
+      var key = d3.select("#legend1")
+        .append("svg")
+        .attr("width", w)
+        .attr("height", h);
+
+      var legend = key.append("defs")
+        .append("svg:linearGradient")
+        .attr("id", "gradient")
+        .attr("x1", "0%")
+        .attr("y1", "100%")
+        .attr("x2", "100%")
+        .attr("y2", "100%")
+        .attr("spreadMethod", "pad");
+
+      legend.append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", "#fef0d9")
+        .attr("stop-opacity", 1);
+
+      legend.append("stop")
+        .attr("offset", "33%")
+        .attr("stop-color", "#fdcc8a")
+        .attr("stop-opacity", 1);
+
+      legend.append("stop")
+        .attr("offset", "66%")
+        .attr("stop-color", "#fc8d59")
+        .attr("stop-opacity", 1);
+
+      legend.append("stop")
+        .attr("offset", "100%")
+        .attr("stop-color", "#d7301f")
+        .attr("stop-opacity", 1);
+
+      key.append("rect")
+        .attr("width", w - 75)
+        .attr("height", h - 30)
+        .style("fill", "url(#gradient)")
+        .attr("transform", "translate(0,10)");
+
+      var y = d3.scaleLinear()
+        .range([275, 0])
+        .domain([80, 20]);
+
+      var yAxis = d3.axisBottom()
+        .scale(y)
+        .ticks(4);
+
+      key.append("g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(0,30)")
+        .call(yAxis)
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0)
+        .attr("dy", ".71em")
+        .style("text-anchor", "end")
+        .text("axis title");
+         
+    // legend for homeowners
+      var key2 = d3.select("#legend2")
+        .append("svg")
+        .attr("width", w)
+        .attr("height", h);
+
+      var legend = key2.append("defs")
+        .append("svg:linearGradient")
+        .attr("id", "gradient")
+        .attr("x1", "0%")
+        .attr("y1", "100%")
+        .attr("x2", "100%")
+        .attr("y2", "100%")
+        .attr("spreadMethod", "pad");
+
+      legend.append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", "#f7fcf0")
+        .attr("stop-opacity", 1);
+
+      legend.append("stop")
+        .attr("offset", "33%")
+        .attr("stop-color", "#bae4bc")
+        .attr("stop-opacity", 1);
+
+      legend.append("stop")
+        .attr("offset", "66%")
+        .attr("stop-color", "#7bccc4")
+        .attr("stop-opacity", 1);
+
+      legend.append("stop")
+        .attr("offset", "100%")
+        .attr("stop-color", "#084081")
+        .attr("stop-opacity", 1);
+
+      key2.append("rect")
+        .attr("width", w - 75)
+        .attr("height", h - 30)
+        .style("fill", "url(#gradient)")
+        .attr("transform", "translate(0,10)");
+
+      var y = d3.scaleLinear()
+        .range([275, 0])
+        .domain([50, 10]);
+
+      var yAxis = d3.axisBottom()
+        .scale(y)
+        .ticks(4);
+
+      key2.append("g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(0,30)")
+        .call(yAxis)
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0)
+        .attr("dy", ".71em")
+        .style("text-anchor", "end")
+        .text("axis title");

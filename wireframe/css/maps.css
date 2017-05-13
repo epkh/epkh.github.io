@@ -86,6 +86,17 @@ body {
   .my-legend a {
     color: #777;
     }
+
+  .axis text {
+    font: 10px sans-serif;
+  }
+
+  .axis line, .axis path {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
   path:hover{
     fill-opacity: .7;
   }
