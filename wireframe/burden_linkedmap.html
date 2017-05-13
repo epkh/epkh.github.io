@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8"/>
-	<title>Mapping with D3</title>
+	<title>2015 Housing Burden for Middle Income Households</title>
 	<script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
 	<script src="https://d3js.org/d3-array.v1.min.js"></script>
 	<script src="https://d3js.org/d3-geo.v1.min.js"></script>
@@ -10,6 +10,11 @@
 	<script src="https://d3js.org/topojson.v2.min.js"></script>
 	
 	<style>
+	.pumas {
+		fill: none;
+		stroke: #aaa;
+		stroke-linejoin: round;
+	}
 	#main {
 		  width: 960px;
 		}
@@ -57,49 +62,52 @@
 
 	// set color
 	var color = d3.scaleThreshold()
-		.domain([-.67, -.1, -.001, .1, .25, 0.71])
-		.range(["#2166ac", "#67a9cf", "#d1e5f0", "#fddbc7", "#ef8a62", "#b2182b"]);
+		.domain([ .25, .30, .35, .45, .60])
+		.range(["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"]);
 	// queue up the datasets, run 'ready' when loaded
 	d3.queue()
-		.defer(d3.json, "pumas_pa16.json")
-		.defer(d3.csv, "data/rh_burdenM_per.csv")
+		.defer(d3.json, "pumas_rh15_burden.json")
+		// .defer(d3.csv, "data/rh_burdenM_per.csv")
 		.await(ready);
 
 	// create the graphic with this function
-	function ready(error, pumas_pa16, rh_burdenM_per) {
+	function ready(error, pumas_rh15_burden) {
 	  if (error) throw error;
-	  console.log(rh_burdenM_per)
+	  // console.log(burden);
 
-	  var percentburdenById = {}; // Create empty object for holding dataset
-	  var pumaById = {};
+	 //  var burdenById = {}; // Create empty object for holding dataset
+	 //  var pumaById = {};
 	  
-	  rh_burdenM_per.forEach(function(d) {
-		percentburdenById[d.id] = +d.PER30b;
-		pumaById[d.id] = d.id;		
-	  });
+	 //  burden.forEach(function(d) {
+		// burdenById[d.id] = +d.PER30b;
+		// pumaById[d.id] = d.id;		
+	 //  });
 	//replace id in last line here with PUMA name eventually
 	  
-	  // create and style counties
+	  // create and style pumas
 	  svg.append("g")
 		.attr("class", "pumas")
 		.selectAll("path")
-		.data(topojson.feature(pumas_pa16, pumas_pa16.objects.pumas_pa_only).features)
+		.data(topojson.feature(pumas_rh15_burden, pumas_rh15_burden.objects.pumas_rh15_burden).features)
 		.enter().append("path")
 			.attr("d", path)
-			.style("fill", function(d) { console.log(percentburdenById[d.properties.id]); return color(percentburdenById[d.properties.id])})   
+			.style("fill", function(d) { console.log(d.properties.PER30b); return color(d.properties.PER30b)})   
 			
 			//The next line assigns each county a class based on its name: AK, AR, etc.
-			.attr("class", function(d) { return pumaById[d.properties.id]; })
+			.attr("class", function(d) { return d.properties.id; 
+				console.log(this.className);
+			})
 			
 			//This part adds the class "hover" to the state and its matching rectangle in the chart
 			.on("mouseover", function(d) {
-				
-				d3.selectAll("." + d.properties.id).classed("hover",true);
-				console.log(pumaById[d.properties.id]);
+				// d3.select(this).classed("hover",true);
+				d3.selectAll("\.\\" + d.properties.id).classed("hover",true);
+				console.log(this.getAttribute("class"));
 			})
 			.on("mouseout", function(d) {
-				d3.select(this).style("fill",function(d) { return color(percentburdenById[d.properties.id])});
-				d3.selectAll("." + pumaById[d.properties.id]).classed("hover", false);
+				// d3.select(this).classed("hover",false);
+				d3.select(this).style("fill",function(d) { return color(d.properties.PER30b)});
+				d3.selectAll("\.\\" + d.properties.id).classed("hover", false);
 			});
 }
 /// TRYING SOMETHING ELSE BUT DIDN'T WORK...
@@ -135,7 +143,7 @@
 	// set x scale
 	var x = d3.scaleBand()
 		.rangeRound([0, width])
-		.paddingInner(0.05)
+		.paddingInner(0.15)
 		.align(0.1);
 
 	// set y scale
@@ -144,7 +152,7 @@
 
 	// set the colors
 	var z = d3.scaleOrdinal()
-		.range(["#2166ac","#b2182b","#aaa"]);
+		.range(["#fdcc8a","#bae4bc"]);
 
 	// load the csv and create the chart
 	d3.csv("data/rh_burden_pop_el.csv", function(d, i, columns) {
@@ -181,13 +189,13 @@
 		  
 		  //The mouseover functions work just like the ones in the map, they add "hover" class to all matching elements
 		.on("mouseover", function(d) {
-				//d3.select(this).classed("hover",true);
-				d3.selectAll("." + d.data.county).classed("hover",true);
-				console.log(d.data.county);
+				// d3.select(this).classed("hover",true);
+				d3.selectAll("\.\\" +d.data.id).classed("hover",true);
+				console.log(this.className);
 			})
 		.on("mouseout", function(d) {
-			//d3.select(this).classed("hover",false);
-			d3.selectAll("." + d.data.county).classed("hover", false);
+			// d3.select(this).classed("hover",false);
+			d3.selectAll("\.\\"+ d.data.id).classed("hover", false);
 		});
 
 
