@@ -18,9 +18,9 @@ body {
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script>
 
-var margin = {top: 80, right: 20, bottom: 20, left: 50},
-    width = 900 - margin.left - margin.right,
-    height = 200 - margin.top - margin.bottom;
+var margin = {top: 80, right: 50, bottom: 20, left: 50},
+    width = 1000 - margin.left - margin.right,
+    height = 350 - margin.top - margin.bottom;
 
 var y = d3.scale.ordinal()
     .rangeRoundBands([0, height], .3);
@@ -30,7 +30,8 @@ var x = d3.scale.linear()
 
 var xAxis = d3.svg.axis()
     .scale(x)
-    .tickFormat(d3.format(",%"))
+    // .tickFormat(d3.format(",%"))
+    .tickFormat(Math.abs)
     .orient("top");
 
 var yAxis = d3.svg.axis()
@@ -43,7 +44,7 @@ var color = d3.scale.ordinal()
 
 var svg = d3.select('body').append("svg")
     .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("height", height + margin.bottom + margin.top)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -77,6 +78,8 @@ d3.csv("data/raw_data.csv", function(error, data) {
   svg.append("g")
      .attr("class", "x axis")
      .call(xAxis);
+    // .selectAll(".tick text")
+    //   .call(wrap);
 
   svg.append("g")
      .attr("class", "y axis")
@@ -141,5 +144,29 @@ d3.csv("data/raw_data.csv", function(error, data) {
         .text(function(d) { return d; });
 
 });
+
+// function wrap(text, width) {
+//   text.each(function() {
+//     var text = d3.select(this),
+//         words = text.text().split(/\s+/).reverse(),
+//         word,
+//         line = [],
+//         lineNumber = 0,
+//         lineHeight = 1.1, // ems
+//         y = text.attr("y"),
+//         dy = parseFloat(text.attr("dy")),
+//         tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+//     while (word = words.pop()) {
+//       line.push(word);
+//       tspan.text(line.join(" "));
+//       if (tspan.node().getComputedTextLength() > width) {
+//         line.pop();
+//         tspan.text(line.join(" "));
+//         line = [word];
+//         tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+//       }
+//     }
+//   });
+// }
 
 </script>
