@@ -8,11 +8,11 @@
 	<script src="https://d3js.org/d3-geo.v1.min.js"></script>
 	<script src="https://d3js.org/d3-queue.v3.min.js"></script>
 	<script src="https://d3js.org/topojson.v2.min.js"></script>
-	
+	    <link rel="stylesheet" href="css/maps.css">
 	<style>
 	.pumas {
 		fill: none;
-		stroke: #aaa;
+		stroke: #fff;
 		stroke-linejoin: round;
 	}
 	#main {
@@ -55,8 +55,10 @@
 	var path = d3.geoPath()
 		.projection(projection);
 
+	var mapcontainer = d3.select("#map")
+
 	// create SVG elements in map HTML element
-	var svg = d3.select("#map").append("svg")
+	var map = mapcontainer.append("svg")
 		.attr("width", width)
 		.attr("height", height);
 
@@ -66,50 +68,47 @@
 		.range(["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"]);
 	// queue up the datasets, run 'ready' when loaded
 	d3.queue()
-		.defer(d3.json, "pumas_rh15_burden.json")
+		.defer(d3.json, "pumas_rh15_burden_clip.json")
 		// .defer(d3.csv, "data/rh_burdenM_per.csv")
 		.await(ready);
 
 	// create the graphic with this function
-	function ready(error, pumas_rh15_burden) {
+	function ready(error, pumas_rh15_burden_clip) {
 	  if (error) throw error;
 	  // console.log(burden);
 
-	 //  var burdenById = {}; // Create empty object for holding dataset
-	 //  var pumaById = {};
-	  
-	 //  burden.forEach(function(d) {
-		// burdenById[d.id] = +d.PER30b;
-		// pumaById[d.id] = d.id;		
-	 //  });
-	//replace id in last line here with PUMA name eventually
 	  
 	  // create and style pumas
-	  svg.append("g")
+	  map.append("g")
 		.attr("class", "pumas")
 		.selectAll("path")
-		.data(topojson.feature(pumas_rh15_burden, pumas_rh15_burden.objects.pumas_rh15_burden).features)
+		.data(topojson.feature(pumas_rh15_burden_clip, pumas_rh15_burden_clip.objects.pumas_rh15_burden_clip).features)
 		.enter().append("path")
 			.attr("d", path)
 			.style("fill", function(d) { console.log(d.properties.PER30b); return color(d.properties.PER30b)})   
-			
+
 			//The next line assigns each county a class based on its name: AK, AR, etc.
-			.attr("class", function(d) { return d.properties.id; 
+			.attr("class", function(d) { return d.properties.id_j; 
 				console.log(this.className);
 			})
 			
 			//This part adds the class "hover" to the state and its matching rectangle in the chart
 			.on("mouseover", function(d) {
 				// d3.select(this).classed("hover",true);
-				d3.selectAll("\.\\" + d.properties.id).classed("hover",true);
+				// d3.selectAll("\.\\" + d.properties.id).classed("hover",true);
+				d3.selectAll("." + d.properties.id_j).classed("hover",true);
 				console.log(this.getAttribute("class"));
+				return tooltip.style("visibility", "visible").text(d.properties.NAMELSAD10);
 			})
+			.on("mousemove", function(d){
+	        console.log("mousemove");
+	        return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text(d.properties.NAMELSAD10);})
 			.on("mouseout", function(d) {
 				// d3.select(this).classed("hover",false);
 				d3.select(this).style("fill",function(d) { return color(d.properties.PER30b)});
-				d3.selectAll("\.\\" + d.properties.id).classed("hover", false);
-			});
-}
+				d3.selectAll("." + d.properties.id_j).classed("hover",false);
+				return tooltip.style("visibility", "hidden");
+})}
 /// TRYING SOMETHING ELSE BUT DIDN'T WORK...
 	// function ready(error, PAcounties, electionresults16_PAcounties2) {
 	//   if (error) throw error;
@@ -136,8 +135,8 @@
 //STACKED BAR CHART WITH HOVER
 	var svg2 = d3.select("#chart"),
 		margin = {top: 20, right: 20, bottom: 30, left: 40},
-		width = +svg.attr("width") - margin.left - margin.right,
-		height = +svg.attr("height") - margin.top - margin.bottom,
+		width = +map.attr("width") - margin.left - margin.right,
+		height = +map.attr("height") - margin.top - margin.bottom,
 		g = svg2.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	// set x scale
@@ -152,13 +151,14 @@
 
 	// set the colors
 	var z = d3.scaleOrdinal()
-		.range(["#fdcc8a","#bae4bc"]);
+		.range(["#fc8d59","#7bccc4"]);
 
 	// load the csv and create the chart
-	d3.csv("data/rh_burden_pop_el.csv", function(d, i, columns) {
+	d3.csv("data/rh_burden3.csv", function(d, i, columns) {
 	  for (i = 1, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
 	  d.total = t;
 	  return d;
+	  console.log(d);
 	}, function(error, data) {
 	  if (error) throw error;
 
@@ -190,12 +190,13 @@
 		  //The mouseover functions work just like the ones in the map, they add "hover" class to all matching elements
 		.on("mouseover", function(d) {
 				// d3.select(this).classed("hover",true);
-				d3.selectAll("\.\\" +d.data.id).classed("hover",true);
-				console.log(this.className);
+				// d3.selectAll("\.\\" +d.data.id).classed("hover",true);
+				d3.selectAll("." + d.data.id).classed("hover",true);
+				console.log(this.getAttribute("class"));
 			})
 		.on("mouseout", function(d) {
 			// d3.select(this).classed("hover",false);
-			d3.selectAll("\.\\"+ d.data.id).classed("hover", false);
+			d3.selectAll("." + d.data.id).classed("hover",false);
 		});
 
 
@@ -238,22 +239,26 @@
 	});
 
 	  // Prep the tooltip bits, initial display is hidden
-	  var tooltip = svg2.append("g")
-		.attr("class", "tooltip")
-		.style("display", "none");
-		  
-	  tooltip.append("rect")
-		.attr("width", 60)
-		.attr("height", 20)
-		.attr("fill", "white")
-		.style("opacity", 0.5);
+	  var div = d3.select("body").append("div")
+	  	.attr("class", "tooltip")
+	  	.style("opacity", 0);
 
-	  tooltip.append("text")
-		.attr("x", 30)
-		.attr("dy", "1.2em")
-		.style("text-anchor", "middle")
-		.attr("font-size", "12px")
-		.attr("font-weight", "bold");
+	  var tooltip = mapcontainer.append("div")
+		.attr("class", "tooltip")
+
+		  
+	 //  tooltip.append("rect")
+		// .attr("width", 60)
+		// .attr("height", 20)
+		// .attr("fill", "white")
+		// .style("opacity", 0.5);
+
+	 //  tooltip.append("text")
+		// .attr("x", 30)
+		// .attr("dy", "1.2em")
+		// .style("text-anchor", "middle")
+		// .attr("font-size", "12px")
+		// .attr("font-weight", "bold");
 		
 	
 //CONNECTING THEM
