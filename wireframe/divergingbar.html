@@ -6,7 +6,7 @@
 <style>
 
 body {
-  font: 12px sans-serif;
+  font: 12px 'Open Sans', sans-serif;
 }
 
 .axis path,
@@ -26,7 +26,9 @@ body {
 </head>
 
 <body>
-
+<div class = "container">
+  <div id ="chart"></div>
+</div>
 <script>
 
 var margin = {top: 120, right: 50, bottom: 20, left: 50},
@@ -55,19 +57,19 @@ var color = d3.scale.ordinal()
 
 var formatSuffixDecimal2 = d3.format(".2s");
 
-var container = d3.select("body")
+var chartcontainer = d3.select("#chart")
 
-var svg = container.append("svg")
+var svg = chartcontainer.append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.bottom + margin.top)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var div = d3.select("body").append("div")
-    .attr("class", "tooltip");
-    // .style("opacity", 0);
+    .attr("class", "tooltip")
+    .style("opacity", 0);
 
-var tooltip = container.append("div")
+var tooltip = chartcontainer.append("div")
     .attr("class", "tooltip");
 
 d3.csv("data/raw_data.csv", function(error, data) {
