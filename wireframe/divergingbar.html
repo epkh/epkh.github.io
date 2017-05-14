@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<head>
+  <link rel="stylesheet" href="css/maps.css">
+  <script src="https://d3js.org/d3.v3.min.js"></script>
 <style>
 
 body {
@@ -13,14 +16,22 @@ body {
   shape-rendering: crispEdges;
 }
 
+.hover{
+    stroke: #eee;
+/*    stroke-dasharray: 2;*/
+    stroke-width: 3px;
+    opacity: 1;}
+
 </style>
+</head>
+
 <body>
-<script src="https://d3js.org/d3.v3.min.js"></script>
+
 <script>
 
-var margin = {top: 80, right: 50, bottom: 20, left: 50},
+var margin = {top: 120, right: 50, bottom: 20, left: 50},
     width = 1000 - margin.left - margin.right,
-    height = 350 - margin.top - margin.bottom;
+    height = 450 - margin.top - margin.bottom;
 
 var y = d3.scale.ordinal()
     .rangeRoundBands([0, height], .3);
@@ -30,8 +41,8 @@ var x = d3.scale.linear()
 
 var xAxis = d3.svg.axis()
     .scale(x)
-    // .tickFormat(d3.format(",%"))
-    .tickFormat(Math.abs)
+    .tickFormat(d3.format(",%"))
+    // .tickFormat(Math.abs)
     .orient("top");
 
 var yAxis = d3.svg.axis()
@@ -42,11 +53,22 @@ var yAxis = d3.svg.axis()
 var color = d3.scale.ordinal()
     .range(["#f8d8bd","#f4c49d","#f1b17c","#ee9e5c","#5cacee","#7cbcf1","#9dcdf4","#bdddf8"]);
 
-var svg = d3.select('body').append("svg")
+var formatSuffixDecimal2 = d3.format(".2s");
+
+var container = d3.select("body")
+
+var svg = container.append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.bottom + margin.top)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var div = d3.select("body").append("div")
+    .attr("class", "tooltip");
+    // .style("opacity", 0);
+
+var tooltip = container.append("div")
+    .attr("class", "tooltip");
 
 d3.csv("data/raw_data.csv", function(error, data) {
   
@@ -103,11 +125,20 @@ d3.csv("data/raw_data.csv", function(error, data) {
       .data(function(d) { return d.boxes; })
       .enter().append("g");
 
+
   bars.append("rect")
       .attr("height", y.rangeBand())
       .attr("x", function(d) { return x(d.x0); })
       .attr("width", function(d) { return x(d.x1) - x(d.x0); })
-      .style("fill", function(d) { return color(d.name); });
+      .style("fill", function(d) { return color(d.name); })
+      .on("mouseover", function(d){
+        d3.select(this).classed("hover", true);
+        return tooltip.style("visibility", "visible").text(d.name);
+      })
+      .on("mouseout", function(d){
+      d3.select(this).classed("hover", false);
+      return tooltip.style("visibility", "hidden").text(d.name);
+    });
 
   bars.append("text")
     .attr("x", function(d) { return x(d.x0); })
@@ -115,7 +146,7 @@ d3.csv("data/raw_data.csv", function(error, data) {
     .attr("dy", "0.5em")
     .attr("dx", "0.5em")
     .style("text-anchor", "begin")
-    .text(function(d) { return d.absolute !== 0 && (d.x1-d.x0)>0.04 ? d.absolute : "" });
+    .text(function(d) { return formatSuffixDecimal2(d.absolute) !== 0 && (d.x1-d.x0)>0.04 ? formatSuffixDecimal2(d.absolute) : "" });
 
   svg.append("g")
       .attr("class", "y axis")
@@ -128,45 +159,35 @@ d3.csv("data/raw_data.csv", function(error, data) {
       .data(rateNames)
     .enter().append("g")
       .attr("class", "legend")
-      .attr("transform", function(d, i) { return "translate(" + width/rateNames.length * i + ",-55)"; });
+      .attr("transform", function(d, i) { return "translate(" + width/rateNames.length * i + ",-95)"; });
 
   legend.append("rect")
         .attr("x", 0)
         .attr("width", 18)
         .attr("height", 18)
+        .style("padding", "10px")
         .style("fill", color);
 
   legend.append("text")
-        .attr("x", 22)
+        // .attr("x", 22)
         .attr("y", 9)
         .attr("dy", ".35em")
         .style("text-anchor", "begin")
-        .text(function(d) { return d; });
+        // .text(function(d) { return d; });
+        .each(function (d) {   
+      var arr = d.split(" ");
+      if (arr != undefined) {
+          for (i = 0; i < arr.length; i++) {
+              d3.select(this).append("tspan")
+                  .text(arr[i])
+                  .attr("dy", i ? "1em" : -8)
+                  .attr("dominant-baseline", "central")
+                  .attr("x", 20)
+                  .attr("text-anchor", "start")
+                  .attr("class", "tspan" + i);
+          }}});
 
 });
 
-// function wrap(text, width) {
-//   text.each(function() {
-//     var text = d3.select(this),
-//         words = text.text().split(/\s+/).reverse(),
-//         word,
-//         line = [],
-//         lineNumber = 0,
-//         lineHeight = 1.1, // ems
-//         y = text.attr("y"),
-//         dy = parseFloat(text.attr("dy")),
-//         tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
-//     while (word = words.pop()) {
-//       line.push(word);
-//       tspan.text(line.join(" "));
-//       if (tspan.node().getComputedTextLength() > width) {
-//         line.pop();
-//         tspan.text(line.join(" "));
-//         line = [word];
-//         tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
-//       }
-//     }
-//   });
-// }
 
 </script>
