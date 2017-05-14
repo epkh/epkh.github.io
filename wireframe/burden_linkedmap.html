@@ -30,10 +30,10 @@
     }
 
 	.hover{
-		stroke: #111;
-		stroke-dasharray: 2;
-		stroke-width: 3px;
-		opacity: .5;}
+		stroke: #333333;
+		/*stroke-dasharray: 2;*/
+		stroke-width: .5px;
+		opacity: .35;}
 	</style>
 
 </head>
@@ -59,7 +59,7 @@
 	// 	height = 500;
 
 	var projection = d3.geoAlbers()
-	    .scale(6500)
+	    .scale(6000)
 	    .rotate( [77.8367,0] )
 	    .center( [0, 40.8766] )
 	    .translate([width / 2, height / 2]);
@@ -114,40 +114,20 @@
 				// d3.selectAll("\.\\" + d.properties.id).classed("hover",true);
 				d3.selectAll("." + d.properties.id_j).classed("hover",true);
 				console.log(this.getAttribute("class"));
-				return tooltip.style("visibility", "visible").text(d.properties.NAMELSAD10);
+				return tooltiplink.style("visibility", "visible").html(d.properties.NAMELSAD10 + "<br/>" + formatPercent(d.properties.PER30b));
 			})
 			.on("mousemove", function(d){
 	        console.log("mousemove");
-	        return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text(d.properties.NAMELSAD10);})
+	        return tooltiplink.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").html(d.properties.NAMELSAD10 + "<br/>" + formatPercent(d.properties.PER30b));})
 			.on("mouseout", function(d) {
 				// d3.select(this).classed("hover",false);
 				d3.select(this).style("fill",function(d) {return d3.interpolateBuGn(d.properties.PER30b*1.25)});
 				d3.selectAll("." + d.properties.id_j).classed("hover",false);
-				return tooltip.style("visibility", "hidden");
+				return tooltiplink.style("visibility", "hidden");
 })}
-/// TRYING SOMETHING ELSE BUT DIDN'T WORK...
-	// function ready(error, PAcounties, electionresults16_PAcounties2) {
-	//   if (error) throw error;
-	//   console.log(electionresults16_PAcounties2)
-
-	//   var victory_marginById = {};
-
-	//   electionresults16_PAcounties2.forEach(function(d) { victory_marginById[d.id] = +d.victory_margin; });
-
-	//   svg.append("g")
-	//       .attr("class", "counties")
-	//     .selectAll("path")
-	//       .data(topojson.feature(PAcounties, PAcounties.objects.cb_2015_pennsylvania_county_20m).features)
-	//     .enter().append("path")
-	//       .attr("d", path)
-	//       .style("fill", function(d) { return color(victory_marginById[d.id]); });
-			
-	  // create state outlines
-	  // svg.append("path")
-		 //  .datum(topojson.mesh(PAcounties, PAcounties.objects.cb_2015_pennsylvania_county_20m))
-		 //  .attr("class", "counties")
-		 //  .attr("d", path);
 	
+var formatPercent = d3.format(".1%");
+
 //STACKED BAR CHART WITH HOVER
 	var svg2 = d3.select("#chart"),
 		margin = {top: 20, right: 20, bottom: 30, left: 40},
@@ -209,10 +189,17 @@
 				// d3.selectAll("\.\\" +d.data.id).classed("hover",true);
 				d3.selectAll("." + d.data.id).classed("hover",true);
 				console.log(this.getAttribute("class"));
+				return tooltiplink.style("visibility", "visible").html("homeowning: " + d.data['middle-income homeowning households'] + "<br/>" + "renting: " + d.data['middle-income renting households']);
+			})
+
+		.on("mousemove", function(d){
+        	console.log("mousemove");
+        	return tooltiplink.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").html("homeowning: " + d.data['middle-income homeowning households'] + "<br/>" + "renting: " + d.data['middle-income renting households']);
 			})
 		.on("mouseout", function(d) {
 			// d3.select(this).classed("hover",false);
 			d3.selectAll("." + d.data.id).classed("hover",false);
+			return tooltiplink.style("visibility", "hidden");
 		});
 
 	// var height2 = height + 20;	
@@ -244,9 +231,9 @@
 		  .attr("transform", function(d, i) { return "translate(0," + i * 35 + ")"; });
 
 	  legend.append("rect")
-		  .attr("x", width - 75)
-		  .attr("width", 19)
-		  .attr("height", 19)
+		  .attr("x", width - 145)
+		  .attr("width", 20)
+		  .attr("height", 20)
 		  .attr("fill", z);
 
 	  legend.append("text")
@@ -261,7 +248,7 @@
 		                  .text(arr[i])
 		                  .attr("dy", i ? "1em" : -8)
 		                  .attr("dominant-baseline", "central")
-		                  .attr("x", width - 20)
+		                  .attr("x", width - 115)
 		                  .attr("text-anchor", "start")
 		                  .attr("class", "tspan" + i);
           }}});
@@ -269,11 +256,11 @@
 
 	  // Prep the tooltip bits, initial display is hidden
 	  var div = d3.select("body").append("div")
-	  	.attr("class", "tooltip")
+	  	.attr("class", "tooltiplink")
 	  	.style("opacity", 0);
 
-	  var tooltip = mapcontainer.append("div")
-		.attr("class", "tooltip")
+	  var tooltiplink = mapcontainer.append("div")
+		.attr("class", "tooltiplink")
 
 		  
 	 //  tooltip.append("rect")
