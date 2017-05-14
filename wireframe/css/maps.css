@@ -43,7 +43,7 @@ body {
     text-align: center;
   }
   .my-legend .legend-title {
-    text-align: left;
+    text-align: center;
     margin-left: 0px;
     margin-bottom: 8px;
     font-weight: bold;
@@ -100,4 +100,27 @@ body {
   path:hover{
     fill-opacity: .7;
   }
+
+  #legend1 {
+    width: 450px;
+    height: 50px;
+    margin-left: 45px;
+  }
+
+  #legend2 {
+    width: 450px;
+    height: 50px;
+    margin-left: 45px;
+  }
+
+ div.my-legend {
+  width: 450px;
+  height: 90px;
+ }
+
+ div.legend-scale {
+  width: 450px;
+  height: 54px;
+ }
+ 
 
