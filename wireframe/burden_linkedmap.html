@@ -241,7 +241,7 @@
 		.selectAll("g")
 		.data(keys.slice().reverse())
 		.enter().append("g")
-		  .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+		  .attr("transform", function(d, i) { return "translate(0," + i * 35 + ")"; });
 
 	  legend.append("rect")
 		  .attr("x", width - 75)
@@ -250,10 +250,21 @@
 		  .attr("fill", z);
 
 	  legend.append("text")
-		  .attr("x", width - 20)
 		  .attr("y", 9.5)
 		  .attr("dy", "0.32em")
-		  .text(function(d) { return d; });
+		  // .text(function(d) { return d; });
+		  .each(function (d) {   
+		      var arr = d.split(" ");
+		      if (arr != undefined) {
+		          for (i = 0; i < arr.length; i++) {
+		              d3.select(this).append("tspan")
+		                  .text(arr[i])
+		                  .attr("dy", i ? "1em" : -8)
+		                  .attr("dominant-baseline", "central")
+		                  .attr("x", width - 20)
+		                  .attr("text-anchor", "start")
+		                  .attr("class", "tspan" + i);
+          }}});
 	});
 
 	  // Prep the tooltip bits, initial display is hidden
