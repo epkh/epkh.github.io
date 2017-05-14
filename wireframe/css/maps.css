@@ -31,8 +31,17 @@ body {
     z-index: 10;
     visibility:hidden;
   }
-
-
+  .tooltipbar {
+    background-color: #fff;
+    opacity: 0.8; 
+    padding: 5px;
+/*    width: 20px;*/
+    position: absolute;
+    border-radius: 8px;
+    font-size: 12px;
+    z-index: 10;
+    visibility:hidden;
+  }
   .homeowner-map{
     width: 350px
     float: right;
@@ -100,7 +109,7 @@ body {
     }
 
   .axis text {
-    font: 10px sans-serif;
+    font: 10px, Open Sans, sans-serif;
   }
 
   .axis line, .axis path {

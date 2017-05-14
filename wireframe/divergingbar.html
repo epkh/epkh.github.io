@@ -12,7 +12,7 @@ body {
 .axis path,
 .axis line {
   fill: none;
-  stroke: #000;
+  stroke: #aaa;
   shape-rendering: crispEdges;
 }
 
@@ -26,13 +26,13 @@ body {
 </head>
 
 <body>
-<div class = "container">
-  <div id ="chart"></div>
+<div class="container">
+  <div id="chart"></div>
 </div>
 <script>
 
 var margin = {top: 120, right: 50, bottom: 20, left: 50},
-    width = 1000 - margin.left - margin.right,
+    width = 900 - margin.left - margin.right,
     height = 450 - margin.top - margin.bottom;
 
 var y = d3.scale.ordinal()
@@ -66,11 +66,11 @@ var svg = chartcontainer.append("svg")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var div = d3.select("body").append("div")
-    .attr("class", "tooltip")
+    .attr("class", "tooltipbar")
     .style("opacity", 0);
 
-var tooltip = chartcontainer.append("div")
-    .attr("class", "tooltip");
+var tooltipbar = chartcontainer.append("div")
+    .attr("class", "tooltipbar");
 
 d3.csv("data/raw_data.csv", function(error, data) {
   
@@ -135,11 +135,14 @@ d3.csv("data/raw_data.csv", function(error, data) {
       .style("fill", function(d) { return color(d.name); })
       .on("mouseover", function(d){
         d3.select(this).classed("hover", true);
-        return tooltip.style("visibility", "visible").text(d.name);
+        return tooltipbar.style("visibility", "visible").text(d.name);
+      })
+       .on("mousemove", function(d) {
+        return tooltipbar.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text(d.name);
       })
       .on("mouseout", function(d){
       d3.select(this).classed("hover", false);
-      return tooltip.style("visibility", "hidden").text(d.name);
+      return tooltipbar.style("visibility", "hidden").text(d.name);
     });
 
   bars.append("text")
@@ -193,3 +196,4 @@ d3.csv("data/raw_data.csv", function(error, data) {
 
 
 </script>
+</body>
