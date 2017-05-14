@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <head>
+  <title>Housing Cost Burden: Middle-Income Owners v. Renters</title>
   <link rel="stylesheet" href="css/maps.css">
   <script src="https://d3js.org/d3.v3.min.js"></script>
 <style>
@@ -41,9 +42,11 @@ var y = d3.scale.ordinal()
 var x = d3.scale.linear()
     .rangeRound([0, width]);
 
+var formatPercent = d3.format("%")
+
 var xAxis = d3.svg.axis()
     .scale(x)
-    .tickFormat(d3.format(",%"))
+    .tickFormat(formatPercent)
     // .tickFormat(Math.abs)
     .orient("top");
 
@@ -135,14 +138,14 @@ d3.csv("data/raw_data.csv", function(error, data) {
       .style("fill", function(d) { return color(d.name); })
       .on("mouseover", function(d){
         d3.select(this).classed("hover", true);
-        return tooltipbar.style("visibility", "visible").text(d.name);
+        return tooltipbar.style("visibility", "visible").html(d.name + "<br/>" + formatSuffixDecimal2(d.absolute) + " households");
       })
        .on("mousemove", function(d) {
-        return tooltipbar.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text(d.name);
+        return tooltipbar.style("top", (event.pageY-45)+"px").style("left",(event.pageX+10)+"px").html(d.name + "<br/>" + formatSuffixDecimal2(d.absolute)+ " households");
       })
       .on("mouseout", function(d){
       d3.select(this).classed("hover", false);
-      return tooltipbar.style("visibility", "hidden").text(d.name);
+      return tooltipbar.style("visibility", "hidden");
     });
 
   bars.append("text")
@@ -178,6 +181,7 @@ d3.csv("data/raw_data.csv", function(error, data) {
         .attr("y", 9)
         .attr("dy", ".35em")
         .style("text-anchor", "begin")
+        .style("font-size", "10px")
         // .text(function(d) { return d; });
         .each(function (d) {   
       var arr = d.split(" ");

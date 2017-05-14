@@ -98,12 +98,13 @@
 		.data(topojson.feature(pumas_rh15_burden_clip, pumas_rh15_burden_clip.objects.pumas_rh15_burden_clip).features)
 		.enter().append("path")
 			.attr("d", path)
-			.style("fill", function(d) { console.log(d.properties.PER30b); 
+			.style("fill", function(d) { 
+				// console.log(d.properties.PER30b); 
 				return d3.interpolateBuGn(d.properties.PER30b*1.25);
 				// return color(d.properties.PER30b)
 			})   
 
-			//The next line assigns each county a class based on its name: AK, AR, etc.
+			//The next line assigns each county a class based on its name: 
 			.attr("class", function(d) { return d.properties.id_j; 
 				console.log(this.className);
 			})

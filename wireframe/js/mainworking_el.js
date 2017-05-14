@@ -52,8 +52,8 @@ var colorh = d3.scaleThreshold()
 d3.queue()
     .defer(d3.json, "pumas_pa16.json") // Load US PUMAs geography data
     .defer(d3.json, "counties16.json")
-    .defer(d3.csv, "data/r15_poverty.csv")
-    .defer(d3.csv, "data/h15_poverty.csv")
+    // .defer(d3.csv, "data/r15_poverty.csv")
+    // .defer(d3.csv, "data/h15_poverty.csv")
     .await(update2015); 
 
 // UPDATE DATA FUNCTIONS //
