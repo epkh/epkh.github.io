@@ -3,16 +3,20 @@
 <head>
 	<meta charset="utf-8"/>
 	<title>2015 Housing Burden for Middle Income Households</title>
+	<link rel="stylesheet" href="css/maps.css">
 	<script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
 	<script src="https://d3js.org/d3-array.v1.min.js"></script>
 	<script src="https://d3js.org/d3-geo.v1.min.js"></script>
 	<script src="https://d3js.org/d3-queue.v3.min.js"></script>
 	<script src="https://d3js.org/topojson.v2.min.js"></script>
-	
+	<script src="https://d3js.org/d3-color.v1.min.js"></script>
+	<script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+	  
 	<style>
 	.pumas {
 		fill: none;
-		stroke: #aaa;
+		stroke: #fff;
 		stroke-linejoin: round;
 	}
 	#main {
@@ -21,6 +25,9 @@
 		.axis .domain {
 		  display: none;
 	}
+	#legend1 {
+    margin-left: 280px;
+    }
 
 	.hover{
 		stroke: #111;
@@ -28,9 +35,11 @@
 		stroke-width: 3px;
 		opacity: .5;}
 	</style>
+
 </head>
 <body>
 <div class="container">
+	<div id="legend1"></div>
 	<div id="map"></div>
 </div>
 <div class="container">	
@@ -42,11 +51,15 @@
 <script>
 //MAP CHOROPLETH
 	// set width and height of graphic
-	var width = 960,
-		height = 500;
+	var margin = {top: 100, right: 100, bottom: 100, left: 100},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+	// var width = 960,
+	// 	height = 500;
 
 	var projection = d3.geoAlbers()
-	    .scale(7500)
+	    .scale(6500)
 	    .rotate( [77.8367,0] )
 	    .center( [0, 40.8766] )
 	    .translate([width / 2, height / 2]);
@@ -55,61 +68,63 @@
 	var path = d3.geoPath()
 		.projection(projection);
 
+	var mapcontainer = d3.select("#map")
+
 	// create SVG elements in map HTML element
-	var svg = d3.select("#map").append("svg")
+	var map = mapcontainer.append("svg")
 		.attr("width", width)
 		.attr("height", height);
 
 	// set color
-	var color = d3.scaleThreshold()
-		.domain([ .25, .30, .35, .45, .60])
-		.range(["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"]);
+	// var color = d3.scaleThreshold()
+	// 	.domain([ .25, .30, .35, .45, .60])
+	// 	.range(["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"]);
 	// queue up the datasets, run 'ready' when loaded
 	d3.queue()
-		.defer(d3.json, "pumas_rh15_burden.json")
+		.defer(d3.json, "pumas_rh15_burden_clip.json")
 		// .defer(d3.csv, "data/rh_burdenM_per.csv")
 		.await(ready);
 
 	// create the graphic with this function
-	function ready(error, pumas_rh15_burden) {
+	function ready(error, pumas_rh15_burden_clip) {
 	  if (error) throw error;
 	  // console.log(burden);
 
-	 //  var burdenById = {}; // Create empty object for holding dataset
-	 //  var pumaById = {};
-	  
-	 //  burden.forEach(function(d) {
-		// burdenById[d.id] = +d.PER30b;
-		// pumaById[d.id] = d.id;		
-	 //  });
-	//replace id in last line here with PUMA name eventually
 	  
 	  // create and style pumas
-	  svg.append("g")
+	  map.append("g")
 		.attr("class", "pumas")
 		.selectAll("path")
-		.data(topojson.feature(pumas_rh15_burden, pumas_rh15_burden.objects.pumas_rh15_burden).features)
+		.data(topojson.feature(pumas_rh15_burden_clip, pumas_rh15_burden_clip.objects.pumas_rh15_burden_clip).features)
 		.enter().append("path")
 			.attr("d", path)
-			.style("fill", function(d) { console.log(d.properties.PER30b); return color(d.properties.PER30b)})   
-			
+			.style("fill", function(d) { console.log(d.properties.PER30b); 
+				return d3.interpolateBuGn(d.properties.PER30b*1.25);
+				// return color(d.properties.PER30b)
+			})   
+
 			//The next line assigns each county a class based on its name: AK, AR, etc.
-			.attr("class", function(d) { return d.properties.id; 
+			.attr("class", function(d) { return d.properties.id_j; 
 				console.log(this.className);
 			})
 			
 			//This part adds the class "hover" to the state and its matching rectangle in the chart
 			.on("mouseover", function(d) {
 				// d3.select(this).classed("hover",true);
-				d3.selectAll("\.\\" + d.properties.id).classed("hover",true);
+				// d3.selectAll("\.\\" + d.properties.id).classed("hover",true);
+				d3.selectAll("." + d.properties.id_j).classed("hover",true);
 				console.log(this.getAttribute("class"));
+				return tooltip.style("visibility", "visible").text(d.properties.NAMELSAD10);
 			})
+			.on("mousemove", function(d){
+	        console.log("mousemove");
+	        return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").text(d.properties.NAMELSAD10);})
 			.on("mouseout", function(d) {
 				// d3.select(this).classed("hover",false);
-				d3.select(this).style("fill",function(d) { return color(d.properties.PER30b)});
-				d3.selectAll("\.\\" + d.properties.id).classed("hover", false);
-			});
-}
+				d3.select(this).style("fill",function(d) {return d3.interpolateBuGn(d.properties.PER30b*1.25)});
+				d3.selectAll("." + d.properties.id_j).classed("hover",false);
+				return tooltip.style("visibility", "hidden");
+})}
 /// TRYING SOMETHING ELSE BUT DIDN'T WORK...
 	// function ready(error, PAcounties, electionresults16_PAcounties2) {
 	//   if (error) throw error;
@@ -136,8 +151,8 @@
 //STACKED BAR CHART WITH HOVER
 	var svg2 = d3.select("#chart"),
 		margin = {top: 20, right: 20, bottom: 30, left: 40},
-		width = +svg.attr("width") - margin.left - margin.right,
-		height = +svg.attr("height") - margin.top - margin.bottom,
+		width = +map.attr("width") - margin.left - margin.right,
+		height = +map.attr("height") - margin.top - margin.bottom,
 		g = svg2.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	// set x scale
@@ -152,13 +167,14 @@
 
 	// set the colors
 	var z = d3.scaleOrdinal()
-		.range(["#fdcc8a","#bae4bc"]);
+		.range(["#ee9e5c","#5cacee"]);
 
 	// load the csv and create the chart
-	d3.csv("data/rh_burden_pop_el.csv", function(d, i, columns) {
+	d3.csv("data/rh_burden3.csv", function(d, i, columns) {
 	  for (i = 1, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
 	  d.total = t;
 	  return d;
+	  console.log(d);
 	}, function(error, data) {
 	  if (error) throw error;
 
@@ -166,7 +182,7 @@
 
 	  //data.sort(function(a, b) { return b.total - a.total; });
 	  x.domain(data.map(function(d) { console.log (d.id); return d.id; }));
-	  y.domain([0, d3.max(data, function(d) { return (d.tot_r30 + d.tot_h30); })]).nice();
+	  y.domain([0, 35000]).nice();
 	  z.domain(keys);
 
 	  g.append("g")
@@ -190,19 +206,22 @@
 		  //The mouseover functions work just like the ones in the map, they add "hover" class to all matching elements
 		.on("mouseover", function(d) {
 				// d3.select(this).classed("hover",true);
-				d3.selectAll("\.\\" +d.data.id).classed("hover",true);
-				console.log(this.className);
+				// d3.selectAll("\.\\" +d.data.id).classed("hover",true);
+				d3.selectAll("." + d.data.id).classed("hover",true);
+				console.log(this.getAttribute("class"));
 			})
 		.on("mouseout", function(d) {
 			// d3.select(this).classed("hover",false);
-			d3.selectAll("\.\\"+ d.data.id).classed("hover", false);
+			d3.selectAll("." + d.data.id).classed("hover",false);
 		});
 
+	// var height2 = height + 20;	
 
 	  g.append("g")
 		  .attr("class", "axis")
-		  .attr("transform", "translate(0," + height + ")")
-		  .call(d3.axisBottom(x));
+		  // .attr("transform", "translate(0," + height2 + ")")
+		  // .call(d3.axisBottom(x))
+		  .selectAll("text").remove();
 
 	  g.append("g")
 		  .attr("class", "axis")
@@ -222,41 +241,115 @@
 		.selectAll("g")
 		.data(keys.slice().reverse())
 		.enter().append("g")
-		  .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+		  .attr("transform", function(d, i) { return "translate(0," + i * 35 + ")"; });
 
 	  legend.append("rect")
-		  .attr("x", width - 19)
+		  .attr("x", width - 75)
 		  .attr("width", 19)
 		  .attr("height", 19)
 		  .attr("fill", z);
 
 	  legend.append("text")
-		  .attr("x", width - 24)
 		  .attr("y", 9.5)
 		  .attr("dy", "0.32em")
-		  .text(function(d) { return d; });
+		  // .text(function(d) { return d; });
+		  .each(function (d) {   
+		      var arr = d.split(" ");
+		      if (arr != undefined) {
+		          for (i = 0; i < arr.length; i++) {
+		              d3.select(this).append("tspan")
+		                  .text(arr[i])
+		                  .attr("dy", i ? "1em" : -8)
+		                  .attr("dominant-baseline", "central")
+		                  .attr("x", width - 20)
+		                  .attr("text-anchor", "start")
+		                  .attr("class", "tspan" + i);
+          }}});
 	});
 
 	  // Prep the tooltip bits, initial display is hidden
-	  var tooltip = svg2.append("g")
-		.attr("class", "tooltip")
-		.style("display", "none");
-		  
-	  tooltip.append("rect")
-		.attr("width", 60)
-		.attr("height", 20)
-		.attr("fill", "white")
-		.style("opacity", 0.5);
+	  var div = d3.select("body").append("div")
+	  	.attr("class", "tooltip")
+	  	.style("opacity", 0);
 
-	  tooltip.append("text")
-		.attr("x", 30)
-		.attr("dy", "1.2em")
-		.style("text-anchor", "middle")
-		.attr("font-size", "12px")
-		.attr("font-weight", "bold");
+	  var tooltip = mapcontainer.append("div")
+		.attr("class", "tooltip")
+
+		  
+	 //  tooltip.append("rect")
+		// .attr("width", 60)
+		// .attr("height", 20)
+		// .attr("fill", "white")
+		// .style("opacity", 0.5);
+
+	 //  tooltip.append("text")
+		// .attr("x", 30)
+		// .attr("dy", "1.2em")
+		// .style("text-anchor", "middle")
+		// .attr("font-size", "12px")
+		// .attr("font-weight", "bold");
 		
-	
-//CONNECTING THEM
+// creating the legend!! 
+      var w = 350, h = 50;
+
+      var key = d3.select("#legend1")
+        .append("svg")
+        .attr("width", w)
+        .attr("height", h);
+
+      var legend = key.append("defs")
+        .append("svg:linearGradient")
+        .attr("id", "gradient")
+        .attr("x1", "0%")
+        .attr("y1", "100%")
+        .attr("x2", "100%")
+        .attr("y2", "100%")
+        .attr("spreadMethod", "pad");
+
+      legend.append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", "#edf8fb")
+        .attr("stop-opacity", 1);
+
+      legend.append("stop")
+        .attr("offset", "33%")
+        .attr("stop-color", "#b2e2e2")
+        .attr("stop-opacity", 1);
+
+      legend.append("stop")
+        .attr("offset", "66%")
+        .attr("stop-color", "#66c2a4")
+        .attr("stop-opacity", 1);
+
+      legend.append("stop")
+        .attr("offset", "100%")
+        .attr("stop-color", "#238b45")
+        .attr("stop-opacity", 1);
+
+      key.append("rect")
+        .attr("width", w - 75)
+        .attr("height", h - 30)
+        .style("fill", "url(#gradient)")
+        .attr("transform", "translate(0,10)");
+
+      var y = d3.scaleLinear()
+        .range([275, 0])
+        .domain([60, 20]);
+
+      var yAxis = d3.axisBottom()
+        .scale(y)
+        .ticks(4);
+
+      key.append("g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(0,30)")
+        .call(yAxis)
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0)
+        .attr("dy", ".71em")
+        .style("text-anchor", "end")
+        .text("axis title");
 
 
 </script>	
