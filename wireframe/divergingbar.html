@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<head>
+  <link rel="stylesheet" href="css/maps.css">
+  <script src="https://d3js.org/d3.v3.min.js"></script>
 <style>
 
 body {
@@ -20,8 +23,10 @@ body {
     opacity: 1;}
 
 </style>
+</head>
+
 <body>
-<script src="https://d3js.org/d3.v3.min.js"></script>
+
 <script>
 
 var margin = {top: 120, right: 50, bottom: 20, left: 50},
@@ -50,11 +55,20 @@ var color = d3.scale.ordinal()
 
 var formatSuffixDecimal2 = d3.format(".2s");
 
-var svg = d3.select('body').append("svg")
+var container = d3.select("body")
+
+var svg = container.append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.bottom + margin.top)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var div = d3.select("body").append("div")
+    .attr("class", "tooltip");
+    // .style("opacity", 0);
+
+var tooltip = container.append("div")
+    .attr("class", "tooltip");
 
 d3.csv("data/raw_data.csv", function(error, data) {
   
@@ -119,9 +133,11 @@ d3.csv("data/raw_data.csv", function(error, data) {
       .style("fill", function(d) { return color(d.name); })
       .on("mouseover", function(d){
         d3.select(this).classed("hover", true);
+        return tooltip.style("visibility", "visible").text(d.name);
       })
       .on("mouseout", function(d){
       d3.select(this).classed("hover", false);
+      return tooltip.style("visibility", "hidden").text(d.name);
     });
 
   bars.append("text")
@@ -173,28 +189,5 @@ d3.csv("data/raw_data.csv", function(error, data) {
 
 });
 
-// function wrap(text, width) {
-//   text.each(function() {
-//     var text = d3.select(this),
-//         words = text.text().split(/\s+/).reverse(),
-//         word,
-//         line = [],
-//         lineNumber = 0,
-//         lineHeight = 1.1, // ems
-//         y = text.attr("y"),
-//         dy = parseFloat(text.attr("dy")),
-//         tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
-//     while (word = words.pop()) {
-//       line.push(word);
-//       tspan.text(line.join(" "));
-//       if (tspan.node().getComputedTextLength() > width) {
-//         line.pop();
-//         tspan.text(line.join(" "));
-//         line = [word];
-//         tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
-//       }
-//     }
-//   });
-// }
 
 </script>
