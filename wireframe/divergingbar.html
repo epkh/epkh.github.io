@@ -13,6 +13,12 @@ body {
   shape-rendering: crispEdges;
 }
 
+.hover{
+    stroke: #eee;
+/*    stroke-dasharray: 2;*/
+    stroke-width: 3px;
+    opacity: 1;}
+
 </style>
 <body>
 <script src="https://d3js.org/d3.v3.min.js"></script>
@@ -41,6 +47,8 @@ var yAxis = d3.svg.axis()
 
 var color = d3.scale.ordinal()
     .range(["#f8d8bd","#f4c49d","#f1b17c","#ee9e5c","#5cacee","#7cbcf1","#9dcdf4","#bdddf8"]);
+
+var formatSuffixDecimal2 = d3.format(".2s");
 
 var svg = d3.select('body').append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -103,11 +111,18 @@ d3.csv("data/raw_data.csv", function(error, data) {
       .data(function(d) { return d.boxes; })
       .enter().append("g");
 
+
   bars.append("rect")
       .attr("height", y.rangeBand())
       .attr("x", function(d) { return x(d.x0); })
       .attr("width", function(d) { return x(d.x1) - x(d.x0); })
-      .style("fill", function(d) { return color(d.name); });
+      .style("fill", function(d) { return color(d.name); })
+      .on("mouseover", function(d){
+        d3.select(this).classed("hover", true);
+      })
+      .on("mouseout", function(d){
+      d3.select(this).classed("hover", false);
+    });
 
   bars.append("text")
     .attr("x", function(d) { return x(d.x0); })
@@ -115,7 +130,7 @@ d3.csv("data/raw_data.csv", function(error, data) {
     .attr("dy", "0.5em")
     .attr("dx", "0.5em")
     .style("text-anchor", "begin")
-    .text(function(d) { return d.absolute !== 0 && (d.x1-d.x0)>0.04 ? d.absolute : "" });
+    .text(function(d) { return formatSuffixDecimal2(d.absolute) !== 0 && (d.x1-d.x0)>0.04 ? formatSuffixDecimal2(d.absolute) : "" });
 
   svg.append("g")
       .attr("class", "y axis")
