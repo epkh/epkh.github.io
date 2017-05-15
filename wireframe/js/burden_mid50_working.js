@@ -153,7 +153,12 @@ function updateYear(value) {
 }
 
 function drawCounties(counties16) {
-  d3.selectAll("svg")
+  d3.select("#mapRbur").selectAll("svg")
+  .append("path")
+  .datum(topojson.mesh(counties16, counties16.objects.counties))
+  .attr("d", path)
+  .attr("class", "counties");
+  d3.select("#mapHbur").selectAll("svg")
   .append("path")
   .datum(topojson.mesh(counties16, counties16.objects.counties))
   .attr("d", path)
