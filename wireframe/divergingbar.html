@@ -138,10 +138,10 @@ d3.csv("data/raw_data.csv", function(error, data) {
       .style("fill", function(d) { return color(d.name); })
       .on("mouseover", function(d){
         d3.select(this).classed("hover", true);
-        return tooltipbar.style("visibility", "visible").html(d.name + "<br/>" + formatSuffixDecimal2(d.absolute) + " households");
+        return tooltipbar.style("visibility", "visible").html(d.name + " households:"+"<br/>" + formatSuffixDecimal2(d.absolute));
       })
        .on("mousemove", function(d) {
-        return tooltipbar.style("top", (event.pageY-45)+"px").style("left",(event.pageX+10)+"px").html(d.name + "<br/>" + formatSuffixDecimal2(d.absolute)+ " households");
+        return tooltipbar.style("top", (event.pageY-45)+"px").style("left",(event.pageX+10)+"px").html(d.name + " households:"+"<br/>" + formatSuffixDecimal2(d.absolute)+ );
       })
       .on("mouseout", function(d){
       d3.select(this).classed("hover", false);
