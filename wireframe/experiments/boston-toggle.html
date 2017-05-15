@@ -1,0 +1,174 @@
+<html>
+<head>
+    <title>A D3 map</title>
+    <script src="http://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+    <script src="boston_neighborhoods.json"></script>
+    <script src="boston_rodents.json"></script>
+    <style>
+        body {
+            position: absolute;
+            font-family: "Proxima Nova", "Montserrat", sans-serif;
+        }
+        h1, h2 {
+            position: absolute;
+            left: 10px;
+            font-size: 1.3em;
+            font-weight: 100;
+        }
+        h2 {
+            top: 30px;
+            font-size: 1em;
+        }
+        .hover {
+            fill: yellow;   
+        }
+        #toggleContainer {
+            text-align: center;
+            position: relative;
+            top: 500px;
+            left: 450px;
+        }
+        /* The switch - the box around the slider */
+        .switch {
+          position: relative;
+          display: inline-block;
+          width: 60px;
+          height: 34px;
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {display:none;}
+
+        /* The slider */
+        .slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #ccc;
+          -webkit-transition: .4s;
+          transition: .4s;
+        }
+
+        .slider:before {
+          position: absolute;
+          content: "";
+          height: 26px;
+          width: 26px;
+          left: 4px;
+          bottom: 4px;
+          background-color: white;
+          -webkit-transition: .4s;
+          transition: .4s;
+        }
+
+        input:checked + .slider {
+          background-color: #900;
+        }
+
+        input:focus + .slider {
+          box-shadow: 0 0 1px #900;
+        }
+
+        input:checked + .slider:before {
+          -webkit-transform: translateX(26px);
+          -ms-transform: translateX(26px);
+          transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+          border-radius: 34px;
+        }
+
+        .slider.round:before {
+          border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rodent Incidents in Boston</h1>
+    <h2></h2>
+    <div id="toggleContainer">
+        <table>
+            <tr>
+                <td><label class="switch">
+                    <input id="rodent_toggle" type="checkbox">
+                    <div class="slider round"></div>
+                </label></td>
+                <td>Rodent Incidents</td>
+            </tr>
+            <tr>
+                <td><label class="switch">
+                    <input id="hoods_toggle" type="checkbox">
+                    <div class="slider round"></div>
+                </label></td>
+                <td>Neighborhoods</td>
+            </tr>
+        </table>
+    </div>
+    <script>
+    var width = 700;
+    var height = 580;
+
+    var svg = d3.select( "body" )
+        .append( "svg" )
+        .attr( "width", width )
+        .attr( "height", height );
+
+    var g = svg.append( "g" );
+
+    var albersProjection = d3.geoAlbers()
+        .scale( 190000 )
+        .rotate( [71.057,0] )
+        .center( [0, 42.313] )
+        .translate( [width/2,height/2] );
+
+    var geoPath = d3.geoPath()
+        .projection( albersProjection );
+
+    g.selectAll( "path" )
+        .data( neighborhoods_json.features )
+        .enter()
+        .append( "path" )
+        .attr( "fill", "#ccc" )
+        .attr( "stroke", "#fff")
+        .attr( "d", geoPath )
+        .attr( "class", "neighborhoods")
+        .attr( "visibility", "hidden");
+
+    var rodents = svg.append( "g" );
+
+    rodents.selectAll( "path" )
+        .data( rodents_json.features )
+        .enter()
+        .append( "path" )
+        .attr( "fill", "#900" )
+        .attr( "stroke", "#999" )
+        .attr( "d", geoPath )
+        .attr( "class", "incident")
+        .attr( "visibility", "hidden");
+
+    var hoodsCheckbox = document.querySelector('input[id="hoods_toggle"]');
+    var rodentsCheckbox = document.querySelector('input[id="rodent_toggle"]');
+
+    hoodsCheckbox.onchange = function() {
+      if(this.checked) {
+        d3.selectAll(".neighborhoods").attr("visibility", "visible");
+      } else {
+        d3.selectAll(".neighborhoods").attr("visibility", "hidden");
+      }
+    };
+
+    rodentsCheckbox.onchange = function() {
+      if(this.checked) {
+        d3.selectAll(".incident").attr("visibility", "visible");
+      } else {
+        d3.selectAll(".incident").attr("visibility", "hidden");
+      }
+    };
+    </script>
+</body>
+</html>
