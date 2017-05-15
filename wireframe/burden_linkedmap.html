@@ -25,7 +25,7 @@
 	}
 	#main {
 		  width: 960px;
-		  margin-top: -70px;
+		  margin-top: -95px;
 		}
 		.axis .domain {
 		  display: none;
@@ -48,6 +48,71 @@
 		margin: auto;
 		width: 960px;
 	}
+
+	    #toggleContainer {
+        text-align: center;
+        position: relative;
+        top: -440px;
+        left: 575px;
+        }
+        /* The switch - the box around the slider */
+        .switch {
+          position: relative;
+          display: inline-block;
+          width: 50px;
+          height: 24px;
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {display:none;}
+
+        /* The slider */
+        .slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #ccc;
+          -webkit-transition: .4s;
+          transition: .4s;
+        }
+
+        .slider:before {
+          position: absolute;
+          content: "";
+          height: 16px;
+          width: 16px;
+          left: 4px;
+          bottom: 4px;
+          background-color: white;
+          -webkit-transition: .4s;
+          transition: .4s;
+        }
+
+        input:checked + .slider {
+          background-color: #3d3d3d;
+        }
+
+        input:focus + .slider {
+          box-shadow: 0 0 1px #3d3d3d;
+        }
+
+        input:checked + .slider:before {
+          -webkit-transform: translateX(26px);
+          -ms-transform: translateX(26px);
+          transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+          border-radius: 34px;
+        }
+
+        .slider.round:before {
+          border-radius: 50%;
+        }
 	</style>
 
 </head>
@@ -56,6 +121,17 @@
 	<div class="container mapchart">
 		<div id="legend1"></div>
 		<div id="map"></div>
+		<div id="toggleContainer">
+	        <table>
+	            <tr>
+	                <td><label class="switch">
+	                    <input id="city_toggle" type="checkbox">
+	                    <div class="slider round"></div>
+	                </label></td>
+	                <td style="font-size:75%;" >Major Cities in <br/> Pennsylvania</td>
+	            </tr>
+	        </table>
+    	</div>
 	</div>
 	<div class="container mapchart">	
 		<div id="main">
@@ -67,7 +143,7 @@
 <script>
 //MAP CHOROPLETH
 	// set width and height of graphic
-	var margin = {top: 50, right: 50, bottom: 100, left: 50},
+	var margin = {top: 50, right: 50, bottom: 50, left: 50},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
@@ -98,11 +174,11 @@
 	// queue up the datasets, run 'ready' when loaded
 	d3.queue()
 		.defer(d3.json, "pumas_rh15_burden_clip.json")
-		// .defer(d3.json, "pa_cities.json")
+		.defer(d3.json, "pa_cities.json")
 		.await(ready);
 
 	// create the graphic with this function
-	function ready(error, pumas_rh15_burden_clip) {
+	function ready(error, pumas_rh15_burden_clip, pa_cities) {
 	  if (error) throw error;
 	  // console.log(burden);
 
@@ -141,7 +217,56 @@
 				d3.select(this).style("fill",function(d) {return d3.interpolateBuGn(d.properties.PER30b*1.25)});
 				d3.selectAll("." + d.properties.id_j).classed("hover",false);
 				return tooltiplink.style("visibility", "hidden");
-})}
+})
+	// CODE FOR THE CITIES BUTTON
+	drawCities(pa_cities);
+
+    var citiesCheckbox = document.querySelector('input[id="city_toggle"]');
+
+    citiesCheckbox.onchange = function() {
+      if(this.checked) {
+        d3.selectAll(".incident").attr("visibility", "visible");
+      } else {
+        d3.selectAll(".incident").attr("visibility", "hidden");
+      }
+    };
+
+}
+	// CITES DRAWING FUNCTION
+function drawCities(pa_cities){
+  // d3.select("#map").selectAll("circle")
+  map.append("g")
+  	.selectAll("circle")
+	.data(topojson.feature(pa_cities, pa_cities.objects.pa_cities).features)
+	.enter().append("circle")
+	// .attr("d", "circle")
+	.attr("cx", function(d){ console.log((d.geometry.coordinates)[0]);
+	  return projection(d.geometry.coordinates)[0];
+	})
+	.attr("cy", function(d){ 
+	  return projection(d.geometry.coordinates)[1]; })
+	.attr("r", "2px")
+	.attr("fill", "white")
+	.style("stroke", "gray")
+	.attr( "class", "incident")
+    .attr( "visibility", "hidden")
+
+  // d3.select("#map")
+  map.append("g")
+	.selectAll(".city-label")
+	.data(topojson.feature(pa_cities, pa_cities.objects.pa_cities).features)
+	.enter().append("text")
+	.attr("class","city-label")
+	.attr("transform", function(d) { return "translate("+ projection(d.geometry.coordinates) + ")";})
+	.attr("dy", ".15em")
+	.text(function(d){ return d.properties.MUNICIPAL1;})
+	.style("font-size", "10px")
+	.style("fill", "gray")
+	.attr( "class", "incident")
+    .attr( "visibility", "hidden")
+};
+
+
 	
 var formatPercent = d3.format(".1%");
 
@@ -179,7 +304,7 @@ var formatPercent = d3.format(".1%");
 
 	  //data.sort(function(a, b) { return b.total - a.total; });
 	  x.domain(data.map(function(d) { console.log (d.id); return d.id; }));
-	  y.domain([0, 35000]).nice();
+	  y.domain([0, 32000]);
 	  z.domain(keys);
 
 	  g.append("g")
@@ -280,7 +405,6 @@ var formatPercent = d3.format(".1%");
 	  var tooltiplink = mapcontainer.append("div")
 		.attr("class", "tooltiplink")
 
-		
 // creating the legend!! 
       var w = 350, h = 50;
 
