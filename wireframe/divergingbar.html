@@ -58,7 +58,7 @@ var yAxis = d3.svg.axis()
 var color = d3.scale.ordinal()
     .range(["#f8d8bd","#f4c49d","#f1b17c","#ee9e5c","#5cacee","#7cbcf1","#9dcdf4","#bdddf8"]);
 
-var formatSuffixDecimal2 = d3.format(".2s");
+var formatSuffixDecimal2 = d3.format(".3s");
 
 var chartcontainer = d3.select("#chart")
 
@@ -141,7 +141,7 @@ d3.csv("data/raw_data.csv", function(error, data) {
         return tooltipbar.style("visibility", "visible").html(d.name + " households:"+"<br/>" + formatSuffixDecimal2(d.absolute));
       })
        .on("mousemove", function(d) {
-        return tooltipbar.style("top", (event.pageY-45)+"px").style("left",(event.pageX+10)+"px").html(d.name + " households:"+"<br/>" + formatSuffixDecimal2(d.absolute)+ );
+        return tooltipbar.style("top", (event.pageY-45)+"px").style("left",(event.pageX+10)+"px").html(d.name + " households:"+"<br/>" + formatSuffixDecimal2(d.absolute));
       })
       .on("mouseout", function(d){
       d3.select(this).classed("hover", false);
