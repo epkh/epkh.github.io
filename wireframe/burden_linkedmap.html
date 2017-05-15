@@ -14,19 +14,29 @@
 	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 	  
 	<style>
+	body {
+		width: 100%;
+	}
 	.pumas {
 		fill: none;
 		stroke: #fff;
+		stroke-width: .5px;
 		stroke-linejoin: round;
 	}
 	#main {
 		  width: 960px;
+		  margin-top: -70px;
 		}
 		.axis .domain {
 		  display: none;
 	}
 	#legend1 {
-    margin-left: 280px;
+    margin-left: 270px;
+    margin-top: 10px;
+    }
+
+    #map {
+    margin-top: -10px;	
     }
 
 	.hover{
@@ -34,24 +44,30 @@
 		/*stroke-dasharray: 2;*/
 		stroke-width: .5px;
 		opacity: .35;}
+	.mapchart {
+		margin: auto;
+		width: 960px;
+	}
 	</style>
 
 </head>
 <body>
-<div class="container">
-	<div id="legend1"></div>
-	<div id="map"></div>
-</div>
-<div class="container">	
-	<div id="main">
-		<svg width="960" height="500" id="chart"></svg>
+
+	<div class="container mapchart">
+		<div id="legend1"></div>
+		<div id="map"></div>
 	</div>
-</div>
+	<div class="container mapchart">	
+		<div id="main">
+			<svg width="960" height="320" id="chart"></svg>
+		</div>
+	</div>
+
 
 <script>
 //MAP CHOROPLETH
 	// set width and height of graphic
-	var margin = {top: 100, right: 100, bottom: 100, left: 100},
+	var margin = {top: 50, right: 50, bottom: 100, left: 50},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
@@ -59,7 +75,7 @@
 	// 	height = 500;
 
 	var projection = d3.geoAlbers()
-	    .scale(6000)
+	    .scale(7500)
 	    .rotate( [77.8367,0] )
 	    .center( [0, 40.8766] )
 	    .translate([width / 2, height / 2]);
@@ -82,7 +98,7 @@
 	// queue up the datasets, run 'ready' when loaded
 	d3.queue()
 		.defer(d3.json, "pumas_rh15_burden_clip.json")
-		// .defer(d3.csv, "data/rh_burdenM_per.csv")
+		// .defer(d3.json, "pa_cities.json")
 		.await(ready);
 
 	// create the graphic with this function
@@ -131,7 +147,7 @@ var formatPercent = d3.format(".1%");
 
 //STACKED BAR CHART WITH HOVER
 	var svg2 = d3.select("#chart"),
-		margin = {top: 20, right: 20, bottom: 30, left: 40},
+		margin = {top: 10, right: 100, bottom: 30, left: 100},
 		width = +map.attr("width") - margin.left - margin.right,
 		height = +map.attr("height") - margin.top - margin.bottom,
 		g = svg2.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -233,6 +249,7 @@ var formatPercent = d3.format(".1%");
 
 	  legend.append("rect")
 		  .attr("x", width - 145)
+		  .attr("y", 50)
 		  .attr("width", 20)
 		  .attr("height", 20)
 		  .attr("fill", z);
@@ -247,7 +264,7 @@ var formatPercent = d3.format(".1%");
 		          for (i = 0; i < arr.length; i++) {
 		              d3.select(this).append("tspan")
 		                  .text(arr[i])
-		                  .attr("dy", i ? "1em" : -8)
+		                  .attr("dy", i ? "1em" : 40)
 		                  .attr("dominant-baseline", "central")
 		                  .attr("x", width - 115)
 		                  .attr("text-anchor", "start")
@@ -263,19 +280,6 @@ var formatPercent = d3.format(".1%");
 	  var tooltiplink = mapcontainer.append("div")
 		.attr("class", "tooltiplink")
 
-		  
-	 //  tooltip.append("rect")
-		// .attr("width", 60)
-		// .attr("height", 20)
-		// .attr("fill", "white")
-		// .style("opacity", 0.5);
-
-	 //  tooltip.append("text")
-		// .attr("x", 30)
-		// .attr("dy", "1.2em")
-		// .style("text-anchor", "middle")
-		// .attr("font-size", "12px")
-		// .attr("font-weight", "bold");
 		
 // creating the legend!! 
       var w = 350, h = 50;
@@ -318,7 +322,7 @@ var formatPercent = d3.format(".1%");
         .attr("width", w - 75)
         .attr("height", h - 30)
         .style("fill", "url(#gradient)")
-        .attr("transform", "translate(0,10)");
+        .attr("transform", "translate(10,10)");
 
       var y = d3.scaleLinear()
         .range([275, 0])
@@ -330,7 +334,7 @@ var formatPercent = d3.format(".1%");
 
       key.append("g")
         .attr("class", "y axis")
-        .attr("transform", "translate(0,30)")
+        .attr("transform", "translate(10,30)")
         .call(yAxis)
         .append("text")
         .attr("transform", "rotate(-90)")
