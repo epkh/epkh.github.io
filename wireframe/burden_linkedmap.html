@@ -198,7 +198,7 @@
 
 			//The next line assigns each county a class based on its name: 
 			.attr("class", function(d) { return d.properties.id_j; 
-				console.log(this.className);
+				// console.log(this.className);
 			})
 			
 			//This part adds the class "hover" to the state and its matching rectangle in the chart
@@ -206,7 +206,7 @@
 				// d3.select(this).classed("hover",true);
 				// d3.selectAll("\.\\" + d.properties.id).classed("hover",true);
 				d3.selectAll("." + d.properties.id_j).classed("hover",true);
-				console.log(this.getAttribute("class"));
+				// console.log(this.getAttribute("class"));
 				return tooltiplink.style("visibility", "visible").html(d.properties.NAMELSAD10 + "<br/>" + formatPercent(d.properties.PER30b));
 			})
 			.on("mousemove", function(d){
@@ -270,6 +270,8 @@ function drawCities(pa_cities){
 	
 var formatPercent = d3.format(".1%");
 
+var formatComma = d3.format(",");
+
 //STACKED BAR CHART WITH HOVER
 	var svg2 = d3.select("#chart"),
 		margin = {top: 10, right: 100, bottom: 30, left: 100},
@@ -292,18 +294,20 @@ var formatPercent = d3.format(".1%");
 		.range(["#ee9e5c","#5cacee"]);
 
 	// load the csv and create the chart
-	d3.csv("data/rh_burden3.csv", function(d, i, columns) {
-	  for (i = 1, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
+	d3.csv("data/rh_burden_final.csv", function(d, i, columns) {
+	  for (i = 2, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
 	  d.total = t;
 	  return d;
 	  console.log(d);
 	}, function(error, data) {
 	  if (error) throw error;
 
-	  var keys = data.columns.slice(1);
+	  var keys = data.columns.slice(2);
 
-	  //data.sort(function(a, b) { return b.total - a.total; });
-	  x.domain(data.map(function(d) { console.log (d.id); return d.id; }));
+	  data.sort(function(a, b) { return b.total - a.total; });
+	  x.domain(data.map(function(d) { 
+	  	// console.log (d.id_j); 
+	  	return d.id_j; }));
 	  y.domain([0, 32000]);
 	  z.domain(keys);
 
@@ -315,13 +319,13 @@ var formatPercent = d3.format(".1%");
 		.selectAll("rect")
 		.data(function(d) { return d; })
 		.enter().append("rect")
-		  .attr("x", function(d) { return x(d.data.id); })
+		  .attr("x", function(d) { return x(d.data.id_j); })
 		  .attr("y", function(d) { return y(d[1]); })
 		  .attr("height", function(d) { return y(d[0]) - y(d[1]); })
 		  .attr("width", x.bandwidth())
 		  
 		  //The next line assigns each rectangle a class that matches the state names above: AK, AR, etc.
-		  .attr("class", function (d) { return d.data.id;})
+		  .attr("class", function (d) { return d.data.id_j;})
 
 
 		  
@@ -329,18 +333,17 @@ var formatPercent = d3.format(".1%");
 		.on("mouseover", function(d) {
 				// d3.select(this).classed("hover",true);
 				// d3.selectAll("\.\\" +d.data.id).classed("hover",true);
-				d3.selectAll("." + d.data.id).classed("hover",true);
+				d3.selectAll("." + d.data.id_j).classed("hover",true);
 				console.log(this.getAttribute("class"));
-				return tooltiplink.style("visibility", "visible").html("homeowning: " + d.data['middle-income homeowning households'] + "<br/>" + "renting: " + d.data['middle-income renting households']);
+				return tooltiplink.style("visibility", "visible").html(d.data.name + "<br/>" + "homeowning: " + formatComma(d.data['middle-income homeowning households']) + "<br/>" + "renting: " + formatComma(d.data['middle-income renting households']));
 			})
 
 		.on("mousemove", function(d){
-        	console.log("mousemove");
-        	return tooltiplink.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").html("homeowning: " + d.data['middle-income homeowning households'] + "<br/>" + "renting: " + d.data['middle-income renting households']);
+        	// console.log("mousemove");
+        	return tooltiplink.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").html(d.data.name + "<br/>"+ "homeowning: " + formatComma(d.data['middle-income homeowning households']) + "<br/>" + "renting: " + formatComma(d.data['middle-income renting households']));
 			})
 		.on("mouseout", function(d) {
-			// d3.select(this).classed("hover",false);
-			d3.selectAll("." + d.data.id).classed("hover",false);
+			d3.selectAll("." + d.data.id_j).classed("hover",false);
 			return tooltiplink.style("visibility", "hidden");
 		});
 
