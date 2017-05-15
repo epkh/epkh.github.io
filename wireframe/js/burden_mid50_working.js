@@ -153,7 +153,12 @@ function updateYear(value) {
 }
 
 function drawCounties(counties16) {
-  d3.selectAll("svg")
+  d3.select("#mapRbur").selectAll("svg")
+  .append("path")
+  .datum(topojson.mesh(counties16, counties16.objects.counties))
+  .attr("d", path)
+  .attr("class", "counties");
+  d3.select("#mapHbur").selectAll("svg")
   .append("path")
   .datum(topojson.mesh(counties16, counties16.objects.counties))
   .attr("d", path)
@@ -418,7 +423,7 @@ function update2015(error, pa_pumas_16_mid_clip, counties16) { // initial creati
         .attr("width", w - 75)
         .attr("height", h - 30)
         .style("fill", "url(#gradient)")
-        .attr("transform", "translate(0,10)");
+        .attr("transform", "translate(10,10)");
 
       var y = d3.scaleLinear()
         .range([275, 0])
@@ -430,7 +435,7 @@ function update2015(error, pa_pumas_16_mid_clip, counties16) { // initial creati
 
       key.append("g")
         .attr("class", "y axis")
-        .attr("transform", "translate(0,30)")
+        .attr("transform", "translate(10,30)")
         .call(yAxis)
         .append("text")
         .attr("transform", "rotate(-90)")
@@ -478,7 +483,7 @@ function update2015(error, pa_pumas_16_mid_clip, counties16) { // initial creati
         .attr("width", w - 75)
         .attr("height", h - 30)
         .style("fill", "url(#gradient)")
-        .attr("transform", "translate(0,10)");
+        .attr("transform", "translate(10,10)");
 
       var y = d3.scaleLinear()
         .range([275, 0])
@@ -490,7 +495,7 @@ function update2015(error, pa_pumas_16_mid_clip, counties16) { // initial creati
 
       key2.append("g")
         .attr("class", "y axis")
-        .attr("transform", "translate(0,30)")
+        .attr("transform", "translate(10,30)")
         .call(yAxis)
         .append("text")
         .attr("transform", "rotate(-90)")
