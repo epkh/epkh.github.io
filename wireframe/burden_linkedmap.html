@@ -269,6 +269,7 @@ function drawCities(pa_cities){
 
 	
 var formatPercent = d3.format(".1%");
+var formatComma = d3.format(",")
 
 //STACKED BAR CHART WITH HOVER
 	var svg2 = d3.select("#chart"),
@@ -331,12 +332,12 @@ var formatPercent = d3.format(".1%");
 				// d3.selectAll("\.\\" +d.data.id).classed("hover",true);
 				d3.selectAll("." + d.data.id).classed("hover",true);
 				console.log(this.getAttribute("class"));
-				return tooltiplink.style("visibility", "visible").html("homeowning: " + d.data['middle-income homeowning households'] + "<br/>" + "renting: " + d.data['middle-income renting households']);
+				return tooltiplink.style("visibility", "visible").html("homeowning: " + formatComma(d.data['middle-income homeowning households']) + "<br/>" + "renting: " + formatComma(d.data['middle-income renting households']));
 			})
 
 		.on("mousemove", function(d){
         	console.log("mousemove");
-        	return tooltiplink.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").html("homeowning: " + d.data['middle-income homeowning households'] + "<br/>" + "renting: " + d.data['middle-income renting households']);
+        	return tooltiplink.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").html("homeowning: " + formatComma(d.data['middle-income homeowning households']) + "<br/>" + "renting: " + formatComma(d.data['middle-income renting households']));
 			})
 		.on("mouseout", function(d) {
 			// d3.select(this).classed("hover",false);
