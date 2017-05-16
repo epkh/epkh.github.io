@@ -174,11 +174,11 @@
 	// queue up the datasets, run 'ready' when loaded
 	d3.queue()
 		.defer(d3.json, "pumas_rh15_burden_clip.json")
-		.defer(d3.json, "pa_cities.json")
+		.defer(d3.json, "Cities_new.json")
 		.await(ready);
 
 	// create the graphic with this function
-	function ready(error, pumas_rh15_burden_clip, pa_cities) {
+	function ready(error, pumas_rh15_burden_clip, Cities_new) {
 	  if (error) throw error;
 	  // console.log(burden);
 
@@ -219,7 +219,7 @@
 				return tooltiplink.style("visibility", "hidden");
 })
 	// CODE FOR THE CITIES BUTTON
-	drawCities(pa_cities);
+	drawCities(Cities_new);
 
     var citiesCheckbox = document.querySelector('input[id="city_toggle"]');
 
@@ -233,11 +233,11 @@
 
 }
 	// CITES DRAWING FUNCTION
-function drawCities(pa_cities){
+function drawCities(Cities_new){
   // d3.select("#map").selectAll("circle")
   map.append("g")
   	.selectAll("circle")
-	.data(topojson.feature(pa_cities, pa_cities.objects.pa_cities).features)
+	.data(topojson.feature(Cities_new, Cities_new.objects.Cities_new).features)
 	.enter().append("circle")
 	// .attr("d", "circle")
 	.attr("cx", function(d){ console.log((d.geometry.coordinates)[0]);
@@ -254,7 +254,7 @@ function drawCities(pa_cities){
   // d3.select("#map")
   map.append("g")
 	.selectAll(".city-label")
-	.data(topojson.feature(pa_cities, pa_cities.objects.pa_cities).features)
+	.data(topojson.feature(Cities_new, Cities_new.objects.Cities_new).features)
 	.enter().append("text")
 	.attr("class","city-label")
 	.attr("transform", function(d) { return "translate("+ projection(d.geometry.coordinates) + ")";})
