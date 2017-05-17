@@ -54,8 +54,8 @@ var formatPercent = d3.format("%")
 
 var xAxis = d3.svg.axis()
     .scale(x)
-    .tickFormat(formatPercent)
-    // .tickFormat(Math.abs)
+    .tickFormat(function(d){ return formatPercent(Math.abs(d))})
+    //.tickFormat(Math.abs)
     .orient("top");
 
 var yAxis = d3.svg.axis()
