@@ -427,11 +427,11 @@ function update2015(error, pa_pumas_16_mid_clip, counties16) { // initial creati
 
       var y = d3.scaleLinear()
         .range([275, 0])
-        .domain([80, 20]);
+        .domain([70, 8]);
 
       var yAxis = d3.axisBottom()
         .scale(y)
-        .ticks(4);
+        .ticks(5);
 
       key.append("g")
         .attr("class", "y axis")
@@ -487,11 +487,11 @@ function update2015(error, pa_pumas_16_mid_clip, counties16) { // initial creati
 
       var y = d3.scaleLinear()
         .range([275, 0])
-        .domain([50, 10]);
+        .domain([50, 0]);
 
       var yAxis = d3.axisBottom()
         .scale(y)
-        .ticks(4);
+        .ticks(5);
 
       key2.append("g")
         .attr("class", "y axis")
