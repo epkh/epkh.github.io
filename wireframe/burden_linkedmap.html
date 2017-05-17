@@ -30,9 +30,14 @@
 		.axis .domain {
 		  display: none;
 	}
+	#legend_title {
+    margin-left: 250px;
+    margin-top: 10px;
+    font-size: 12px;
+    }
 	#legend1 {
     margin-left: 270px;
-    margin-top: 10px;
+    margin-top: -10px;
     }
 
     #map {
@@ -123,6 +128,9 @@
 <body>
 
 	<div class="container mapchart">
+		<div id="legend_title">
+				<p>% of Middle-Income Households Who Are Burdened in 2015</p>
+			</div>
 		<div id="legend1"></div>
 		<div id="map"></div>
 		<div id="toggleContainer">
@@ -199,7 +207,7 @@
 			.attr("d", path)
 			.style("fill", function(d) { 
 				// console.log(d.properties.PER30b); 
-				return d3.interpolateGreys(d.properties.PER30b*1.25);
+				return d3.interpolateGreys(d.properties.PER30b*1.5);
 				// return color(d.properties.PER30b)
 			})   
 
@@ -221,7 +229,7 @@
 	        return tooltiplink.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").html(d.properties.NAMELSAD10 + "<br/>" + formatPercent(d.properties.PER30b));})
 			.on("mouseout", function(d) {
 				// d3.select(this).classed("hover",false);
-				d3.select(this).style("fill",function(d) {return d3.interpolateGreys(d.properties.PER30b*1.25)});
+				d3.select(this).style("fill",function(d) {return d3.interpolateGreys(d.properties.PER30b*1.5)});
 				d3.selectAll("." + d.properties.id_j).classed("hover",false);
 				return tooltiplink.style("visibility", "hidden");
 })
@@ -267,7 +275,7 @@ function drawCities(Cities_new){
 	.attr("transform", function(d) { return "translate("+ projection(d.geometry.coordinates) + ")";})
 	.attr("dy", ".15em")
 	.text(function(d){ return d.properties.MUNICIPAL1;})
-	.style("font-size", "12px")
+	.style("font-size", "14px")
 	.style("fill", "black")
 	.attr( "class", "incident")
     .attr( "visibility", "hidden")
