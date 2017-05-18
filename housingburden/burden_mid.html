@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Housing Burden for Middle-Income Households</title>
+	<meta charset="utf-8">
+
+<!-- our custom css -->
+    <link rel="stylesheet" href="css/maps.css">
+
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3-array.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo.v1.min.js"></script>
+    <script src="https://d3js.org/d3-queue.v3.min.js"></script>
+    <script src="https://d3js.org/topojson.v2.min.js"></script>
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+	<script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
+     <!--our custom javascript NOW AT THE BOTTOM!!-->
+ 
+
+</head>
+
+<body>
+
+<div style="width: 100%; overflow: hidden;">
+    
+	<!-- Renters Map -->
+	<div style="width: 450px; float: left;" id="renter-map">
+		<div class='my-legend'>
+			<div id="legend-object">
+				<div class='legend-title'>
+					<p>% Middle-Income Renting<br>Households Who Are Burdened</p>
+				</div>
+				<div class='legend-scale'>
+					<div id="legend1"></div>
+					<!-- <ul class='legend-labels'>
+						<li><span style='background:#feedde;'></span><20%</li>
+						<li><span style='background:#fdbe85;'></span><30%</li>
+						<li><span style='background:#fd8d3c;'></span><40%</li>
+						<li><span style='background:#e6550d;'></span><60% </li>
+						<li><span style='background:#a63603;'></span><80%</li>
+					</ul> -->
+				</div>
+
+			</div>
+		</div>
+		<div id="mapRbur"></div>
+	</div>
+
+	<!-- Homeowners Map -->
+	<div style="margin-left: 500px;" id="homeowner-map">
+		<div class='my-legend'>
+			<div class="legend-title">
+				<p>% Middle-Income Homeowning<br>Households Who Are Burdened</p>
+			</div>
+			<div class='legend-scale'>
+				<div id="legend2"></div>
+<!-- 			  <ul class='legend-labels'>
+			      <li><span style='background:#eff3ff;'></span><20%</li>
+			      <li><span style='background:#bdd7e7;'></span><30%</li>
+			      <li><span style='background:#6baed6;'></span><40%</li>
+			      <li><span style='background:#3182bd;'></span><60% </li>
+			      <li><span style='background:#08519c;'></span><80%</li>
+			    </ul> -->
+			</div>
+		</div>
+		<div id="mapHbur"></div>
+	</div>
+</div>
+
+<!-- Slider -->
+<div style="margin-left: 350px;" id="sliderContainer">
+  <input id="timeslide" type="range" min="0" max="2" value="0" step="1"/><br>
+  <span id="range">2005</span>
+</div>
+
+</body>
+
+<script src="js/burden_mid_working.js"></script> 
+
+
+</html>

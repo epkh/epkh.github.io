@@ -1,0 +1,163 @@
+body {
+  position: absolute;
+  font-family: 'Open Sans', sans-serif;
+  text-align: left;
+}
+
+
+  .counties {
+    fill: none;
+    stroke: #fff;
+    stroke-linejoin: round;
+  }
+  .tooltip {
+    background-color: #fff; 
+    padding: 5px;
+    width: 20px;
+    position: absolute;
+    border-radius: 8px;
+    font-size: 12px;
+    z-index: 10;
+    visibility:hidden;
+  }
+
+  .tooltiplink {
+    background-color: #fff; 
+    padding: 5px;
+    width: 120px;
+    position: absolute;
+    border-radius: 8px;
+    font-size: 12px;
+    z-index: 10;
+    visibility:hidden;
+  }
+  .tooltipbar {
+    background-color: #fff;
+    opacity: 0.8; 
+    padding: 5px;
+/*    width: 20px;*/
+    position: absolute;
+    border-radius: 8px;
+    font-size: 12px;
+    z-index: 10;
+    visibility:hidden;
+  }
+  .homeowner-map{
+    width: 350px
+    float: right;
+  }
+
+/*  div.tooltip { 
+    position: absolute;     
+    text-align: center;     
+    width: 50px;          
+    height: 28px;         
+    padding: 2px;       
+    font: 16px sans-serif;    
+    background: gray; 
+    border: 0px;    
+    border-radius: 8px;     
+    pointer-events: none;     
+}*/
+
+  .my-legend {
+    text-align: center;
+  }
+  .my-legend .legend-title {
+    text-align: center;
+    margin-left: 0px;
+    margin-bottom: 8px;
+    /*font-weight: bold;*/
+    font-size: 90%;
+    top: 600px;
+  }
+  .my-legend .legend-scale ul {
+    margin: 0;
+    padding: 0;
+    float: center;
+    list-style: none;
+    }
+  .my-legend .legend-scale ul li {
+    display: block;
+    float: left;
+    width: 50px;
+    margin-bottom: 6px;
+    text-align: center;
+    font-size: 80%;
+    list-style: none;
+    }
+  .my-legend ul.legend-labels li span {
+    display: block;
+    float: center;
+    height: 15px;
+    width: 50px;
+    }
+  .my-legend .legend-source {
+    font-size: 70%;
+    color: #999;
+    clear: both;
+    position: 0px;
+    text-align: center;
+    }
+    .my-legend .legend-key {
+    width: 350px;
+    margin-bottom: 6px;
+    font-size: 85%;
+    }
+  .my-legend a {
+    color: #777;
+    }
+
+  .axis text {
+    font: 10px, Open Sans, sans-serif;
+  }
+
+  .axis line, .axis path {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  path:hover{
+    fill-opacity: .7;
+  }
+
+  #legend1 {
+    width: 450px;
+    height: 50px;
+    margin-left: 45px;
+  }
+
+  #legend2 {
+    width: 450px;
+    height: 50px;
+    margin-left: 45px;
+  }
+
+ div.my-legend {
+  width: 450px;
+  height: 90px;
+ }
+
+ div.legend-scale {
+  width: 450px;
+  height: 54px;
+ }
+
+ #timeslide {
+    text-align: center;
+    position: relative;
+    width: 200px !important; //not sure if this will work or if 100px is what we want but just pulled this from somewhere on stack.
+    top: 600px; //this means it's 600px from the top so we might want to adjust this.
+}
+
+#range {
+  margin-left: 85px;
+}
+
+.divergingkey {
+  margin-left: 20px
+}
+
+
+
